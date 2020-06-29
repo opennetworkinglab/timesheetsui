@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "timesheetsui"
+    }
+  },
+  "defaultProject": "timesheetsui",
+  "cli": {
+    "analytics": false
+  }
 }
