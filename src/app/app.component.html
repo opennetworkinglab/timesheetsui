@@ -1,11 +1,11 @@
 <h2>ONF Timesheets</h2>
-<p>Week {{weekno}}/{{year}}</p>
+<span>Week: </span><a href="" title="previous"><<  </a>{{currentWeekId}}<a href="" title="next">  >></a>
 
 <table>
   <tbody>
   <tr>
-    <td *ngFor="let d of days">
-      <app-day [day]="d.dayDate"></app-day>
+    <td *ngFor="let d of days | keyvalue">
+      <app-day [day]="d.key" [email]="d.value.email" [workedMins]="d.value.worked_mins"></app-day>
     </td>
   </tr>
   </tbody>

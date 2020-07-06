@@ -1,10 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {TsWeek, TsweeksService} from "./tsweeks.service";
-
-export interface DayRecord {
-  dayDate: string;
-  workedHours: number;
-}
+import {TsDay, TsdaysService} from "./tsdays.service";
 
 @Component({
   selector: 'app-root',
@@ -12,32 +8,43 @@ export interface DayRecord {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @Input() email: string;
+  @Input() email: string = 'sean@opennetworking.org';
   @Input() weekid: number;
+  @Input() year: number;
   title = 'timesheetsui';
-  weekno: number = 0;
-  year: number = 2020;
-  days: DayRecord[] = [];
   weeks: Map<number, TsWeek> = new Map();
+  days: Map<string, TsDay> = new Map();
   currentWeekId: number;
 
-  constructor(tsweeksService: TsweeksService) {
-    let dateTimeNow = new Date();
+  constructor(
+    tsweeksService: TsweeksService,
+    tsdayssService: TsdaysService
+  ) {
+    const dateTimeNow = Date.now();
     console.log('Current time is', dateTimeNow);
 
     tsweeksService.getWeeks().subscribe(
       (weekdata: TsWeek) => {
         this.weeks.set(weekdata.id, weekdata);
-        if (weekdata.begin < dateTimeNow && weekdata.end > dateTimeNow) {
+        if ((this.weekid === undefined || this.year === undefined) &&
+          weekdata.begin < dateTimeNow && weekdata.end > dateTimeNow) {
           this.currentWeekId = weekdata.id;
+          this.weekid = weekdata.weekno;
+          this.year = weekdata.year;
           console.log('Current week is', weekdata);
-        } else {
-          console.log('Trying week', weekdata);
-
         }
       },
-      error => console.log('error getting weeks', error)
-    )
+      error => console.log('error getting weeks', error),
+      () => {
+        tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
+          (daydata: TsDay) => {
+            this.days.set(daydata.day, daydata)
+          },
+          error => console.log('error getting days', error)
+        )
+      }
+    );
+
 
   }
 }

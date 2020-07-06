@@ -8,8 +8,8 @@ import {Component, Input, OnInit} from '@angular/core';
 export class DayComponent implements OnInit {
   @Input() email: string;
   @Input() day: string;
-  workedHours: number = 0;
-  ngpaHours: number = 0;
+  @Input() workedMins: number = 0;
+  @Input() ngpaHours: number = 0;
 
   constructor() { }
 
