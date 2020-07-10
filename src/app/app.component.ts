@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {TsWeek, TsweeksService} from "./tsweeks.service";
 import {TsDay, TsdaysService} from "./tsdays.service";
+import {generate} from "rxjs";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-root',
@@ -13,12 +15,12 @@ export class AppComponent {
   @Input() year: number;
   title = 'timesheetsui';
   weeks: Map<number, TsWeek> = new Map();
-  days: Map<string, TsDay> = new Map();
+  days: Map<number, TsDay> = new Map();
   currentWeekId: number;
 
   constructor(
-    tsweeksService: TsweeksService,
-    tsdayssService: TsdaysService
+    private tsweeksService: TsweeksService,
+    private tsdayssService: TsdaysService
   ) {
     const dateTimeNow = Date.now();
     console.log('Current time is', dateTimeNow);
@@ -36,15 +38,43 @@ export class AppComponent {
       },
       error => console.log('error getting weeks', error),
       () => {
-        tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
-          (daydata: TsDay) => {
-            this.days.set(daydata.day, daydata)
-          },
-          error => console.log('error getting days', error)
-        )
+        this.changeWeek(0)
       }
     );
+  }
 
-
+  changeWeek(delta: number) {
+    if (this.weeks.get(this.currentWeekId + delta) === undefined) {
+      return;
+    }
+    this.currentWeekId = this.currentWeekId + delta;
+    this.days.clear();
+    this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
+      (daydata: TsDay) => {
+        this.days.set(daydata.day, daydata)
+      },
+      error => console.log('error getting days', error),
+      () => {
+        if (this.days.size < 7) { // If there are no day records for a week, add them
+          // Add the days
+          generate(
+            this.weeks.get(this.currentWeekId).begin,
+            x => x <= this.weeks.get(this.currentWeekId).end,
+            x => x + 24 * 60 * 60 * 1000
+          ).subscribe(
+            (ms) => {
+              const newDay = {
+                email: this.email,
+                day: ms,
+                weekid: this.currentWeekId
+              } as TsDay;
+              if (this.days.get(ms) === undefined) {
+                this.days.set(ms, newDay);
+              }
+            }
+          );
+        }
+      }
+    )
   }
 }
