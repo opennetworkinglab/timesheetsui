@@ -1,16 +1,33 @@
-<h2>ONF Timesheets</h2>
-<p>{{email}}</p>
+<div class="card">
+  <div class="card-header">
+    <h2>ONF Timesheets</h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{email}}</h5>
+    <h4 class="inline"> Week: </h4>
+    <span class="inline">
+      <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(-1)"><i
+          class="fa fa-chevron-left"></i></button>
+      {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}} - {{weeks.get(currentWeekId)?.end | date}}
+      <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(1)"><i
+          class="fa fa-chevron-right"></i></button>
+    </span>
 
-<span title="previous" (click)="changeWeek(-1)"><<  </span>
 
-<span>Week: {{currentWeekId}}   {{weeks.get(currentWeekId)?.begin | date}} - {{weeks.get(currentWeekId)?.end | date}}</span>
-<span title="next" (click)="changeWeek(1)">  >></span>
-<table>
-  <tbody>
-  <tr>
-    <td *ngFor="let d of days | keyvalue">
-      <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [workedMins]="d.value.worked_mins"></app-day>
-    </td>
-  </tr>
-  </tbody>
-</table>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td *ngFor="let d of days | keyvalue">
+            <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [workedMins]="d.value.worked_mins">
+            </app-day>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="center">
+    <button type="button" class="btn btn-primary-2">Submit</button>
+  </div>
+
+</div>
