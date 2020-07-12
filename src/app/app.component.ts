@@ -2,7 +2,8 @@ import {Component, Input} from '@angular/core';
 import {TsWeek, TsweeksService} from "./tsweeks.service";
 import {TsDay, TsdaysService} from "./tsdays.service";
 import {generate} from "rxjs";
-import {DatePipe} from "@angular/common";
+
+const dayMs = 24 * 60 * 60 * 1000;
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent {
       (weekdata: TsWeek) => {
         this.weeks.set(weekdata.id, weekdata);
         if ((this.weekid === undefined || this.year === undefined) &&
-          weekdata.begin < dateTimeNow && weekdata.end > dateTimeNow) {
+          weekdata.begin < dateTimeNow && weekdata.end + dayMs - 1 > dateTimeNow) {
           this.currentWeekId = weekdata.id;
           this.weekid = weekdata.weekno;
           this.year = weekdata.year;
