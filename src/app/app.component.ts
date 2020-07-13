@@ -78,4 +78,12 @@ export class AppComponent {
       }
     )
   }
+
+  isWeekend(dayMs: number): boolean {
+    const date = new Date(dayMs);
+    if (date.getDay() === 6 || date.getDay() === 0) {
+      return true
+    }
+    return false;
+  }
 }
