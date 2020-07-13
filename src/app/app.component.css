@@ -5,8 +5,6 @@
     margin-top: 5vh;
 }
 
-
-
 .card-title {
     color: #707070;
 }
@@ -15,17 +13,25 @@
     display: inline-block;
     margin-right: 10px;
     text-align: center;
-
 }
+
 .btn-outline-primary {
     font-size: 12px;
     display: inline-block;
 }
 
 .table {
-    width: 80%;
+    width: auto;
     margin: 20px auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+}
+
+.table tbody tr {
+    text-align: center;
+    background-color: #fafafa;
+    padding: 10px;
+    border-bottom: 1px solid rgb(197, 197, 197);
 }
 
 .table thead th {
@@ -33,15 +39,9 @@
     font-weight: bold;
 }
 
-.table th,
-tbody td {
-    text-align: center;
-    padding: 12px 15px;
-}
-
-.table tbody tr {
-    background-color: #f0ecec;
-    border-bottom: 1px solid black;
+.table tbody td {
+    border-bottom: 1px solid rgb(197, 197, 197);
+    padding: 10px;
 }
 
 .center {
@@ -49,5 +49,6 @@ tbody td {
     justify-content: center;
     align-items: center;
     height: 50px;
+    padding-top: 40px;
     padding-bottom: 40px;
 }
