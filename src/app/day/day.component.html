@@ -1,12 +1,9 @@
-<!-- <p>{{day}}</p>
-<p>{{workedMins? workedMins / 60: 0}}</p>
-<p>{{ngpaHours}}</p> -->
-
 <thead>
     <th> {{day}} </th>
 </thead>
+
 <tbody [ngClass]="weekend?'weekend':''">
-    <tr>
+    <tr class="pad">
       <select [(ngModel)]="workedMins" (click)="updateTotal()">
         <option [value]="0">0</option>
         <option [value]="60">1</option>
@@ -21,14 +18,14 @@
         <option [value]="600">10</option>
       </select>
     </tr>
-    <tr>{{ngpaMins}}</tr>
-    <tr>{{adminMins}}</tr>
-    <tr>{{fundrMins}}</tr>
-    <tr>{{salesmMins}}</tr>
-    <tr>{{otherMins}}</tr>
-    <tr>{{leavesickMins}}</tr>
-    <tr>{{leaveptoMins}}</tr>
-    <tr>
+    <tr class="pad">{{ngpaMins}}</tr>
+    <tr class="pad">{{adminMins}}</tr>
+    <tr class="pad">{{fundrMins}}</tr>
+    <tr class="pad">{{salesmMins}}</tr>
+    <tr class="pad">{{otherMins}}</tr>
+    <tr class="pad">{{leavesickMins}}</tr>
+    <tr class="pad">{{leaveptoMins}}</tr>
+    <tr class="pad">
       <select [(ngModel)]="holidayMins" (click)="updateTotal()">
         <option [value]="0">0</option>
         <option [value]="60">1</option>
@@ -48,7 +45,7 @@
     <tr class="times">{{timeOut1}}</tr>
     <tr class="times">{{timeIn2}}</tr>
     <tr class="times">{{timeOut2}}</tr>
-    <tr>{{regMins}}</tr>
-    <tr>{{otMins}}</tr>
+    <tr class="pad">{{regMins}}</tr>
+    <tr class="pad">{{otMins}}</tr>
 </tbody>
 
