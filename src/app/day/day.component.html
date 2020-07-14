@@ -4,41 +4,31 @@
 
 <tbody [ngClass]="weekend?'weekend':''">
     <tr class="pad">
-      <select [(ngModel)]="workedMins" (click)="updateTotal()">
-        <option [value]="0">0</option>
-        <option [value]="60">1</option>
-        <option [value]="120">2</option>
-        <option [value]="180">3</option>
-        <option [value]="240">4</option>
-        <option [value]="300">5</option>
-        <option [value]="360">6</option>
-        <option [value]="420">7</option>
-        <option [value]="480">8</option>
-        <option [value]="540">9</option>
-        <option [value]="600">10</option>
-      </select>
+      <app-hourselect [mins]="workedMins" (updatedEvent)="updateTotal('workedMins', $event)"></app-hourselect>
     </tr>
-    <tr class="pad">{{ngpaMins}}</tr>
-    <tr class="pad">{{adminMins}}</tr>
-    <tr class="pad">{{fundrMins}}</tr>
-    <tr class="pad">{{salesmMins}}</tr>
-    <tr class="pad">{{otherMins}}</tr>
-    <tr class="pad">{{leavesickMins}}</tr>
-    <tr class="pad">{{leaveptoMins}}</tr>
     <tr class="pad">
-      <select [(ngModel)]="holidayMins" (click)="updateTotal()">
-        <option [value]="0">0</option>
-        <option [value]="60">1</option>
-        <option [value]="120">2</option>
-        <option [value]="180">3</option>
-        <option [value]="240">4</option>
-        <option [value]="300">5</option>
-        <option [value]="360">6</option>
-        <option [value]="420">7</option>
-        <option [value]="480">8</option>
-        <option [value]="540">9</option>
-        <option [value]="600">10</option>
-      </select>
+      <app-hourselect [mins]="ngpaMins" (updatedEvent)="updateTotal('ngpaMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="adminMins" (updatedEvent)="updateTotal('adminMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="fundrMins" (updatedEvent)="updateTotal('fundrMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="salesmMins" (updatedEvent)="updateTotal('salesmMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="otherMins" (updatedEvent)="updateTotal('otherMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="leavesickMins" (updatedEvent)="updateTotal('leavesickMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="leaveptoMins" (updatedEvent)="updateTotal('leaveptoMins', $event)"></app-hourselect>
+    </tr>
+    <tr class="pad">
+      <app-hourselect [mins]="holidayMins" (updatedEvent)="updateTotal('holidayMins', $event)"></app-hourselect>
     </tr>
     <tr class="total">{{totalHours}}</tr>
     <tr class="times">{{timeIn1}}</tr>
