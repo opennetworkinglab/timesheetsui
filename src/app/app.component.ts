@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import {TsWeek, TsweeksService} from "./tsweeks.service";
 import {TsDay, TsdaysService} from "./tsdays.service";
 import {generate} from "rxjs";
+import {TsWeekly, TsweeklyService} from "./tsweekly.service";
+import { DomSanitizer } from '@angular/platform-browser';
 
 const dayMs = 24 * 60 * 60 * 1000;
 
@@ -17,11 +19,15 @@ export class AppComponent {
   title = 'timesheetsui';
   weeks: Map<number, TsWeek> = new Map();
   days: Map<number, TsDay> = new Map();
+  weekly: TsWeekly;
+  previewImg: any;
   currentWeekId: number;
 
   constructor(
     private tsweeksService: TsweeksService,
-    private tsdayssService: TsdaysService
+    private tsdayssService: TsdaysService,
+    private tsweekliesService: TsweeklyService,
+    private sanitizer : DomSanitizer
   ) {
     const dateTimeNow = Date.now();
     console.log('Current time is', dateTimeNow);
@@ -40,6 +46,7 @@ export class AppComponent {
       error => console.log('error getting weeks', error),
       () => {
         this.changeWeek(0)
+        this.changeWeekAlreadySigned(0);
       }
     );
   }
@@ -76,6 +83,20 @@ export class AppComponent {
           );
         }
       }
+    )
+  }
+
+  changeWeekAlreadySigned(delta: number) {
+    this.weekly = undefined;
+    this.previewImg = undefined;
+    this.tsweekliesService.getWeeklies(this.email, this.currentWeekId).subscribe(
+      (weekly: TsWeekly) => {
+        this.weekly = weekly;
+        this.previewImg = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + weekly.preview);
+      },
+      err => {
+        console.log("error", err);
+      },
     )
   }
 

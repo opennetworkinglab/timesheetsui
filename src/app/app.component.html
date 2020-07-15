@@ -7,14 +7,15 @@
     <h5 class="card-title">{{email}}</h5>
     <h4 class="inline"> Week: </h4>
     <span class="inline">
-      <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(-1)"><i
+      <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(-1); changeWeekAlreadySigned(-1)"><i
           class="fa fa-chevron-left"></i></button>
       {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
       - {{weeks.get(currentWeekId)?.end | date}}
-      <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(1)"><i
+      <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(1); changeWeekAlreadySigned(1)"><i
           class="fa fa-chevron-right"></i></button>
     </span>
 
+<!--    <img src="{{previewImg}}" *ngIf="weekly !== undefined">-->
 
     <table class="table">
       <tbody>
@@ -23,7 +24,7 @@
             <table>
               <thead>
                 <th>Day <br> </th>
-              </thead>  
+              </thead>
               <tbody>
                 <tr>Working</tr>
                 <tr>NGPA</tr>
