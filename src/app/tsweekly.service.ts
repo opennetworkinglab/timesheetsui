@@ -36,7 +36,7 @@ export class TsweeklyService {
       map((item: TsWeekly) => new class implements TsWeekly {
         email: string = item.email;
         weekid: number = item.weekid;
-        preview: string = TsweeklyService.toBase64((item.preview as unknown as Preview).data);
+        preview: string;
         document: string;
         signed: number = Date.parse((item.signed as unknown) as string);
       })
