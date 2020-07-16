@@ -3,7 +3,7 @@ import {TsWeek, TsweeksService} from "./tsweeks.service";
 import {TsDay, TsdaysService} from "./tsdays.service";
 import {generate} from "rxjs";
 import {TsWeekly, TsweeklyService} from "./tsweekly.service";
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 const dayMs = 24 * 60 * 60 * 1000;
 
@@ -20,7 +20,7 @@ export class AppComponent {
   weeks: Map<number, TsWeek> = new Map();
   days: Map<number, TsDay> = new Map();
   weekly: TsWeekly;
-  previewImg: any;
+  previewImgUrl: any;
   currentWeekId: number;
 
   constructor(
@@ -88,11 +88,12 @@ export class AppComponent {
 
   changeWeekAlreadySigned(delta: number) {
     this.weekly = undefined;
-    this.previewImg = undefined;
+    this.previewImgUrl = undefined;
     this.tsweekliesService.getWeeklies(this.email, this.currentWeekId).subscribe(
       (weekly: TsWeekly) => {
         this.weekly = weekly;
-        this.previewImg = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + weekly.preview);
+        // console.log('Binary data length', weekly.preview.length);
+        // this.previewImgUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64, ' + sampleImageData);
       },
       err => {
         console.log("error", err);
