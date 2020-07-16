@@ -37,7 +37,7 @@
     <td></td>
   </tr>
 </tbody>
-<tbody id="group-of-time-rows" class="collapse">
+<tbody id="group-of-time-rows" class="collapse" [ngClass]="weekend?'weekend':''">
   <tr id="group-of-time-rows" class="collapse">
   <tr id="group-of-time-rows" class="times">{{timeIn1}}</tr>
   <tr id="group-of-time-rows" class="times">{{timeOut1}}</tr>
