@@ -20,6 +20,11 @@
     display: inline-block;
 }
 
+.clickable {
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .table {
     width: auto;
     margin: 20px auto;
@@ -54,6 +59,7 @@ tbody.collapse.in {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 12px;
     height: 50px;
     padding-top: 40px;
     padding-bottom: 40px;
