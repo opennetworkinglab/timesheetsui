@@ -1,41 +1,48 @@
 <thead>
-    <th> {{day}} </th>
+  <th> {{day}} </th>
 </thead>
 
 <tbody [ngClass]="weekend?'weekend':''">
-    <tr class="pad">
-      <app-hourselect [mins]="workedMins" (updatedEvent)="updateTotal('workedMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="ngpaMins" (updatedEvent)="updateTotal('ngpaMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="adminMins" (updatedEvent)="updateTotal('adminMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="fundrMins" (updatedEvent)="updateTotal('fundrMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="salesmMins" (updatedEvent)="updateTotal('salesmMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="otherMins" (updatedEvent)="updateTotal('otherMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="leavesickMins" (updatedEvent)="updateTotal('leavesickMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="leaveptoMins" (updatedEvent)="updateTotal('leaveptoMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="pad">
-      <app-hourselect [mins]="holidayMins" (updatedEvent)="updateTotal('holidayMins', $event)"></app-hourselect>
-    </tr>
-    <tr class="total">{{totalHours}}</tr>
-    <tr class="times">{{timeIn1}}</tr>
-    <tr class="times">{{timeOut1}}</tr>
-    <tr class="times">{{timeIn2}}</tr>
-    <tr class="times">{{timeOut2}}</tr>
-    <tr class="pad">{{regMins}}</tr>
-    <tr class="pad">{{otMins}}</tr>
-</tbody>
+  <tr class="pad">
+    <app-hourselect [mins]="workedMins" (updatedEvent)="updateTotal('workedMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="ngpaMins" (updatedEvent)="updateTotal('ngpaMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="adminMins" (updatedEvent)="updateTotal('adminMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="fundrMins" (updatedEvent)="updateTotal('fundrMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="salesmMins" (updatedEvent)="updateTotal('salesmMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="otherMins" (updatedEvent)="updateTotal('otherMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="leavesickMins" (updatedEvent)="updateTotal('leavesickMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="leaveptoMins" (updatedEvent)="updateTotal('leaveptoMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="pad">
+    <app-hourselect [mins]="holidayMins" (updatedEvent)="updateTotal('holidayMins', $event)"></app-hourselect>
+  </tr>
+  <tr class="total">{{totalHours}}</tr>
 
+  <tr class="clickable" data-toggle="collapse" data-target="#group-of-time-rows" aria-expanded="false"
+    aria-controls="group-of-time-rows">
+    <td></td>
+  </tr>
+</tbody>
+<tbody id="group-of-time-rows" class="collapse" [ngClass]="weekend?'weekend':''">
+  <tr id="group-of-time-rows" class="collapse">
+  <tr id="group-of-time-rows" class="times">{{timeIn1}}</tr>
+  <tr id="group-of-time-rows" class="times">{{timeOut1}}</tr>
+  <tr id="group-of-time-rows" class="times">{{timeIn2}}</tr>
+  <tr id="group-of-time-rows" class="times">{{timeOut1}}</tr>
+  <tr id="group-of-time-rows" class="pad">{{regMins}}</tr>
+  <tr id="group-of-time-rows" class="pad">{{otMins}}</tr>
+</tbody>

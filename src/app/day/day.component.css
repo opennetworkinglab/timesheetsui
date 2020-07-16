@@ -1,7 +1,7 @@
 .total {
   background-color: lightpink;
   border-bottom: 1px solid rgb(197, 197, 197);
-  padding: 10px;
+  padding: 12px;
   width: auto;
 }
 
@@ -10,14 +10,24 @@
   width: auto;
 }
 
+.clickable {
+  padding: 12px;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgb(197, 197, 197);
+}
+
 .pad {
   border-bottom: 1px solid rgb(197, 197, 197);
   width: auto;
-  padding: 10px;
+  padding: 12px;
 }
 
 .times {
   border-bottom: 1px solid rgb(197, 197, 197);
   width: auto;
-  padding: 10px;
+  padding: 12px;
+}
+
+.fa-plus-square {
+  color: #525a5d;
 }

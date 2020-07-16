@@ -15,7 +15,7 @@
           class="fa fa-chevron-right"></i></button>
     </span>
 
-<!--    <img src="{{previewImg}}" *ngIf="weekly !== undefined">-->
+    <!--    <img src="{{previewImg}}" *ngIf="weekly !== undefined">-->
 
     <table class="table">
       <tbody>
@@ -36,12 +36,19 @@
                 <tr>Leave PTO</tr>
                 <tr>Holiday</tr>
                 <tr class="total">Total</tr>
-                <tr class="times">Time In</tr>
-                <tr class="times">Time Out</tr>
-                <tr class="times">Time In</tr>
-                <tr class="times">Time Out</tr>
-                <tr>Reg time</tr>
-                <tr>Over time</tr>
+
+                <tr class="clickable" data-toggle="collapse" data-target="#group-of-time-rows" aria-expanded="false"
+                  aria-controls="group-of-time-rows">
+                  Show Times
+                </tr>
+              </tbody>
+              <tbody id="group-of-time-rows" class="collapse">
+                <tr id="group-of-time-rows" class="times">Time In</tr>
+                <tr id="group-of-time-rows" class="times">Time Out</tr>
+                <tr id="group-of-time-rows" class="times">Time In</tr>
+                <tr id="group-of-time-rows" class="times">Time Out</tr>
+                <tr id="group-of-time-rows">Reg time</tr>
+                <tr id="group-of-time-rows">Over time</tr>
               </tbody>
             </table>
           </td>
@@ -53,6 +60,7 @@
         </tr>
       </tbody>
     </table>
+
 
     <div class="center">
       <button type="button" class="btn btn-primary-2">Submit</button>

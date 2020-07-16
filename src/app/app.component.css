@@ -27,10 +27,16 @@
     border-collapse: collapse;
 }
 
+tbody.collapse.in {
+    padding: 12px;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    display: table-row-group;
+}
+
 .table tbody tr {
     text-align: center;
     background-color: #fafafa;
-    padding: 10px;
+    padding: 12px;
     border-bottom: 1px solid rgb(197, 197, 197);
 }
 
@@ -41,7 +47,7 @@
 
 .table tbody td {
     border-bottom: 1px solid rgb(197, 197, 197);
-    padding: 10px;
+    padding: 12px;
 }
 
 .center {
