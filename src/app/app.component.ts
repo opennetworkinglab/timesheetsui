@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {TsWeek, TsweeksService} from "./tsweeks.service";
-import {TsDay, TsdaysService} from "./tsdays.service";
-import {generate} from "rxjs";
-import {TsWeekly, TsweeklyService} from "./tsweekly.service";
+import {TsWeek, TsweeksService} from './tsweeks.service';
+import {TsDay, TsdaysService} from './tsdays.service';
+import {generate} from 'rxjs';
+import {TsWeekly, TsweeklyService} from './tsweekly.service';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
-const dayMs = 24 * 60 * 60 * 1000;
+const msInDay = 24 * 60 * 60 * 1000;
 
 @Component({
   selector: 'app-root',
@@ -27,8 +27,7 @@ export class AppComponent {
     private tsweeksService: TsweeksService,
     private tsdayssService: TsdaysService,
     private tsweekliesService: TsweeklyService,
-    private sanitizer : DomSanitizer
-  ) {
+    private sanitizer: DomSanitizer ) {
     const dateTimeNow = Date.now();
     console.log('Current time is', dateTimeNow);
 
@@ -36,7 +35,7 @@ export class AppComponent {
       (weekdata: TsWeek) => {
         this.weeks.set(weekdata.id, weekdata);
         if ((this.weekid === undefined || this.year === undefined) &&
-          weekdata.begin < dateTimeNow && weekdata.end + dayMs - 1 > dateTimeNow) {
+          weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
           this.currentWeekId = weekdata.id;
           this.weekid = weekdata.weekno;
           this.year = weekdata.year;
@@ -45,7 +44,7 @@ export class AppComponent {
       },
       error => console.log('error getting weeks', error),
       () => {
-        this.changeWeek(0)
+        this.changeWeek(0);
         this.changeWeekAlreadySigned(0);
       }
     );
@@ -59,7 +58,7 @@ export class AppComponent {
     this.days.clear();
     this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
       (daydata: TsDay) => {
-        this.days.set(daydata.day, daydata)
+        this.days.set(daydata.day, daydata);
       },
       error => console.log('error getting days', error),
       () => {
@@ -83,7 +82,7 @@ export class AppComponent {
           );
         }
       }
-    )
+    );
   }
 
   changeWeekAlreadySigned(delta: number) {
@@ -96,15 +95,15 @@ export class AppComponent {
         // this.previewImgUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64, ' + sampleImageData);
       },
       err => {
-        console.log("error", err);
-      },
-    )
+        console.log('error', err);
+      }
+    );
   }
 
   isWeekend(dayMs: number): boolean {
     const date = new Date(dayMs);
     if (date.getDay() === 6 || date.getDay() === 0) {
-      return true
+      return true;
     }
     return false;
   }

@@ -15,4 +15,4 @@ export const environment = {
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
-export const timesheets_rest_url = 'http://localhost:8085/api';
+export const TIMESHEETS_REST_URL = 'http://localhost:8085/api';
