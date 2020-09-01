@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
+
 export const environment = {
-  production: true
+    production: true
 };
 
-export const timesheets_rest_url = 'http://localhost:8085/api';
+export const TIMESHEETS_REST_URL = 'http://localhost:8085/api';

@@ -1,25 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/*
+ * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
 
-import { HourselectComponent } from './hourselect.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+
+import {HourselectComponent} from './hourselect.component';
 
 describe('HourselectComponent', () => {
-  let component: HourselectComponent;
-  let fixture: ComponentFixture<HourselectComponent>;
+    let component: HourselectComponent;
+    let fixture: ComponentFixture<HourselectComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HourselectComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [HourselectComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HourselectComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(HourselectComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

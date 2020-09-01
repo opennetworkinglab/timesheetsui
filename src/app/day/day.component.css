@@ -1,34 +1,40 @@
+/*
+ * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
+
 .total {
-  background-color: lightpink;
-  border-bottom: 1px solid rgb(197, 197, 197);
-  padding: 12px;
-  width: auto;
+    background-color: lightpink;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    padding: 12px;
+    width: auto;
 }
 
 .weekend {
-  background-color: lightblue;
-  width: auto;
+    background-color: lightblue;
+    width: auto;
 }
 
 .clickable {
-  padding: 12px;
-  background-color: #fafafa;
-  border-bottom: 1px solid rgb(197, 197, 197);
-  cursor: pointer;
+    padding: 12px;
+    background-color: #fafafa;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    cursor: pointer;
 }
 
 .pad {
-  border-bottom: 1px solid rgb(197, 197, 197);
-  width: auto;
-  padding: 12px;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    width: auto;
+    padding: 12px;
 }
 
 .times {
-  border-bottom: 1px solid rgb(197, 197, 197);
-  width: auto;
-  padding: 12px;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    width: auto;
+    padding: 12px;
 }
 
 .fa-plus-square {
-  color: #525a5d;
+    color: #525a5d;
 }
