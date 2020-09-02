@@ -42,9 +42,4 @@ jobs:
         - stage: tests
           script:
               - make test
-        - stage: push
-          script:
-              - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-               bash ./build/bin/push-images &&
-               bash -x ../build-tools/release-merge-commit;
-           fi'
+
