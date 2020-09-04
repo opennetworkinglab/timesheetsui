@@ -18,7 +18,7 @@ lint: # @HELP run the linters for Typescript source code
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --boilerplate LicenseRef-ONF-Member-1.0
+	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR}
 
 timesheetsui-docker: # @HELP build timesheetsui Docker image
 	docker build . -f build/timesheetsui/Dockerfile \
