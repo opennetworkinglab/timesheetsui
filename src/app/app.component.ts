@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present Open Networking Foundation
+ * Copyright 2020-present Open Networking Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,30 @@ import {Component, Input} from '@angular/core';
 import {TsWeek, TsweeksService} from './tsweeks.service';
 import {TsDay, TsdaysService} from './tsdays.service';
 import {generate} from 'rxjs';
+import {
+    AuthConfig, OAuthService
+} from 'angular-oauth2-oidc';
 import {TsWeekly, TsweeklyService} from './tsweekly.service';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {Meta} from '@angular/platform-browser';
+import {GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_SECRET} from '../environments/environment';
 
 const msInDay = 24 * 60 * 60 * 1000;
+
+export const authConfig: AuthConfig = {
+    redirectUri: window.location.origin,
+    clientId: GOOGLE_AUTH_CLIENT_ID,
+    responseType: 'code',
+    requireHttps: true,
+    scope: 'openid profile email offline_access',
+    dummyClientSecret: GOOGLE_AUTH_SECRET,
+    showDebugInformation: true,
+    timeoutFactor: 0.01,
+    strictDiscoveryDocumentValidation: false
+};
+
+const USERNAME_ATTR = 'username';
+
+const EMAIL_ATTR = 'email';
 
 @Component({
     selector: 'app-root',
@@ -43,7 +63,26 @@ export class AppComponent {
         private tsweeksService: TsweeksService,
         private tsdayssService: TsdaysService,
         private tsweekliesService: TsweeklyService,
-        private sanitizer: DomSanitizer) {
+        private oauthService: OAuthService,
+        private meta: Meta) {
+        const issuerMeta = this.meta.getTag('name=openidcissuer');
+
+        if (issuerMeta.content !== undefined && issuerMeta.content !== '' && issuerMeta.content !== '$OPENIDCISSUER') {
+            authConfig.issuer = issuerMeta.content;
+            this.oauthService.configure(authConfig);
+            this.oauthService.loadDiscoveryDocumentAndLogin().then(loggedIn => {
+                localStorage.setItem(EMAIL_ATTR, this.oauthService.getIdentityClaims()[EMAIL_ATTR]);
+                localStorage.setItem(USERNAME_ATTR, this.oauthService.getIdentityClaims()[`name`]);
+                localStorage.setItem('accessToken', this.oauthService.getIdToken());
+                localStorage.setItem('idToken', this.oauthService.getAccessToken());
+                console.log('Logged in ', loggedIn, this.oauthService.hasValidIdToken(),
+                    'as', localStorage.getItem(USERNAME_ATTR),
+                    '(' + localStorage.getItem(EMAIL_ATTR));
+                return Promise.resolve();
+            });
+            console.log('Using OpenID Connect Provider issuer:', authConfig.issuer);
+        }
+
         const dateTimeNow = Date.now();
         console.log('Current time is', dateTimeNow);
 
@@ -89,7 +128,7 @@ export class AppComponent {
                             const newDay = {
                                 email: this.email,
                                 day: ms,
-                                weekid: this.currentWeekId
+                                weekId: this.currentWeekId
                             } as TsDay;
                             if (this.days.get(ms) === undefined) {
                                 this.days.set(ms, newDay);
@@ -118,9 +157,6 @@ export class AppComponent {
 
     isWeekend(dayMs: number): boolean {
         const date = new Date(dayMs);
-        if (date.getDay() === 6 || date.getDay() === 0) {
-            return true;
-        }
-        return false;
+        return date.getDay() === 6 || date.getDay() === 0;
     }
 }

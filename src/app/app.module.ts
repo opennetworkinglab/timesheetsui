@@ -22,6 +22,7 @@ import {DayComponent} from './day/day.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {HourselectComponent} from './hourselect/hourselect.component';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,7 @@ import {HourselectComponent} from './hourselect/hourselect.component';
         BrowserModule,
         HttpClientModule,
         FormsModule,
-
+        OAuthModule.forRoot(),
     ],
     providers: [],
     bootstrap: [AppComponent]

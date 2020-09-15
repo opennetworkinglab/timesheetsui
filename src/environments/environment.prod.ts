@@ -18,4 +18,4 @@ export const environment = {
     production: true
 };
 
-export const TIMESHEETS_REST_URL = 'http://localhost:8085/api';
+export const TIMESHEETS_REST_URL = 'http://localhost:3000';

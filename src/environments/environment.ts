@@ -31,4 +31,7 @@ export const environment = {
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
-export const TIMESHEETS_REST_URL = 'http://localhost:8085/api';
+export const TIMESHEETS_REST_URL = 'http://localhost:3000';
+
+export const GOOGLE_AUTH_CLIENT_ID = '714812020196-e7jruo2d8ca73fhe6h1j4aqeaaa3ac1s.apps.googleusercontent.com';
+export const GOOGLE_AUTH_SECRET = 'jVBA_holXRjGt_uHljCD2BNu';

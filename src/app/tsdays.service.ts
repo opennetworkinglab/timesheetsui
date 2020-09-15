@@ -23,9 +23,12 @@ import {TIMESHEETS_REST_URL} from '../environments/environment';
 export interface TsDay {
     email: string;
     day: number;
-    weekid: number;
-    worked_mins: number;
-    holiday_min: number;
+    weekId: number;
+    darpaMins: number;
+    nonDarpaMins: number;
+    sickMins: number;
+    ptoMins: number;
+    holidayMins: number;
 }
 
 @Injectable({
@@ -37,18 +40,21 @@ export class TsdaysService {
     constructor(private http: HttpClient) {
     }
 
-    getDays(email: string, weekid: number): Observable<TsDay> {
-        console.log('Getting days for', email, weekid);
-        return this.http.get<TsDay[]>(this.configUrl + '?email=' + email + '&weekid=' + weekid).pipe(
+    getDays(email: string, weekId: number): Observable<TsDay> {
+        console.log('Getting days for', email, weekId);
+        return this.http.get<TsDay[]>(this.configUrl + '/' + email + '/' + weekId).pipe(
             mergeMap((items: TsDay[]) => from(items)),
             // tslint:disable-next-line:new-parens
             map((item: TsDay) => new class implements TsDay {
 
                 email: string = item.email;
                 day: number = Date.parse((item.day as unknown) as string);
-                weekid: number = item.weekid;
-                worked_mins: number = item.worked_mins;
-                holiday_min: number = item.holiday_min;
+                weekId: number = item.weekId;
+                darpaMins: number = item.darpaMins;
+                nonDarpaMins: number = item.nonDarpaMins;
+                sickMins: number = item.sickMins;
+                ptoMins: number = item.ptoMins;
+                holidayMins: number = item.holidayMins;
             })
         );
     }
