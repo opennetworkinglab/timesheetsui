@@ -23,24 +23,11 @@ import {
 } from 'angular-oauth2-oidc';
 import {TsWeekly, TsweeklyService} from './tsweekly.service';
 import {Meta} from '@angular/platform-browser';
-import {GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_SECRET} from '../environments/environment';
+import {authConfig, OIDC_AUTH_CLIENT_ID, OIDC_AUTH_SECRET} from '../environments/environment';
 
 const msInDay = 24 * 60 * 60 * 1000;
 
-export const authConfig: AuthConfig = {
-    redirectUri: window.location.origin,
-    clientId: GOOGLE_AUTH_CLIENT_ID,
-    responseType: 'code',
-    requireHttps: true,
-    scope: 'openid profile email offline_access',
-    dummyClientSecret: GOOGLE_AUTH_SECRET,
-    showDebugInformation: true,
-    timeoutFactor: 0.01,
-    strictDiscoveryDocumentValidation: false
-};
-
 const USERNAME_ATTR = 'username';
-
 const EMAIL_ATTR = 'email';
 
 @Component({
@@ -65,10 +52,8 @@ export class AppComponent {
         private tsweekliesService: TsweeklyService,
         private oauthService: OAuthService,
         private meta: Meta) {
-        const issuerMeta = this.meta.getTag('name=openidcissuer');
 
-        if (issuerMeta.content !== undefined && issuerMeta.content !== '' && issuerMeta.content !== '$OPENIDCISSUER') {
-            authConfig.issuer = issuerMeta.content;
+        if (authConfig.issuer !== undefined) {
             this.oauthService.configure(authConfig);
             this.oauthService.loadDiscoveryDocumentAndLogin().then(loggedIn => {
                 localStorage.setItem(EMAIL_ATTR, this.oauthService.getIdentityClaims()[EMAIL_ATTR]);

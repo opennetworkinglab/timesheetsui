@@ -58,7 +58,7 @@ export class TsweeklyService {
 
     getWeeklies(email: string, weekid: number): Observable<TsWeekly> {
         console.log('Getting weeklies for', email, weekid);
-        return this.http.get<TsWeekly[]>(this.configUrl + '?email=' + email + '&weekid=' + weekid).pipe(
+        return this.http.get<TsWeekly[]>(this.configUrl + '/' + email + '/' + weekid).pipe(
             mergeMap((items: TsWeekly[]) => from(items)),
             // tslint:disable-next-line:new-parens
             map((item: TsWeekly) => new class implements TsWeekly {

@@ -18,6 +18,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import {AuthConfig} from 'angular-oauth2-oidc';
+
 export const environment = {
     production: false
 };
@@ -29,9 +31,22 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 export const TIMESHEETS_REST_URL = 'http://localhost:3000';
 
-export const GOOGLE_AUTH_CLIENT_ID = '714812020196-e7jruo2d8ca73fhe6h1j4aqeaaa3ac1s.apps.googleusercontent.com';
-export const GOOGLE_AUTH_SECRET = 'jVBA_holXRjGt_uHljCD2BNu';
+export const OIDC_AUTH_CLIENT_ID = undefined;
+export const OIDC_AUTH_SECRET = undefined;
+export const OIDC_ISSUER = undefined;
+
+export const authConfig: AuthConfig = {
+    issuer: OIDC_ISSUER,
+    redirectUri: window.location.origin,
+    clientId: OIDC_AUTH_CLIENT_ID,
+    responseType: 'code',
+    requireHttps: true,
+    scope: 'openid profile email offline_access',
+    dummyClientSecret: OIDC_AUTH_SECRET,
+    showDebugInformation: false,
+    timeoutFactor: 0.01,
+    strictDiscoveryDocumentValidation: true
+};
