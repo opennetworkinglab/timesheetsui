@@ -21,6 +21,9 @@ import {Observable, Subscriber} from 'rxjs';
 import {HourselectComponent} from './hourselect/hourselect.component';
 import {DayComponent} from './day/day.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {OAuthModule} from 'angular-oauth2-oidc';
+import {AuthInterceptor} from './auth-interceptor.service';
+import {Meta} from '@angular/platform-browser';
 
 const msInWeek = 7 * 24 * 60 * 60 * 1000;
 
@@ -46,17 +49,25 @@ class MockTsWeeksService {
     }
 }
 
+class MockMeta {
+    getTag() {
+        return {} as HTMLMetaElement;
+    }
+}
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                OAuthModule.forRoot()
             ],
             declarations: [
                 AppComponent, DayComponent, HourselectComponent
             ],
             providers: [
-                {provide: TsweeksService, useClass: MockTsWeeksService}
+                {provide: TsweeksService, useClass: MockTsWeeksService},
+                {provide: AuthInterceptor, useClass: AuthInterceptor},
+                { provide: Meta, useClass: MockMeta }
             ]
         }).compileComponents();
     }));

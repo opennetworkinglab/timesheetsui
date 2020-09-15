@@ -18,6 +18,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, from} from 'rxjs';
 import {map, mergeMap} from 'rxjs/operators';
+import {TIMESHEETS_REST_URL} from '../environments/environment';
 
 export interface TsWeek {
     id: number;
@@ -32,7 +33,7 @@ export interface TsWeek {
     providedIn: 'root'
 })
 export class TsweeksService {
-    configUrl = 'http://localhost:8085/api/tsweek';
+    configUrl = TIMESHEETS_REST_URL + '/tsweek';
 
     constructor(private http: HttpClient) {
     }
