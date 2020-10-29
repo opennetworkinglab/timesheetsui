@@ -15,10 +15,11 @@
  */
 
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, from} from 'rxjs';
 import {map, mergeMap} from 'rxjs/operators';
 import {TIMESHEETS_REST_URL} from '../environments/environment';
+import {OAuthService} from 'angular-oauth2-oidc';
 
 export interface TsWeek {
     id: number;
@@ -33,13 +34,21 @@ export interface TsWeek {
     providedIn: 'root'
 })
 export class TsweeksService {
-    configUrl = TIMESHEETS_REST_URL + '/tsweek';
+    configUrl = TIMESHEETS_REST_URL + '/week';
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private oAuthService: OAuthService) {
     }
 
     getWeeks(): Observable<TsWeek> {
-        return this.http.get<TsWeek[]>(this.configUrl).pipe(
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get<TsWeek[]>(this.configUrl, { headers: httpHeaders} ).pipe(
             mergeMap((items: TsWeek[]) => from(items)),
             // tslint:disable-next-line:new-parens
             map((item: TsWeek) => new class implements TsWeek {

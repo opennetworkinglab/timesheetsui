@@ -80,3 +80,17 @@ tbody.collapse.in {
     padding-top: 40px;
     padding-bottom: 40px;
 }
+
+.center-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*gap: 12px;*/
+    /*padding-top: 40px;*/
+    /*padding-bottom: 40px;*/
+}
+
+.img-container {
+    text-align: center;
+    display: block;
+}

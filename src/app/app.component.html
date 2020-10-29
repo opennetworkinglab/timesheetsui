@@ -31,59 +31,54 @@
           class="fa fa-chevron-right"></i></button>
     </span>
 
-    <div id="signed" *ngIf="weekly !== undefined">
-      <img src="assets/Condon_2020_05_25.xlsx.png" *ngIf="weekly !== undefined">
+    <div class="img-container" id="signed" *ngIf="showPreview">
+        <iframe src="https://drive.google.com/file/d/1ShMIjL7nkWce0Lq6wd3--Yd7Kk39QRs3/preview" width="640" height="480"></iframe>
+<!--        <img class="align-content-center" src="https://drive.google.com/uc?export=view&id=1ShMIjL7nkWce0Lq6wd3&#45;&#45;Yd7Kk39QRs3">-->
     </div>
 
-    <div id="notsigned" *ngIf="weekly === undefined">
-      <table class="table">
+    <div id="notsigned" class="center-table" *ngIf="!showPreview">
+
+      <table class="table table-responsive">
+
         <tbody>
           <tr>
+
             <td>
+
               <table>
                 <thead>
-                  <th>Day <br> </th>
+                  <th>Day-Date</th>
                 </thead>
                 <tbody>
-                  <tr>Working</tr>
-                  <tr>NGPA</tr>
-                  <tr>Admin</tr>
-                  <tr>Fundraising</tr>
-                  <tr>Sales</tr>
-                  <tr>Other</tr>
-                  <tr>Leave sick</tr>
-                  <tr>Leave PTO</tr>
+                  <tr>Darpa</tr>
+                  <tr>Sick</tr>
                   <tr>Holiday</tr>
-                  <tr class="total">Total</tr>
-
-                  <tr class="clickable" data-toggle="collapse" data-target="#group-of-time-rows" aria-expanded="false"
-                    aria-controls="group-of-time-rows">
-                    Times ...
-                  </tr>
-                </tbody>
-                <tbody id="group-of-time-rows" class="collapse">
-                  <tr id="group-of-time-rows" class="times">Time In</tr>
-                  <tr id="group-of-time-rows" class="times">Time Out</tr>
-                  <tr id="group-of-time-rows" class="times">Time In</tr>
-                  <tr id="group-of-time-rows" class="times">Time Out</tr>
-                  <tr id="group-of-time-rows">Reg time</tr>
-                  <tr id="group-of-time-rows">Over time</tr>
-                </tbody>
+                  <tr>PTO</tr>
+                  <tr>G&A</tr>
+                  <tr>IR&D</tr>
               </table>
+
             </td>
-            <td *ngFor="let d of days | keyvalue">
-              <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [workedMins]="d.value.worked_mins"
-                [holidayMins]="d.value.holiday_min" [weekend]="isWeekend(d.key)">
+
+            <td *ngFor="let d of days| keyvalue">
+              <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [times]="d.value.times" [darpaMins]="d.value.worked_mins"
+                           [holidayMins]="d.value.holiday_min" [weekend]="isWeekend(d.key)">
               </app-day>
             </td>
+
           </tr>
         </tbody>
+
       </table>
 
-      <div class="center">
-        <button type="button" class="btn btn-primary-2">Submit</button>
-        <button type="button" class="btn btn-primary-2">Sign  </button>
-      </div>
     </div>
+
+  <div *ngIf="showSign" class="center">
+    <button type="button" class="btn btn-primary-2" (click)="sign(true)" >Sign</button>
+  </div>
+  <div *ngIf="!showSign" class="center">
+    <button type="button" class="btn btn-primary-2" (click)="sign(false)">Unsign</button>
   </div>
 </div>
+</div>
+

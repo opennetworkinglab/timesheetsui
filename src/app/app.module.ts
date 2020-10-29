@@ -23,6 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {HourselectComponent} from './hourselect/hourselect.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import {OAuthModule} from 'angular-oauth2-oidc';
         HttpClientModule,
         FormsModule,
         OAuthModule.forRoot(),
+        MDBBootstrapModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output} from '@angular/core';
 import {TsWeek, TsweeksService} from './tsweeks.service';
 import {TsDay, TsdaysService} from './tsdays.service';
 import {generate} from 'rxjs';
@@ -36,9 +36,13 @@ const EMAIL_ATTR = 'email';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    @Input() email: string = 'sean@opennetworking.org';
+    @Input() email: string;
     @Input() weekid: number;
     @Input() year: number;
+
+    showPreview = false;
+    showSign = true;
+
     title = 'timesheetsui';
     weeks: Map<number, TsWeek> = new Map();
     days: Map<number, TsDay> = new Map();
@@ -54,6 +58,7 @@ export class AppComponent {
         private meta: Meta) {
 
         if (authConfig.issuer !== undefined) {
+
             this.oauthService.configure(authConfig);
             this.oauthService.loadDiscoveryDocumentAndLogin().then(loggedIn => {
                 localStorage.setItem(EMAIL_ATTR, this.oauthService.getIdentityClaims()[EMAIL_ATTR]);
@@ -63,31 +68,36 @@ export class AppComponent {
                 console.log('Logged in ', loggedIn, this.oauthService.hasValidIdToken(),
                     'as', localStorage.getItem(USERNAME_ATTR),
                     '(' + localStorage.getItem(EMAIL_ATTR));
+                console.log(this.oauthService.getIdToken());
+                this.email = localStorage.getItem(EMAIL_ATTR);
+                const dateTimeNow = Date.now();
+                console.log('Current time is', dateTimeNow);
+
+                tsweeksService.getWeeks().subscribe(
+                    (weekdata: TsWeek) => {
+                        this.weeks.set(weekdata.id, weekdata);
+                        if ((this.weekid === undefined || this.year === undefined) &&
+                            weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
+                            this.currentWeekId = weekdata.id;
+                            this.weekid = weekdata.weekno;
+                            this.year = weekdata.year;
+
+                            tsdayssService.date = new Date(weekdata.begin);
+                            console.log('Current week is', new Date(weekdata.begin));
+                        }
+                    },
+                    error => console.log('error getting weeks', error),
+                    () => {
+                        this.changeWeek(0);
+                        this.changeWeekAlreadySigned(0);
+                    }
+                );
                 return Promise.resolve();
+            }).catch(err => {
+                console.log(err);
             });
             console.log('Using OpenID Connect Provider issuer:', authConfig.issuer);
         }
-
-        const dateTimeNow = Date.now();
-        console.log('Current time is', dateTimeNow);
-
-        tsweeksService.getWeeks().subscribe(
-            (weekdata: TsWeek) => {
-                this.weeks.set(weekdata.id, weekdata);
-                if ((this.weekid === undefined || this.year === undefined) &&
-                    weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
-                    this.currentWeekId = weekdata.id;
-                    this.weekid = weekdata.weekno;
-                    this.year = weekdata.year;
-                    console.log('Current week is', weekdata);
-                }
-            },
-            error => console.log('error getting weeks', error),
-            () => {
-                this.changeWeek(0);
-                this.changeWeekAlreadySigned(0);
-            }
-        );
     }
 
     changeWeek(delta: number) {
@@ -95,9 +105,11 @@ export class AppComponent {
             return;
         }
         this.currentWeekId = this.currentWeekId + delta;
+        this.tsdayssService.date = new Date(this.weeks.get(this.currentWeekId).begin);
         this.days.clear();
         this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
             (daydata: TsDay) => {
+                console.log(daydata);
                 this.days.set(daydata.day, daydata);
             },
             error => console.log('error getting days', error),
@@ -130,12 +142,29 @@ export class AppComponent {
         this.previewImgUrl = undefined;
         this.tsweekliesService.getWeeklies(this.email, this.currentWeekId).subscribe(
             (weekly: TsWeekly) => {
+
                 this.weekly = weekly;
                 // console.log('Binary data length', weekly.preview.length);
                 // this.previewImgUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64, ' + sampleImageData);
             },
             err => {
                 console.log('error', err);
+            },
+            () => {
+                console.log(this.weekly);
+                if (this.weekly){
+
+                    this.showSign = false;
+
+                    if (this.weekly.supervisorSigned){
+                        this.showPreview = true;
+                    }
+                }
+                else {
+
+                    this.showSign = true;
+                    this.showPreview = false;
+                }
             }
         );
     }
@@ -143,5 +172,15 @@ export class AppComponent {
     isWeekend(dayMs: number): boolean {
         const date = new Date(dayMs);
         return date.getDay() === 6 || date.getDay() === 0;
+    }
+
+    sign(userSigned) {
+
+        this.showSign = !this.showSign;
+        this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
+            () => {
+                alert('Week signed');
+            }
+        );
     }
 }

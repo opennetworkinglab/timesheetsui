@@ -34,9 +34,9 @@ export const environment = {
 
 export const TIMESHEETS_REST_URL = 'http://localhost:3000';
 
-export const OIDC_AUTH_CLIENT_ID = undefined;
-export const OIDC_AUTH_SECRET = undefined;
-export const OIDC_ISSUER = undefined;
+export const OIDC_AUTH_CLIENT_ID = '714812020196-e7jruo2d8ca73fhe6h1j4aqeaaa3ac1s.apps.googleusercontent.com';
+export const OIDC_AUTH_SECRET = 'jVBA_holXRjGt_uHljCD2BNu';
+export const OIDC_ISSUER = 'https://accounts.google.com';
 
 export const authConfig: AuthConfig = {
     issuer: OIDC_ISSUER,
@@ -44,9 +44,9 @@ export const authConfig: AuthConfig = {
     clientId: OIDC_AUTH_CLIENT_ID,
     responseType: 'code',
     requireHttps: true,
-    scope: 'openid profile email offline_access',
+    scope: 'openid profile email',
     dummyClientSecret: OIDC_AUTH_SECRET,
     showDebugInformation: false,
     timeoutFactor: 0.01,
-    strictDiscoveryDocumentValidation: true
+    strictDiscoveryDocumentValidation: false
 };
