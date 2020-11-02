@@ -1,0 +1,84 @@
+<!--
+~ Copyright 2020-present Open Networking Foundation
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+
+<div >
+
+    <div class="mat-typography">
+
+        <h2 class="mat-title" style="padding: 10px 0px 0px 20px">{{email}}</h2>
+        <h3 class="inline mat-subheading-2" style="padding-left: 20px">Week: </h3>
+        <span class="inline">
+        <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(-1); changeWeekAlreadySigned(-1)"><i
+          class="fa fa-chevron-left"></i></button>
+            {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
+            - {{weeks.get(currentWeekId)?.end | date}}
+            <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(1); changeWeekAlreadySigned(1)"><i
+                class="fa fa-chevron-right"></i></button>
+        </span>
+
+        <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
+<!--            <iframe class="iframe-container-iframe" src="https://drive.google.com/file/d/1ShMIjL7nkWce0Lq6wd3--Yd7Kk39QRs3/preview" width="640" height="480"></iframe>-->
+            <img class="responsive"  src="{{weekly.preview}}">
+        </div>
+
+        <div class="center">
+            <h4 class="mat-subheading-1">Please choose time in decimal format</h4>
+        </div>
+
+        <div class="center-table" *ngIf="!showPreview">
+
+            <div class="cdk-overlay-pane center" *ngIf="loadingProgress">
+                <mat-spinner></mat-spinner>
+            </div>
+
+            <table class="table table-responsive">
+                <tbody>
+                <tr>
+                    <td>
+                        <table>
+                            <thead>
+                            <th>Day-Date</th>
+                            </thead>
+                            <tbody>
+                            <tr title="Darpa project">Darpa</tr>
+                            <tr title="Hours taken due to illness">Sick</tr>
+                            <tr title="Hours taken for relaxation">Holiday</tr>
+                            <tr title="Personal time off">PTO</tr>
+                            <tr title="DON'T KNOW">G&A</tr>
+                            <tr title="DON'T KNOW">IR&D</tr>
+                        </table>
+                    </td>
+                    <td *ngFor="let d of days | keyvalue">
+                        <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [times]="d.value.times" [weekend]="isWeekend(d.key)" [userSigned]="userSigned">
+                        </app-day>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="showSign" class="center">
+            <button type="button" class="btn btn-primary" (click)="sign(true)" >Sign</button>
+        </div>
+        <div *ngIf="!showSign" class="center">
+            <button type="button" class="btn btn-primary" (click)="sign(false)">Unsign</button>
+        </div>
+    </div>
+</div>
+
+<!--<div *ngIf="!activeSession" class="center">-->
+<!--    <h1>logged Out</h1>-->
+<!--</div>-->

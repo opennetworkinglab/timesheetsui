@@ -14,41 +14,86 @@
  * limitations under the License.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {TsdaysService} from '../tsdays.service';
+
+export interface Time {
+    name: string;
+    minutes: number;
+}
 
 @Component({
     selector: 'app-day',
     templateUrl: './day.component.html',
     styleUrls: ['./day.component.css']
 })
-export class DayComponent implements OnInit {
+export class DayComponent implements OnInit, OnChanges {
     @Input() email: string;
     @Input() day: string;
+    @Input() date: string;
     @Input() weekend: boolean;
 
-    @Input() workedMins: number = undefined;
-    @Input() ngpaMins: number = undefined;
-    @Input() adminMins: number = undefined;
-    @Input() fundrMins: number = undefined;
-    @Input() salesmMins: number = undefined;
-    @Input() otherMins: number = undefined;
-    @Input() leavesickMins: number = undefined;
-    @Input() leaveptoMins: number = undefined;
+    @Input() times: Time[];
+    @Input() userSigned: boolean;
+
+    @Input() darpaMins: number = undefined;
+    @Input() sickMins: number = undefined;
     @Input() holidayMins: number = undefined;
-    @Input() timeIn1: number = 0;
-    @Input() timeOut1: number = 0;
-    @Input() timeIn2: number = 0;
-    @Input() timeOut2: number = 0;
-    @Input() regMins: number = 0;
-    @Input() otMins: number = 0;
+    @Input() ptoMins: number = undefined;
+    @Input() gAMins: number = undefined;
+    @Input() iRDMins: number = undefined;
 
     totalHours: number = 0;
 
-    constructor() {
+    constructor(private tsdaysService: TsdaysService) {
     }
 
     ngOnInit(): void {
+
         this.updateTotal('', 0);
+
+        if (this.times !== undefined) {
+
+            for (const time of this.times) {
+
+                switch (time.name){
+                    case 'Darpa':
+                        if (time.minutes !== 0) { this.darpaMins = time.minutes; }
+                        break;
+                    case 'Sick':
+                        if (time.minutes !== 0) { this.sickMins = time.minutes; }
+                        break;
+                    case 'Holiday':
+                        if (time.minutes !== 0) { this.holidayMins = time.minutes; }
+                        break;
+                    case 'PTO':
+                        if (time.minutes !== 0) { this.ptoMins = time.minutes; }
+                        break;
+                    case 'G_A':
+                        if (time.minutes !== 0) { this.gAMins = time.minutes; }
+                        break;
+                    case 'IR_D':
+                        if (time.minutes !== 0) { this.iRDMins = time.minutes; }
+                        break;
+                    default:
+                }
+                this.updateTotal(time.name, time.minutes);
+            }
+        }
+    }
+
+    ngOnChanges(val){
+        // console.log(val);
+    }
+
+    update(project, minutes){
+
+        if (minutes !== undefined) {
+
+            this.tsdaysService.updateTimeInDay(this.email, this.day, project, minutes);
+
+            this.updateTotal(project, minutes);
+        }
     }
 
     updateTotal(name: string, value: number) {
@@ -56,46 +101,36 @@ export class DayComponent implements OnInit {
         if (value === undefined) {
             return;
         }
+
         switch (name) {
-            case 'workedMins':
-                this.workedMins = Number(value);
+            case 'darpaMins':
+                this.darpaMins = Number(value);
                 break;
-            case 'ngpaMins':
-                this.ngpaMins = Number(value);
-                break;
-            case 'adminMins':
-                this.adminMins = Number(value);
-                break;
-            case 'fundrMins':
-                this.fundrMins = Number(value);
-                break;
-            case 'salesmMins':
-                this.salesmMins = Number(value);
-                break;
-            case 'otherMins':
-                this.otherMins = Number(value);
-                break;
-            case 'leavesickMins':
-                this.leavesickMins = Number(value);
-                break;
-            case 'leaveptoMins':
-                this.leaveptoMins = Number(value);
+            case 'sickMins':
+                this.sickMins = Number(value);
                 break;
             case 'holidayMins':
                 this.holidayMins = Number(value);
                 break;
+            case 'ptoMins':
+                this.ptoMins = Number(value);
+                break;
+            case 'gAMins':
+                this.gAMins = Number(value);
+                break;
+            case 'iRDMins':
+                this.iRDMins = Number(value);
+                break;
             default:
         }
+
         this.totalHours = 0;
-        this.totalHours += (this.workedMins === undefined ? 0 : this.workedMins);
-        this.totalHours += (this.ngpaMins === undefined ? 0 : this.ngpaMins);
-        this.totalHours += (this.adminMins === undefined ? 0 : this.adminMins);
-        this.totalHours += (this.fundrMins === undefined ? 0 : this.fundrMins);
-        this.totalHours += (this.salesmMins === undefined ? 0 : this.salesmMins);
-        this.totalHours += (this.otherMins === undefined ? 0 : this.otherMins);
-        this.totalHours += (this.leavesickMins === undefined ? 0 : this.leavesickMins);
-        this.totalHours += (this.leaveptoMins === undefined ? 0 : this.leaveptoMins);
+        this.totalHours += (this.darpaMins === undefined ? 0 : this.darpaMins);
+        this.totalHours += (this.sickMins === undefined ? 0 : this.sickMins);
+        this.totalHours += (this.ptoMins === undefined ? 0 : this.ptoMins);
         this.totalHours += (this.holidayMins === undefined ? 0 : this.holidayMins);
+        this.totalHours += (this.gAMins === undefined ? 0 : this.gAMins);
+        this.totalHours += (this.iRDMins === undefined ? 0 : this.iRDMins);
         this.totalHours /= 60;
     }
 

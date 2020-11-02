@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-present Open Networking Foundation
+ * Copyright 2020-present Open Networking Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {TsdaysService} from './tsdays.service';
+import { UserService } from './user.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {OAuthModule} from 'angular-oauth2-oidc';
 
-describe('DaysService', () => {
-    let service: TsdaysService;
+describe('UserService', () => {
+  let service: UserService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule,
-                OAuthModule.forRoot()
-            ],
-        });
-        service = TestBed.inject(TsdaysService);
-    });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+        imports: [
+            HttpClientTestingModule,
+            OAuthModule.forRoot()
+        ]});
+    service = TestBed.inject(UserService);
+  });
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

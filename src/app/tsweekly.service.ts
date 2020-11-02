@@ -15,12 +15,14 @@
  */
 
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {TIMESHEETS_REST_URL} from '../environments/environment';
 import {from, Observable} from 'rxjs';
-import {map, mergeMap} from 'rxjs/operators';
+import {filter, map, mergeMap} from 'rxjs/operators';
 import {TsDay} from './tsdays.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 interface Preview {
     type: string;
@@ -28,22 +30,23 @@ interface Preview {
 }
 
 export interface TsWeekly {
-    email: string;
-    weekid: number;
+    weekId: number;
     document: string;
     preview: string;
-    signed: number;
+    userSigned: string;
+    supervisorSigned: boolean;
 }
 
 @Injectable({
     providedIn: 'root'
 })
 export class TsweeklyService {
-    configUrl = TIMESHEETS_REST_URL + '/tsweekly';
+    configUrl = TIMESHEETS_REST_URL + '/weekly';
 
     constructor(
         private http: HttpClient,
-        private sanitizer: DomSanitizer) {
+        private sanitizer: DomSanitizer,
+        private oAuthService: OAuthService) {
     }
 
     private static toBase64(buffer: number[]): string {
@@ -57,17 +60,43 @@ export class TsweeklyService {
     }
 
     getWeeklies(email: string, weekid: number): Observable<TsWeekly> {
+
         console.log('Getting weeklies for', email, weekid);
-        return this.http.get<TsWeekly[]>(this.configUrl + '/' + email + '/' + weekid).pipe(
-            mergeMap((items: TsWeekly[]) => from(items)),
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get<TsWeekly>(this.configUrl + '/' + email + '/' + weekid, {headers: httpHeaders}).pipe(
+            filter(isNotNullOrUndefined),
             // tslint:disable-next-line:new-parens
             map((item: TsWeekly) => new class implements TsWeekly {
-                email: string = item.email;
-                weekid: number = item.weekid;
-                preview: string;
-                document: string;
-                signed: number = Date.parse((item.signed as unknown) as string);
+
+                weekId = item.weekId;
+                document = item.document;
+                preview = item.preview;
+                userSigned = item.userSigned;
+                supervisorSigned = item.supervisorSigned;
             })
         );
+    }
+
+    sign(email, weekId, userSigned): Observable<any> {
+
+        console.log('Signing weekly for', email, weekId);
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        const body = {
+            userSigned
+        };
+
+        return this.http.patch(this.configUrl + '/' + email + '/' + weekId, body, { headers: httpHeaders});
     }
 }
