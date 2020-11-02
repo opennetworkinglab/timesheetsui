@@ -23,23 +23,54 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {HourselectComponent} from './hourselect/hourselect.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
-import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {RouterModule, Routes} from '@angular/router';
+import { UserTimesComponent } from './user-times/user-times.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { NavigationComponent } from './navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+
+const routes: Routes = [
+    { path: ':email', component: UserTimesComponent},
+    { path: 'user/add', component: NavigationComponent}
+];
 
 @NgModule({
     declarations: [
         AppComponent,
         DayComponent,
-        HourselectComponent
+        HourselectComponent,
+        UserTimesComponent,
+        NavigationComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         FormsModule,
         OAuthModule.forRoot(),
-        MDBBootstrapModule.forRoot()
+        RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule,
+        MatSliderModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatTabsModule,
+        MatSidenavModule,
+        LayoutModule,
+        MatButtonModule,
+        MatListModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+
+export class AppModule {}

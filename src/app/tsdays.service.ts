@@ -20,6 +20,7 @@ import {map, mergeMap} from 'rxjs/operators';
 import {from, Observable} from 'rxjs';
 import {TIMESHEETS_REST_URL} from '../environments/environment';
 import {OAuthService} from 'angular-oauth2-oidc';
+import {User} from './user.service';
 
 export interface TsDay {
     email: string;
@@ -29,9 +30,6 @@ export interface TsDay {
     times: [];
 }
 
-export interface User {
-    email: string;
-}
 
 @Injectable({
     providedIn: 'root'
@@ -73,7 +71,6 @@ export class TsdaysService {
 
         const dayArr = dayInWeek.split(' ');
         let month = this.date.getMonth() + 1;
-        console.log(this.date.getDate());
 
         if (dayArr[1] < this.date.getDate()){
             month++;

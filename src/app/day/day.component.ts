@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
-import {min} from "rxjs/operators";
 
 export interface Time {
     name: string;
@@ -28,13 +27,14 @@ export interface Time {
     templateUrl: './day.component.html',
     styleUrls: ['./day.component.css']
 })
-export class DayComponent implements OnInit {
+export class DayComponent implements OnInit, OnChanges {
     @Input() email: string;
     @Input() day: string;
     @Input() date: string;
     @Input() weekend: boolean;
 
     @Input() times: Time[];
+    @Input() userSigned: boolean;
 
     @Input() darpaMins: number = undefined;
     @Input() sickMins: number = undefined;
@@ -49,6 +49,7 @@ export class DayComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
         this.updateTotal('', 0);
 
         if (this.times !== undefined) {
@@ -75,11 +76,14 @@ export class DayComponent implements OnInit {
                         if (time.minutes !== 0) { this.iRDMins = time.minutes; }
                         break;
                     default:
-                        console.log(time.name, time.minutes);
                 }
                 this.updateTotal(time.name, time.minutes);
             }
         }
+    }
+
+    ngOnChanges(val){
+        // console.log(val);
     }
 
     update(project, minutes){
@@ -97,6 +101,7 @@ export class DayComponent implements OnInit {
         if (value === undefined) {
             return;
         }
+
         switch (name) {
             case 'darpaMins':
                 this.darpaMins = Number(value);
@@ -118,6 +123,7 @@ export class DayComponent implements OnInit {
                 break;
             default:
         }
+
         this.totalHours = 0;
         this.totalHours += (this.darpaMins === undefined ? 0 : this.darpaMins);
         this.totalHours += (this.sickMins === undefined ? 0 : this.sickMins);

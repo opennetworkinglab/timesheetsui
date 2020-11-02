@@ -14,7 +14,24 @@
  * limitations under the License.
  */
 
-/* You can add global styles to this file, and also import other style files */
+.sidenav-container {
+  height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

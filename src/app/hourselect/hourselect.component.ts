@@ -29,6 +29,7 @@ import {
 export class HourselectComponent {
     @Input() mins: number = 0;
     @Output() updatedEvent = new EventEmitter<number>();
+    @Input() userSigned: boolean;
 
     constructor() {
     }
