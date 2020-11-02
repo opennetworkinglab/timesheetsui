@@ -18,7 +18,7 @@
     <mat-sidenav #drawer class="sidenav" fixedInViewport
                  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                  [mode]="(isHandset$ | async) ? 'over' : 'side'"
-                 [opened]="!(isHandset$ | async) === false">
+                 [opened]="(isHandset$ | async) === true">
         <mat-toolbar color="primary">Menu</mat-toolbar>
         <mat-nav-list>
             <a mat-list-item [routerLink]="[email]">Weekly</a>
@@ -37,12 +37,12 @@
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
             <span>Timesheets</span>
-            <span class="spacer"></span>
-            <nav mat-tab-nav-bar *ngIf="!(isHandset$ | async)">
-                <a mat-tab-link class="nav-font" [routerLink]="['']">Timesheets</a>
-
+            <nav mat-tab-nav-bar *ngIf="(isHandset$ | async) === false">
+                <a mat-tab-link class="mat-tab-link" [routerLink]="[email]">Weekly</a>
                 <a mat-tab-link *ngIf="supervisor" [routerLink]="['/user/add']">Add User</a>
-
+            </nav>
+            <span class="spacer"></span>
+            <nav mat-tab-nav-bar *ngIf="(isHandset$ | async) === false">
                 <a mat-tab-link (click)="logout()">Logout</a>
             </nav>
         </mat-toolbar>

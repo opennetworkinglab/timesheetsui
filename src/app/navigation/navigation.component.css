@@ -32,6 +32,11 @@
   z-index: 1;
 }
 
+.mat-tab-link {
+    min-width: 80px;
+    max-width: 80px;
+}
+
 .spacer {
     flex: 1 1 auto;
 }

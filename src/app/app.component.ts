@@ -15,9 +15,9 @@
  */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {authConfig} from "../environments/environment";
-import {OAuthService} from "angular-oauth2-oidc";
-import {Router} from "@angular/router";
+import {authConfig} from '../environments/environment';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {Router} from '@angular/router';
 
 export const USERNAME_ATTR = 'username';
 export const EMAIL_ATTR = 'email';
