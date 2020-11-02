@@ -21,11 +21,6 @@ import {map, shareReplay} from 'rxjs/operators';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {Router} from '@angular/router';
 import {UserService} from '../user.service';
-import {TsweeksService} from '../tsweeks.service';
-import {TsdaysService} from '../tsdays.service';
-import {TsweeklyService} from '../tsweekly.service';
-import {authConfig} from '../../environments/environment';
-import {EMAIL_ATTR, USERNAME_ATTR} from '../app.component';
 
 @Component({
     selector: 'app-navigation',
