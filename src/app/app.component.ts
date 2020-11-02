@@ -30,6 +30,7 @@ export const EMAIL_ATTR = 'email';
 export class AppComponent implements OnInit {
 
     ready: boolean = false;
+    title = 'timesheetsui';
 
     constructor(private oauthService: OAuthService,
                 private router: Router) { }
