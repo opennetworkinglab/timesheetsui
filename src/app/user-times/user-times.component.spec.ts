@@ -14,28 +14,69 @@
  * limitations under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UserTimesComponent } from './user-times.component';
+import {UserTimesComponent} from './user-times.component';
+import {OAuthModule} from 'angular-oauth2-oidc';
+import {TsWeek, TsweeksService} from '../tsweeks.service';
+import {AuthInterceptor} from '../auth-interceptor.service';
+import {TsdaysService} from '../tsdays.service';
+import {TsweeklyService} from '../tsweekly.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {Observable, Subscriber} from 'rxjs';
+
+const msInWeek = 7 * 24 * 60 * 60 * 1000;
+
+class MockTsWeeksService {
+    getWeeks(): Observable<TsWeek> {
+        const weeks = new Observable<TsWeek>((observer: Subscriber<TsWeek>) => {
+            const thisWeekStart: number = Date.now() - Date.now() % msInWeek;
+            console.log('Starting week', thisWeekStart, Date.now());
+            // tslint:disable-next-line:new-parens
+            const sampleWeek: TsWeek = new class implements TsWeek {
+                begin: number = thisWeekStart;
+                end: number = thisWeekStart + 7 * 24 * 3600 * 1000 - 1;
+                id: number = 1;
+                year: number = 2020;
+                weekno: number = 33;
+                monthno: number = 8;
+            };
+            observer.next(sampleWeek);
+            observer.complete();
+        });
+
+        return weeks;
+    }
+}
 
 describe('UserTimesComponent', () => {
-  let component: UserTimesComponent;
-  let fixture: ComponentFixture<UserTimesComponent>;
+    let component: UserTimesComponent;
+    let fixture: ComponentFixture<UserTimesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserTimesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                OAuthModule.forRoot(),
+                HttpClientTestingModule,
+            ],
+            declarations: [UserTimesComponent],
+            providers: [
+                {provide: TsweeksService, useClass: MockTsWeeksService},
+                {provide: TsdaysService},
+                {provide: TsweeklyService},
+                {provide: AuthInterceptor},
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserTimesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(UserTimesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

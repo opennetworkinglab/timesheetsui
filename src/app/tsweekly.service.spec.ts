@@ -18,6 +18,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {TsweeklyService} from './tsweekly.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 describe('TsweeklyService', () => {
     let service: TsweeklyService;
@@ -26,6 +27,7 @@ describe('TsweeklyService', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                OAuthModule.forRoot()
             ],
         });
         service = TestBed.inject(TsweeklyService);

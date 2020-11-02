@@ -18,6 +18,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {TsweeksService} from './tsweeks.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 describe('TsweeksService', () => {
     let service: TsweeksService;
@@ -26,6 +27,7 @@ describe('TsweeksService', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                OAuthModule.forRoot()
             ]
         });
         service = TestBed.inject(TsweeksService);

@@ -36,7 +36,7 @@
                 *ngIf="isHandset$ | async">
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-            <span>Timesheets</span>
+            <span>{{title}}</span>
             <nav mat-tab-nav-bar *ngIf="(isHandset$ | async) === false">
                 <a mat-tab-link class="mat-tab-link" [routerLink]="[email]">Weekly</a>
                 <a mat-tab-link *ngIf="supervisor" [routerLink]="['/user/add']">Add User</a>

@@ -17,12 +17,18 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UserService } from './user.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 describe('UserService', () => {
   let service: UserService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+        imports: [
+            HttpClientTestingModule,
+            OAuthModule.forRoot()
+        ]});
     service = TestBed.inject(UserService);
   });
 

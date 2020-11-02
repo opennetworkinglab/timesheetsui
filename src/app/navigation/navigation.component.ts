@@ -32,6 +32,7 @@ export class NavigationComponent implements OnInit {
     email: string;
     supervisor: boolean;
     value: boolean = false;
+    title = 'Timesheets';
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
         .pipe(
