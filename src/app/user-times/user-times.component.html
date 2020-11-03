@@ -30,7 +30,6 @@
         </span>
 
         <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
-<!--            <iframe class="iframe-container-iframe" src="https://drive.google.com/file/d/1ShMIjL7nkWce0Lq6wd3--Yd7Kk39QRs3/preview" width="640" height="480"></iframe>-->
             <img class="responsive"  src="{{weekly.preview}}">
         </div>
 
@@ -69,16 +68,9 @@
                 </tbody>
             </table>
         </div>
-
-        <div *ngIf="showSign" class="center">
-            <button type="button" class="btn btn-primary" (click)="sign(true)" >Sign</button>
-        </div>
-        <div *ngIf="!showSign" class="center">
-            <button type="button" class="btn btn-primary" (click)="sign(false)">Unsign</button>
+        <div class="center">
+            <button type="button" class="btn btn-primary" [disabled]="signBtnDisabled" (click)="sign()">{{signBtnName}}</button>
         </div>
     </div>
 </div>
 
-<!--<div *ngIf="!activeSession" class="center">-->
-<!--    <h1>logged Out</h1>-->
-<!--</div>-->
