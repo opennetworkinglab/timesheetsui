@@ -69,13 +69,12 @@
                 </tbody>
             </table>
         </div>
-
-        <div *ngIf="showSign" class="center">
-            <button type="button" class="btn btn-primary" (click)="sign(true)" >Sign</button>
+        <div class="center">
+            <button type="button" class="btn btn-primary" [disabled]="signBtnDisabled" (click)="sign()">{{signBtnName}}</button>
         </div>
-        <div *ngIf="!showSign" class="center">
-            <button type="button" class="btn btn-primary" (click)="sign(false)">Unsign</button>
-        </div>
+<!--        <div *ngIf="!showSign" class="center">-->
+<!--            <button type="button" class="btn btn-primary" (click)="sign(false)">Unsign</button>-->
+<!--        </div>-->
     </div>
 </div>
 

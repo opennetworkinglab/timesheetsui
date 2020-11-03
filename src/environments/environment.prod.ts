@@ -20,7 +20,8 @@ export const environment = {
     production: true
 };
 
-export const TIMESHEETS_REST_URL = 'http://localhost:3000';
+export const TIMESHEETS_REST_URL = '/rest/';
+export const REDIRECT_URL = 'https://www.google.ie';
 
 export const OIDC_AUTH_CLIENT_ID = '714812020196-e7jruo2d8ca73fhe6h1j4aqeaaa3ac1s.apps.googleusercontent.com';
 export const OIDC_AUTH_SECRET = 'jVBA_holXRjGt_uHljCD2BNu';
