@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {TsDay, TsdaysService} from '../tsdays.service';
 import {TsWeekly, TsweeklyService} from '../tsweekly.service';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {generate} from 'rxjs';
 import {EMAIL_ATTR} from '../app.component';
-import { DOCUMENT } from '@angular/common';
 
 const msInDay = 24 * 60 * 60 * 1000;
 
@@ -36,14 +35,11 @@ export class UserTimesComponent implements OnInit {
     @Input() year: number;
     @Input() loggedIn: boolean;
 
-    nameBtnSign: string = 'Sign';
-    nameBtnUnsign: string = 'Unsign';
-    userSigned: boolean = false;
-
     showPreview: boolean = false;
-    signBtnName: string;
-    signBtnDisabled: boolean = false;
+    showSign: boolean = true;
+    userSigned: boolean = false;
     supervisor: boolean = false;
+    activeSession: boolean = false;
     loadingProgress: boolean = false;
 
     title = 'timesheetsui';
@@ -57,8 +53,7 @@ export class UserTimesComponent implements OnInit {
         private tsweeksService: TsweeksService,
         private tsdayssService: TsdaysService,
         private tsweekliesService: TsweeklyService,
-        private oauthService: OAuthService,
-        @Inject(DOCUMENT) private document: Document) {
+        private oauthService: OAuthService) {
 
         if (oauthService.hasValidAccessToken()) {
 
@@ -141,18 +136,19 @@ export class UserTimesComponent implements OnInit {
 
                 this.weekly = weekly;
 
-                this.signBtnName = this.nameBtnSign;
                 if (this.weekly){
 
                     if (this.weekly.supervisorSigned){
                         this.showPreview = true;
                     }
                     else if (this.weekly.userSigned != null && this.weekly.userSigned.length > 0){
+                        this.showSign = false;
                         this.userSigned = true;
-                        this.signBtnName = this.nameBtnUnsign;
                     }
                 }
                 else {
+
+                    this.showSign = true;
                     this.showPreview = false;
                 }
 
@@ -170,30 +166,15 @@ export class UserTimesComponent implements OnInit {
         return date.getDay() === 6 || date.getDay() === 0;
     }
 
-    sign() {
-
-        this.signBtnDisabled = true;
-        let userSigned = false;
-
-        if (this.signBtnName === this.nameBtnSign) {
-            userSigned = true;
-            this.signBtnName = this.nameBtnUnsign;
-        }
-        else {
-            this.signBtnName = this.nameBtnSign;
-        }
+    sign(userSigned) {
 
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
-            (result) => {
-
-                if (result.viewRequest !== null) {
-                    this.document.location.href = result.viewRequest;
-                }
-
+            () => {
                 this.loadingProgress = false;
-                this.signBtnDisabled = false;
             }
         );
         this.loadingProgress = true;
+        this.showSign = !this.showSign;
+        this.userSigned = !this.userSigned;
     }
 }

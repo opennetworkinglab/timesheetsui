@@ -57,7 +57,7 @@ export class DayComponent implements OnInit, OnChanges {
             for (const time of this.times) {
 
                 switch (time.name){
-                    case 'Darpa HR001120C0107':
+                    case 'Darpa':
                         if (time.minutes !== 0) { this.darpaMins = time.minutes; }
                         break;
                     case 'Sick':
@@ -90,9 +90,9 @@ export class DayComponent implements OnInit, OnChanges {
 
         if (minutes !== undefined) {
 
-            this.updateTotal(project, minutes);
-
             this.tsdaysService.updateTimeInDay(this.email, this.day, project, minutes);
+
+            this.updateTotal(project, minutes);
         }
     }
 
@@ -101,24 +101,24 @@ export class DayComponent implements OnInit, OnChanges {
         if (value === undefined) {
             return;
         }
-        name.replace('&', '_');
+
         switch (name) {
-            case 'Darpa HR001120C0107':
+            case 'darpaMins':
                 this.darpaMins = Number(value);
                 break;
-            case 'Sick':
+            case 'sickMins':
                 this.sickMins = Number(value);
                 break;
-            case 'Holiday':
+            case 'holidayMins':
                 this.holidayMins = Number(value);
                 break;
-            case 'PTO':
+            case 'ptoMins':
                 this.ptoMins = Number(value);
                 break;
-            case 'G_A':
+            case 'gAMins':
                 this.gAMins = Number(value);
                 break;
-            case 'IR_D':
+            case 'iRDMins':
                 this.iRDMins = Number(value);
                 break;
             default:

@@ -16,9 +16,10 @@
 
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {REDIRECT_URL, TIMESHEETS_REST_URL} from '../environments/environment';
-import {Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {TIMESHEETS_REST_URL} from '../environments/environment';
+import {from, Observable} from 'rxjs';
+import {filter, map, mergeMap} from 'rxjs/operators';
+import {TsDay} from './tsdays.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
@@ -93,8 +94,7 @@ export class TsweeklyService {
         });
 
         const body = {
-            userSigned,
-            redirectUrl: REDIRECT_URL
+            userSigned
         };
 
         return this.http.patch(this.configUrl + '/' + email + '/' + weekId, body, { headers: httpHeaders});

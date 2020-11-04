@@ -33,11 +33,10 @@ export const environment = {
  */
 
 export const TIMESHEETS_REST_URL = 'http://localhost:3000';
-export const REDIRECT_URL = 'https://www.google.ie';
 
-export const OIDC_AUTH_CLIENT_ID = '714812020196-e7jruo2d8ca73fhe6h1j4aqeaaa3ac1s.apps.googleusercontent.com';
-export const OIDC_AUTH_SECRET = 'jVBA_holXRjGt_uHljCD2BNu';
-export const OIDC_ISSUER = 'https://accounts.google.com';
+export const OIDC_AUTH_CLIENT_ID = undefined;
+export const OIDC_AUTH_SECRET = undefined;
+export const OIDC_ISSUER = undefined;
 
 export const authConfig: AuthConfig = {
     issuer: OIDC_ISSUER,
@@ -49,5 +48,5 @@ export const authConfig: AuthConfig = {
     dummyClientSecret: OIDC_AUTH_SECRET,
     showDebugInformation: false,
     timeoutFactor: 0.01,
-    strictDiscoveryDocumentValidation: false
+    strictDiscoveryDocumentValidation: true
 };
