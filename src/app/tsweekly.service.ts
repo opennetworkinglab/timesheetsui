@@ -17,7 +17,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {REDIRECT_URL, TIMESHEETS_REST_URL} from '../environments/environment';
-import {from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {OAuthService} from 'angular-oauth2-oidc';
