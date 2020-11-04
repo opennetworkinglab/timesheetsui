@@ -30,12 +30,11 @@
         </span>
 
         <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
-<!--            <iframe class="iframe-container-iframe" src="https://drive.google.com/file/d/1ShMIjL7nkWce0Lq6wd3--Yd7Kk39QRs3/preview" width="640" height="480"></iframe>-->
             <img class="responsive"  src="{{weekly.preview}}">
         </div>
 
         <div class="center">
-            <h4 class="mat-subheading-1">Please choose time in decimal format</h4>
+            <h4 class="mat-subheading-1">Please choose hours in decimal format</h4>
         </div>
 
         <div class="center-table" *ngIf="!showPreview">
@@ -53,12 +52,12 @@
                             <th>Day-Date</th>
                             </thead>
                             <tbody>
-                            <tr title="Darpa project">Darpa</tr>
+                            <tr title="Darpa project">Darpa HR001120C0107</tr>
                             <tr title="Hours taken due to illness">Sick</tr>
                             <tr title="Hours taken for relaxation">Holiday</tr>
                             <tr title="Personal time off">PTO</tr>
-                            <tr title="DON'T KNOW">G&A</tr>
-                            <tr title="DON'T KNOW">IR&D</tr>
+                            <tr title="General and Administrative">G&A</tr>
+                            <tr title="Independent Research and Development">IR&D</tr>
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
@@ -69,16 +68,9 @@
                 </tbody>
             </table>
         </div>
-
-        <div *ngIf="showSign" class="center">
-            <button type="button" class="btn btn-primary" (click)="sign(true)" >Sign</button>
-        </div>
-        <div *ngIf="!showSign" class="center">
-            <button type="button" class="btn btn-primary" (click)="sign(false)">Unsign</button>
+        <div class="center">
+            <button type="button" class="btn btn-primary" [disabled]="signBtnDisabled" (click)="sign()">{{signBtnName}}</button>
         </div>
     </div>
 </div>
 
-<!--<div *ngIf="!activeSession" class="center">-->
-<!--    <h1>logged Out</h1>-->
-<!--</div>-->
