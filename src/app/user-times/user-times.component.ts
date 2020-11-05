@@ -146,7 +146,7 @@ export class UserTimesComponent implements OnInit {
                 this.weekly = weekly;
 
                 if (this.weekly){
-
+                    console.log(this.weekly);
                     if (this.weekly.supervisorSigned){
                         this.showPreview = true;
                     }
