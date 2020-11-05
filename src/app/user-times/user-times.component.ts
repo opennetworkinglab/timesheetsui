@@ -174,7 +174,7 @@ export class UserTimesComponent implements OnInit {
 
                     this.userSigned = false;
                     this.showPreview = false;
-                    this.nameBtnSign = this.signBtnName;
+                    this.signBtnName  = this.nameBtnSign;
 
                 }
             }
