@@ -28,6 +28,11 @@ export interface TsWeek {
     monthno: number;
     begin: number;
     end: number;
+    onfDays: OnfDay[];
+}
+
+export interface OnfDay {
+    date: Date;
 }
 
 @Injectable({
@@ -58,6 +63,7 @@ export class TsweeksService {
                 weekno: number = item.weekno;
                 monthno: number = item.monthno;
                 year: number = item.year;
+                onfDays = item.onfDays;
             })
         );
     }

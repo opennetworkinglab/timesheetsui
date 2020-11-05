@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {authConfig} from '../environments/environment';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {Router} from '@angular/router';

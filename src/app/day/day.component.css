@@ -25,6 +25,10 @@
     background-color: lightblue;
     width: auto;
 }
+.onfDay {
+    background-color: lightgreen;
+    width: auto;
+}
 
 .clickable {
     padding: 12px;

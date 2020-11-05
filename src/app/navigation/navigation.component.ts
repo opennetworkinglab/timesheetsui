@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {Router} from '@angular/router';
 import {UserService} from '../user.service';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
     selector: 'app-navigation',
@@ -43,7 +44,8 @@ export class NavigationComponent implements OnInit {
     constructor(private breakpointObserver: BreakpointObserver,
                 private oAuthService: OAuthService,
                 private router: Router,
-                private userService: UserService) {
+                private userService: UserService,
+                @Inject(DOCUMENT) private document: Document) {
     }
 
     ngOnInit(): void {
@@ -57,11 +59,12 @@ export class NavigationComponent implements OnInit {
     logout() {
 
         this.oAuthService.logOut();
+
         try {
+
             this.router.navigate(['']).then(() => {
 
-                window.location.reload();
-
+                document.location.reload();
             });
         } catch (e) {
         }
