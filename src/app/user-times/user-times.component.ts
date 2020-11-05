@@ -144,6 +144,7 @@ export class UserTimesComponent implements OnInit {
             (weekly: TsWeekly) => {
 
                 this.weekly = weekly;
+
                 if (this.weekly){
 
                     if (this.weekly.supervisorSigned){
