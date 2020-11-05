@@ -33,7 +33,7 @@
             <img class="responsive"  src="{{weekly.preview}}">
         </div>
 
-        <div class="center">
+        <div class="center" *ngIf="!showPreview">
             <h4 class="mat-subheading-1">Please choose hours in decimal format</h4>
         </div>
 
@@ -68,7 +68,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="center">
+        <div class="center" *ngIf="!showPreview">
             <button type="button" class="btn btn-primary" [disabled]="signBtnDisabled" (click)="sign()">{{signBtnName}}</button>
         </div>
     </div>
