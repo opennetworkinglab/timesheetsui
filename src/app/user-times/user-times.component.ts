@@ -176,8 +176,8 @@ export class UserTimesComponent implements OnInit {
     isOnfDay(dayMs: number, currentWeekId: number): boolean{
         const date = new Date(dayMs);
 
-        for (let i = 0; i < this.weeks.get(currentWeekId).onfDays.length; i++){
-            const onfDay = new Date(this.weeks.get(currentWeekId).onfDays[i].date);
+        for (const el of this.weeks.get(currentWeekId).onfDays){
+            const onfDay = new Date(el.date);
             console.log(date.getDate(), onfDay.getDate());
             if (date.getDate() === onfDay.getDate()){
                 return true;
