@@ -53,28 +53,46 @@ export class DayComponent implements OnInit, OnChanges {
 
         this.updateTotal('', 0);
 
+        if (this.onfDay) {
+            this.holidayMins = 480;
+            this.updateTotal('Holiday', 480);
+        }
+
+
         if (this.times !== undefined) {
 
             for (const time of this.times) {
 
-                switch (time.name){
+                switch (time.name) {
                     case 'Darpa HR001120C0107':
-                        if (time.minutes !== 0) { this.darpaMins = time.minutes; }
+                        if (time.minutes !== 0) {
+                            this.darpaMins = time.minutes;
+                        }
                         break;
                     case 'Sick':
-                        if (time.minutes !== 0) { this.sickMins = time.minutes; }
+                        if (time.minutes !== 0) {
+                            this.sickMins = time.minutes;
+                        }
                         break;
                     case 'Holiday':
-                        if (time.minutes !== 0) { this.holidayMins = time.minutes; }
+                        if (time.minutes !== 0) {
+                            this.holidayMins = time.minutes;
+                        }
                         break;
                     case 'PTO':
-                        if (time.minutes !== 0) { this.ptoMins = time.minutes; }
+                        if (time.minutes !== 0) {
+                            this.ptoMins = time.minutes;
+                        }
                         break;
                     case 'G_A':
-                        if (time.minutes !== 0) { this.gAMins = time.minutes; }
+                        if (time.minutes !== 0) {
+                            this.gAMins = time.minutes;
+                        }
                         break;
                     case 'IR_D':
-                        if (time.minutes !== 0) { this.iRDMins = time.minutes; }
+                        if (time.minutes !== 0) {
+                            this.iRDMins = time.minutes;
+                        }
                         break;
                     default:
                 }
@@ -83,11 +101,11 @@ export class DayComponent implements OnInit, OnChanges {
         }
     }
 
-    ngOnChanges(val){
+    ngOnChanges(val) {
         // console.log(val);
     }
 
-    update(project, minutes){
+    update(project, minutes) {
 
         if (minutes !== undefined) {
 

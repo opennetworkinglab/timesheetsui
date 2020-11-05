@@ -41,7 +41,7 @@ export class UserTimesComponent implements OnInit {
     userSigned: boolean = false;
 
     showPreview: boolean = false;
-    signBtnName: string;
+    signBtnName: string = this.nameBtnSign;
     signBtnDisabled: boolean = false;
     supervisor: boolean = false;
     loadingProgress: boolean = false;
@@ -144,7 +144,6 @@ export class UserTimesComponent implements OnInit {
 
                 this.weekly = weekly;
 
-                this.signBtnName = this.nameBtnSign;
                 if (this.weekly){
 
                     if (this.weekly.supervisorSigned){
