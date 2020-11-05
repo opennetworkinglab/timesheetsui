@@ -40,6 +40,7 @@ class MockTsWeeksService {
                 year: number = 2020;
                 weekno: number = 33;
                 monthno: number = 8;
+                onfDays: [];
             };
             observer.next(sampleWeek);
             observer.complete();

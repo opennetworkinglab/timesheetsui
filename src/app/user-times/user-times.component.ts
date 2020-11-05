@@ -74,6 +74,7 @@ export class UserTimesComponent implements OnInit {
             tsweeksService.getWeeks().subscribe(
                 (weekdata: TsWeek) => {
                     this.weeks.set(weekdata.id, weekdata);
+
                     if ((this.weekid === undefined || this.year === undefined) &&
                         weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
                         this.currentWeekId = weekdata.id;
@@ -100,7 +101,9 @@ export class UserTimesComponent implements OnInit {
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
             return;
         }
+
         this.currentWeekId = this.currentWeekId + delta;
+
         this.tsdayssService.date = new Date(this.weeks.get(this.currentWeekId).begin);
         this.days.clear();
         this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
@@ -168,6 +171,19 @@ export class UserTimesComponent implements OnInit {
     isWeekend(dayMs: number): boolean {
         const date = new Date(dayMs);
         return date.getDay() === 6 || date.getDay() === 0;
+    }
+
+    isOnfDay(dayMs: number, currentWeekId: number): boolean{
+        const date = new Date(dayMs);
+
+        for (const el of this.weeks.get(currentWeekId).onfDays){
+            const onfDay = new Date(el.date);
+            console.log(date.getDate(), onfDay.getDate());
+            if (date.getDate() === onfDay.getDate()){
+                return true;
+            }
+        }
+        return false;
     }
 
     sign() {

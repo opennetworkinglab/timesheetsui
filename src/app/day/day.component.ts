@@ -32,6 +32,7 @@ export class DayComponent implements OnInit, OnChanges {
     @Input() day: string;
     @Input() date: string;
     @Input() weekend: boolean;
+    @Input() onfDay: boolean;
 
     @Input() times: Time[];
     @Input() userSigned: boolean;
@@ -97,10 +98,11 @@ export class DayComponent implements OnInit, OnChanges {
     }
 
     updateTotal(name: string, value: number) {
-        // console.log('updated', name, value, typeof value, typeof Number(value), Number(value));
+
         if (value === undefined) {
             return;
         }
+
         name.replace('&', '_');
         switch (name) {
             case 'Darpa HR001120C0107':
@@ -133,5 +135,4 @@ export class DayComponent implements OnInit, OnChanges {
         this.totalHours += (this.iRDMins === undefined ? 0 : this.iRDMins);
         this.totalHours /= 60;
     }
-
 }

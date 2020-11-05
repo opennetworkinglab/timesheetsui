@@ -61,7 +61,7 @@
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
-                        <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [times]="d.value.times" [weekend]="isWeekend(d.key)" [userSigned]="userSigned">
+                        <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [times]="d.value.times" [weekend]="isWeekend(d.key)" [onfDay]="isOnfDay(d.key, currentWeekId)" [userSigned]="userSigned">
                         </app-day>
                     </td>
                 </tr>
