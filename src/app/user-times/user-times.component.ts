@@ -137,13 +137,13 @@ export class UserTimesComponent implements OnInit {
     }
 
     changeWeekAlreadySigned(delta: number) {
+
         this.weekly = undefined;
         this.previewImgUrl = undefined;
         this.tsweekliesService.getWeeklies(this.email, this.currentWeekId).subscribe(
             (weekly: TsWeekly) => {
 
                 this.weekly = weekly;
-
                 if (this.weekly){
 
                     if (this.weekly.supervisorSigned){
@@ -153,9 +153,13 @@ export class UserTimesComponent implements OnInit {
                         this.userSigned = true;
                         this.signBtnName = this.nameBtnUnsign;
                     }
+                    else {
+                        this.userSigned = false;
+                    }
                 }
                 else {
                     this.showPreview = false;
+                    this.userSigned = false;
                 }
 
                 // console.log('Binary data length', weekly.preview.length);
@@ -164,6 +168,16 @@ export class UserTimesComponent implements OnInit {
             err => {
                 console.log('error', err);
             },
+            () => {
+
+                if (this.weekly === undefined){
+
+                    this.userSigned = false;
+                    this.showPreview = false;
+                    this.nameBtnSign = this.signBtnName;
+
+                }
+            }
         );
     }
 
