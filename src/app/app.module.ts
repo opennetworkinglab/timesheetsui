@@ -37,6 +37,11 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import {MatTableModule} from "@angular/material/table";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
 
 const routes: Routes = [
     { path: ':email', component: UserTimesComponent},
@@ -68,6 +73,10 @@ const routes: Routes = [
         LayoutModule,
         MatButtonModule,
         MatListModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatInputModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
