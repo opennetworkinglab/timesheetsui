@@ -36,16 +36,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-import {MatTableModule} from "@angular/material/table";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
-import {MatInputModule} from "@angular/material/input";
+import {MatListModule} from '@angular/material/list';
 
 const routes: Routes = [
-    { path: ':email', component: UserTimesComponent},
-    { path: 'user/add', component: NavigationComponent}
+    { path: '', component: UserTimesComponent},
 ];
 
 @NgModule({
@@ -73,10 +67,6 @@ const routes: Routes = [
         LayoutModule,
         MatButtonModule,
         MatListModule,
-        MatFormFieldModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatInputModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
