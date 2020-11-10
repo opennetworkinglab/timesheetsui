@@ -35,7 +35,7 @@ kind: images
 all: build images
 
 publish: # @HELP publish version on github and dockerhub
-	./../build-tools/publish-version ${VERSION} onosproject/timesheetsui
+	./../build-tools/publish-version ${VERSION}
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./web/timesheetsui/dist ./web/timesheetsui/node_modules
