@@ -15,18 +15,18 @@
  */
 
 .total {
-    background-color: lightpink;
+    background-color: #00bfed;
     border-bottom: 1px solid rgb(197, 197, 197);
     padding: 12px;
     width: auto;
 }
 
 .weekend {
-    background-color: lightblue;
+    background-color: #007dc4;
     width: auto;
 }
 .onfDay {
-    background-color: lightgreen;
+    background-color: #4d98d0;
     width: auto;
 }
 

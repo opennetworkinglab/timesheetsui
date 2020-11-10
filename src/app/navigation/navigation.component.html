@@ -36,6 +36,7 @@
                 *ngIf="isHandset$ | async">
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
+<!--            <span><img class="img" src="assets/images/ONF-logo.png"></span>-->
             <span>{{title}}</span>
             <nav mat-tab-nav-bar *ngIf="(isHandset$ | async) === false">
                 <a mat-tab-link class="mat-tab-link" [routerLink]="[email]">Weekly</a>

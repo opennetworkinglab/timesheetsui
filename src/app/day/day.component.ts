@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
+import {min} from "rxjs/operators";
 
 export interface Time {
     name: string;
@@ -46,6 +47,8 @@ export class DayComponent implements OnInit, OnChanges {
 
     totalHours: number = 0;
 
+    @Output() projectTimeChange: EventEmitter<{name, minutes}> = new EventEmitter<{name; minutes}>(true);
+
     constructor(private tsdaysService: TsdaysService) {
     }
 
@@ -56,6 +59,8 @@ export class DayComponent implements OnInit, OnChanges {
         if (this.onfDay) {
             this.holidayMins = 480;
             this.updateTotal('Holiday', 480);
+            this.projectTimeChange.emit({name: 'Holiday', minutes: 480});
+            this.tsdaysService.updateTimeInDay(this.email, this.day, 'Holiday', 480);
         }
 
 
@@ -97,6 +102,7 @@ export class DayComponent implements OnInit, OnChanges {
                     default:
                 }
                 this.updateTotal(time.name, time.minutes);
+                this.projectTimeChange.emit({name: time.name, minutes: time.minutes});
             }
         }
     }
@@ -108,8 +114,13 @@ export class DayComponent implements OnInit, OnChanges {
     update(project, minutes) {
 
         if (minutes !== undefined) {
+            if (minutes === ''){
+                minutes = 0;
+            }
 
             this.updateTotal(project, minutes);
+
+            this.projectTimeChange.emit({name: project, minutes});
 
             this.tsdaysService.updateTimeInDay(this.email, this.day, project, minutes);
         }

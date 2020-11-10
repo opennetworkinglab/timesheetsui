@@ -25,6 +25,8 @@ import { DOCUMENT } from '@angular/common';
 
 const msInDay = 24 * 60 * 60 * 1000;
 
+
+// TODO: implement service? Warnings based on darpaAllocationPct and hours per week.
 @Component({
   selector: 'app-user-times',
   templateUrl: './user-times.component.html',
@@ -36,8 +38,8 @@ export class UserTimesComponent implements OnInit {
     @Input() year: number;
     @Input() loggedIn: boolean;
 
-    nameBtnSign: string = 'Sign';
-    nameBtnUnsign: string = 'Unsign';
+    nameBtnSign: string = 'Sign Timesheets';
+    nameBtnUnsign: string = 'Unsign Timesheets';
     userSigned: boolean = false;
 
     showPreview: boolean = false;
@@ -52,6 +54,13 @@ export class UserTimesComponent implements OnInit {
     weekly: TsWeekly;
     previewImgUrl: any;
     currentWeekId: number;
+
+    darpaMins: number = 0;
+    sickMins: number = 0;
+    holidayMins: number = 0;
+    ptoMins: number = 0;
+    gAMins: number = 0;
+    iRDMins: number = 0;
 
     constructor(
         private tsweeksService: TsweeksService,
@@ -114,6 +123,7 @@ export class UserTimesComponent implements OnInit {
             error => console.log('error getting days', error),
             () => {
                 if (this.days.size < 7) { // If there are no day records for a week, add them
+                    this.resetTotals();
                     // Add the days
                     generate(
                         this.weeks.get(this.currentWeekId).begin,
@@ -225,5 +235,51 @@ export class UserTimesComponent implements OnInit {
             }
         );
         this.loadingProgress = true;
+    }
+
+    resetTotals() {
+        this.darpaMins = 0;
+        this.sickMins = 0;
+        this.holidayMins = 0;
+        this.ptoMins = 0;
+        this.gAMins = 0;
+        this.iRDMins = 0;
+    }
+
+    projectTimeChange(event) {
+
+        switch (event.name) {
+            case 'Darpa HR001120C0107':
+                if (event.minutes !== 0) {
+                    this.darpaMins += event.minutes / 60;
+                }
+                break;
+            case 'Sick':
+                if (event.minutes !== 0) {
+                    this.sickMins += event.minutes / 60;
+                }
+                break;
+            case 'Holiday':
+                if (event.minutes !== 0) {
+                    this.holidayMins += event.minutes / 60;
+                }
+                break;
+            case 'PTO':
+                if (event.minutes !== 0) {
+                    this.ptoMins += event.minutes / 60;
+                }
+                break;
+            case 'G_A':
+                if (event.minutes !== 0) {
+                    this.gAMins += event.minutes / 60;
+                }
+                break;
+            case 'IR_D':
+                if (event.minutes !== 0) {
+                    this.iRDMins += event.minutes / 60;
+                }
+                break;
+            default:
+        }
     }
 }
