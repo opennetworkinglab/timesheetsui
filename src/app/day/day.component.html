@@ -16,7 +16,7 @@
 
 <table>
 <thead [ngClass]="onfDay?'onfDay':'' || weekend?'weekend':''">
-<th> {{day}} </th>
+<th [ngClass]="onfDay?'onfDay':'' || weekend?'weekend':''"> {{day}} </th>
 </thead>
 
 <tbody [ngClass]="onfDay?'onfDay':'' || weekend?'weekend':''">
@@ -34,7 +34,7 @@
 </tr>
 <tr class="pad">
     <app-hourselect [mins]="ptoMins"
-                    (updatedEvent)="update('PTO', $event)" [userSigned]="userSigned"></app-hourselect>
+                    (updatedEvent)="update('PTO', $event)" [userSigned]="userSigned" ></app-hourselect>
 </tr>
 <tr >
     <app-hourselect [mins]="gAMins"

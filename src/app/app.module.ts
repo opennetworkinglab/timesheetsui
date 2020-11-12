@@ -36,11 +36,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
+import {MatListModule} from '@angular/material/list';
 
 const routes: Routes = [
-    { path: ':email', component: UserTimesComponent},
-    { path: 'user/add', component: NavigationComponent}
+    { path: '', component: UserTimesComponent},
 ];
 
 @NgModule({
@@ -68,6 +67,7 @@ const routes: Routes = [
         LayoutModule,
         MatButtonModule,
         MatListModule,
+        MatIconModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -55,9 +55,9 @@ export class AppComponent implements OnInit {
 
                 this.ready = true;
 
-                this.router.navigate([localStorage.getItem(EMAIL_ATTR)]).then(() => {
-                    console.log('Redirected');
-                });
+                // this.router.navigate([localStorage.getItem(EMAIL_ATTR)]).then(() => {
+                //     console.log('Redirected');
+                // });
             }
         }
     }

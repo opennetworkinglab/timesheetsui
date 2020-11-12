@@ -14,29 +14,23 @@
 ~ limitations under the License.
 -->
 
-<div >
+<div>
 
     <div class="mat-typography">
-
-        <h2 class="mat-title" style="padding: 10px 0px 0px 20px">{{email}}</h2>
-        <h3 class="inline mat-subheading-2" style="padding-left: 20px">Week: </h3>
-        <span class="inline">
-        <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(-1); changeWeekAlreadySigned(-1)"><i
-          class="fa fa-chevron-left"></i></button>
-            {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
-            - {{weeks.get(currentWeekId)?.end | date}}
-            <button class="btn btn-outline-primary btn-sm" (click)="changeWeek(1); changeWeekAlreadySigned(1)"><i
-                class="fa fa-chevron-right"></i></button>
-        </span>
-
+        <div><img src="assets/images/ONF-logo.png"><h2 class="mat-title" style="padding: 10px 0px 0px 20px">{{email}}</h2></div>
         <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
-            <img class="responsive"  src="{{weekly.preview}}">
+            <img class="responsive" src="{{weekly.preview}}">
         </div>
 
         <div class="center" *ngIf="!showPreview">
             <h4 class="mat-subheading-1">Please choose hours in decimal format</h4>
         </div>
-
+                <div class="center custom-theme center">
+                    <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
+                    Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
+                    - {{weeks.get(currentWeekId)?.end | date}}
+                    <button mat-mini-fab (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
+                </div>
         <div class="center-table" *ngIf="!showPreview">
 
             <div class="cdk-overlay-pane center" *ngIf="loadingProgress">
@@ -44,6 +38,8 @@
             </div>
 
             <table class="table table-responsive">
+<!--                <div class="center-table" *ngIf="weekStringActive"><p>{{currentWeekString}}</p></div>-->
+                <div class="center-table" *ngIf="darpaStringActive" [ngClass]="darpaWarn?'warn-text':''"><p>{{currentDarpaString}}</p></div>
                 <tbody>
                 <tr>
                     <td>
@@ -61,15 +57,34 @@
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
-                        <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email" [times]="d.value.times" [weekend]="isWeekend(d.key)" [onfDay]="isOnfDay(d.key, currentWeekId)" [userSigned]="userSigned">
+                        <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email"
+                                 [onfDay]="isOnfDay(d.key, currentWeekId)"
+                                 [times]="d.value.times" [userSigned]="userSigned"
+                                 [weekend]="isWeekend(d.key)" (projectTimeChange)="projectTimeChange($event)">
                         </app-day>
+                    </td>
+                    <td>
+                        <table>
+                            <thead>
+                            <th>Project Totals</th>
+                            </thead>
+                            <tbody>
+                            <tr [ngClass]="darpaWarn?'pad-warn':''">{{darpaMins}}</tr>
+                            <tr>{{sickMins}}</tr>
+                            <tr>{{holidayMins}}</tr>
+                            <tr>{{ptoMins}}</tr>
+                            <tr>{{gAMins}}</tr>
+                            <tr>{{iRDMins}}</tr>
+                            <tr [ngClass]="darpaWarn?'pad-warn':'total'">{{totalMins}}</tr>
+                        </table>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="center" *ngIf="!showPreview">
-            <button type="button" class="btn btn-primary" [disabled]="signBtnDisabled" (click)="sign()">{{signBtnName}}</button>
+        <div *ngIf="!showPreview" class="custom-theme center">
+            <button (click)="sign()" [disabled]="signBtnDisabled" color="accent"
+                    mat-raised-button>{{signBtnName}}</button>
         </div>
     </div>
 </div>

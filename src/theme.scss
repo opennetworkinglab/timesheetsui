@@ -1,0 +1,118 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$md-primary: (
+    50 : #eeeeee,
+    100 : #d4d4d4,
+    200 : #b8b8b8,
+    300 : #9b9b9b,
+    400 : #858585,
+    500 : #707070,
+    600 : #686868,
+    700 : #5d5d5d,
+    800 : #535353,
+    900 : #414141,
+    A100 : #f5a9a9,
+    A200 : #f07b7b,
+    A400 : #ff3a3a,
+    A700 : #ff2020,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$md-accent: (
+    50 : #e0eff8,
+    100 : #b3d8ed,
+    200 : #80bee2,
+    300 : #4da4d6,
+    400 : #2691cd,
+    500 : #007dc4,
+    600 : #0075be,
+    700 : #006ab6,
+    800 : #0060af,
+    900 : #004da2,
+    A100 : #cce1ff,
+    A200 : #99c2ff,
+    A400 : #66a4ff,
+    A700 : #4d95ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$custom-typography: mat-typography-config(
+    $font-family: 'Open Sans',
+);
+
+@include mat-core($custom-typography);
+
+$md-warn: (
+    50 : #f8e5e6,
+    100 : #eebfc1,
+    200 : #e39498,
+    300 : #d8696e,
+    400 : #cf494f,
+    500 : #c72930,
+    600 : #c1242b,
+    700 : #ba1f24,
+    800 : #b3191e,
+    900 : #a60f13,
+    A100 : #ffd5d6,
+    A200 : #ffa2a4,
+    A400 : #ff6f72,
+    A700 : #ff5659,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$custom-primary: mat-palette($md-primary, 500);
+
+$custom-accent:  mat-palette($md-accent, 500);
+
+$custom-warn: mat-palette($md-warn, 500);
+
+$custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warn);
+
+@include angular-material-theme($custom-theme);

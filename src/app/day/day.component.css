@@ -15,18 +15,23 @@
  */
 
 .total {
-    background-color: lightpink;
+    background-color: #00bfed;
     border-bottom: 1px solid rgb(197, 197, 197);
     padding: 12px;
     width: auto;
+    height: 23px;
+    max-height: 23px;
 }
 
+
 .weekend {
-    background-color: lightblue;
+    color: #fafafa;
+    background-color: #007dc4;
     width: auto;
 }
 .onfDay {
-    background-color: lightgreen;
+    color: #fafafa;
+    background-color: #4d98d0;
     width: auto;
 }
 
@@ -38,9 +43,9 @@
 }
 
 .pad {
-    border-bottom: 1px solid rgb(197, 197, 197);
     width: auto;
-    padding: 12px;
+    height: 23px;
+    max-height: 23px;
 }
 
 .times {
@@ -52,3 +57,4 @@
 .fa-plus-square {
     color: #525a5d;
 }
+

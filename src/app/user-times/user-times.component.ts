@@ -22,9 +22,12 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {generate} from 'rxjs';
 import {EMAIL_ATTR} from '../app.component';
 import { DOCUMENT } from '@angular/common';
+import {UserService} from '../user.service';
 
 const msInDay = 24 * 60 * 60 * 1000;
 
+
+// TODO: implement service? Warnings based on darpaAllocationPct and hours per week.
 @Component({
   selector: 'app-user-times',
   templateUrl: './user-times.component.html',
@@ -36,8 +39,8 @@ export class UserTimesComponent implements OnInit {
     @Input() year: number;
     @Input() loggedIn: boolean;
 
-    nameBtnSign: string = 'Sign';
-    nameBtnUnsign: string = 'Unsign';
+    nameBtnSign: string = 'Sign Timesheet';
+    nameBtnUnsign: string = 'Unsign Timesheet';
     userSigned: boolean = false;
 
     showPreview: boolean = false;
@@ -53,20 +56,42 @@ export class UserTimesComponent implements OnInit {
     previewImgUrl: any;
     currentWeekId: number;
 
+    weekHours: number = 40;
+    remainingWeekHours: number = this.weekHours;
+    darpaAllocationPct: number = 100;
+    remainingDarpaHours: number = this.weekHours * (this.darpaAllocationPct / 100);
+    currentDarpaString: string;
+    currentWeekString: string;
+    weekStringActive: boolean = false;
+    darpaStringActive: boolean = true;
+    darpaWarn: boolean = true;
+    weekHoursWarn: boolean = true;
+
+    darpaMins: number = 0;
+    sickMins: number = 0;
+    holidayMins: number = 0;
+    ptoMins: number = 0;
+    gAMins: number = 0;
+    iRDMins: number = 0;
+    totalMins: number = 0;
+
     constructor(
         private tsweeksService: TsweeksService,
         private tsdayssService: TsdaysService,
         private tsweekliesService: TsweeklyService,
         private oauthService: OAuthService,
+        private user: UserService,
         @Inject(DOCUMENT) private document: Document) {
 
         if (oauthService.hasValidAccessToken()) {
 
-            // TODO: GET USER TO CHECK IS SUPERVISOR AND SET SUPERVISOR TRUE - Will show add user
-
             console.log(this.oauthService.getIdToken());
 
             this.email = localStorage.getItem(EMAIL_ATTR);
+
+            user.getUser().subscribe(result => {
+                this.darpaAllocationPct = result.darpaAllocationPct;
+            });
 
             const dateTimeNow = Date.now();
             console.log('Current time is', dateTimeNow);
@@ -114,6 +139,9 @@ export class UserTimesComponent implements OnInit {
             error => console.log('error getting days', error),
             () => {
                 if (this.days.size < 7) { // If there are no day records for a week, add them
+
+                    this.resetTotals();
+                    this.resetHours();
                     // Add the days
                     generate(
                         this.weeks.get(this.currentWeekId).begin,
@@ -146,7 +174,7 @@ export class UserTimesComponent implements OnInit {
                 this.weekly = weekly;
 
                 if (this.weekly){
-                    console.log(this.weekly);
+
                     if (this.weekly.supervisorSigned){
                         this.showPreview = true;
                     }
@@ -192,7 +220,7 @@ export class UserTimesComponent implements OnInit {
 
         for (const el of this.weeks.get(currentWeekId).onfDays){
             const onfDay = new Date(el.date);
-            console.log(date.getDate(), onfDay.getDate());
+
             if (date.getDate() === onfDay.getDate()){
                 return true;
             }
@@ -226,4 +254,103 @@ export class UserTimesComponent implements OnInit {
         );
         this.loadingProgress = true;
     }
+
+    resetTotals() {
+        this.darpaMins = 0;
+        this.sickMins = 0;
+        this.holidayMins = 0;
+        this.ptoMins = 0;
+        this.gAMins = 0;
+        this.iRDMins = 0;
+        this.totalMins = 0;
+    }
+
+    getTotal() {
+        this.totalMins = 0;
+        this.totalMins += this.darpaMins;
+        this.totalMins += this.sickMins;
+        this.totalMins += this.holidayMins;
+        this.totalMins += this.ptoMins;
+        this.totalMins += this.gAMins;
+        this.totalMins += this.iRDMins;
+    }
+
+    projectTimeChange(event) {
+
+        switch (event.name) {
+            case 'Darpa HR001120C0107':
+                if (event.minutes !== 0) {
+                    this.darpaMins += event.minutes / 60;
+                }
+                break;
+            case 'Sick':
+                if (event.minutes !== 0) {
+                    this.sickMins += event.minutes / 60;
+                }
+                break;
+            case 'Holiday':
+                if (event.minutes !== 0) {
+                    this.holidayMins += event.minutes / 60;
+                }
+                break;
+            case 'PTO':
+                if (event.minutes !== 0) {
+                    this.ptoMins += event.minutes / 60;
+                }
+                break;
+            case 'G_A':
+                if (event.minutes !== 0) {
+                    this.gAMins += event.minutes / 60;
+                }
+                break;
+            case 'IR_D':
+                if (event.minutes !== 0) {
+                    this.iRDMins += event.minutes / 60;
+                }
+                break;
+            default:
+        }
+        this.getTotal();
+        this.checkHoursAllocated();
+    }
+
+    resetHours(){
+        this.weekHours = 40;
+        this.darpaAllocationPct = 100;
+    }
+
+    checkHoursAllocated(){
+
+        this.remainingWeekHours = this.weekHours -  this.totalMins;
+        this.remainingDarpaHours = this.weekHours * (this.darpaAllocationPct / 100) - this.darpaMins;
+
+        if (this.remainingWeekHours < 0){
+            this.remainingWeekHours *= -1;
+            this.weekStringActive = true;
+            this.currentWeekString = 'Hours over total week hours: ' + this.remainingWeekHours;
+        }
+        else{
+            this.weekStringActive = false;
+        }
+
+        if (this.remainingDarpaHours === 0){
+            this.darpaWarn = false;
+            this.darpaStringActive = false;
+        }
+        else if (this.remainingDarpaHours < 0){
+            this.remainingDarpaHours *= -1;
+            this.currentDarpaString = 'Hours over Darpa allocation: ' + this.remainingDarpaHours;
+            this.darpaWarn = true;
+            this.darpaStringActive = true;
+        }else{
+
+            this.currentDarpaString = 'Darpa hours remaining for this week: ' + this.remainingDarpaHours;
+            this.darpaWarn = true;
+            this.darpaStringActive = true;
+        }
+        // this.remainingDarpaHours -= this.totalMins;
+
+        // this.currentWeekString = 'Hours remaining for this week: ' + this.remainingWeekHours;
+    }
+
 }
