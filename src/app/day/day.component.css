@@ -25,10 +25,12 @@
 
 
 .weekend {
+    color: #fafafa;
     background-color: #007dc4;
     width: auto;
 }
 .onfDay {
+    color: #fafafa;
     background-color: #4d98d0;
     width: auto;
 }
@@ -55,5 +57,4 @@
 .fa-plus-square {
     color: #525a5d;
 }
-
 

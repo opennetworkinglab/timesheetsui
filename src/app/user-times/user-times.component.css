@@ -87,9 +87,7 @@ tbody.collapse.in {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*gap: 12px;*/
-    /*padding-top: 40px;*/
-    /*padding-bottom: 40px;*/
+    border-bottom: 0px;
 }
 
 .img-container {
@@ -122,4 +120,17 @@ tbody.collapse.in {
     border-bottom: 1px solid rgb(197, 197, 197)!important;
     padding: 12px!important;
     width: auto!important;
+}
+
+h2 {
+    display:inline-block;
+}
+
+img {
+    max-width: 120px;
+    height: auto;
+    padding-left: 20px;
+    padding-top: 20px;
+    display:inline-block;
+    vertical-align:middle;
 }

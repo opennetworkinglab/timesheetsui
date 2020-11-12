@@ -22,7 +22,7 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {generate} from 'rxjs';
 import {EMAIL_ATTR} from '../app.component';
 import { DOCUMENT } from '@angular/common';
-import {UserService} from "../user.service";
+import {UserService} from '../user.service';
 
 const msInDay = 24 * 60 * 60 * 1000;
 

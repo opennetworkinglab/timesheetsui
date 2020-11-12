@@ -16,7 +16,6 @@
 
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
-import {min} from "rxjs/operators";
 
 export interface Time {
     name: string;
