@@ -39,6 +39,8 @@
             </div>
 
             <table class="table table-responsive">
+<!--                <div class="center-table" *ngIf="weekStringActive"><p>{{currentWeekString}}</p></div>-->
+                <div class="center-table" *ngIf="darpaStringActive" [ngClass]="darpaWarn?'warn-text':''"><p>{{currentDarpaString}}</p></div>
                 <tbody>
                 <tr>
                     <td>
@@ -68,12 +70,13 @@
                             <th>Project Totals</th>
                             </thead>
                             <tbody>
-                            <tr>{{darpaMins}}</tr>
+                            <tr [ngClass]="darpaWarn?'pad-warn':''">{{darpaMins}}</tr>
                             <tr>{{sickMins}}</tr>
                             <tr>{{holidayMins}}</tr>
                             <tr>{{ptoMins}}</tr>
                             <tr>{{gAMins}}</tr>
                             <tr>{{iRDMins}}</tr>
+                            <tr [ngClass]="darpaWarn?'pad-warn':'total'">{{totalMins}}</tr>
                         </table>
                     </td>
                 </tr>

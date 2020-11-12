@@ -16,6 +16,7 @@
 
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
+import {min} from "rxjs/operators";
 
 export interface Time {
     name: string;
@@ -37,16 +38,16 @@ export class DayComponent implements OnInit, OnChanges {
     @Input() times: Time[];
     @Input() userSigned: boolean;
 
-    @Input() darpaMins: number = undefined;
-    @Input() sickMins: number = undefined;
-    @Input() holidayMins: number = undefined;
-    @Input() ptoMins: number = undefined;
-    @Input() gAMins: number = undefined;
-    @Input() iRDMins: number = undefined;
+    @Input() darpaMins: number = 0;
+    @Input() sickMins: number = 0;
+    @Input() holidayMins: number = 0;
+    @Input() ptoMins: number = 0;
+    @Input() gAMins: number = 0;
+    @Input() iRDMins: number = 0;
 
     totalHours: number = 0;
 
-    @Output() projectTimeChange: EventEmitter<{name, minutes}> = new EventEmitter<{name; minutes}>(true);
+    @Output() projectTimeChange: EventEmitter<{name, minutes}> = new EventEmitter<{name, minutes}>(true);
 
     constructor(private tsdaysService: TsdaysService) {
     }
@@ -58,7 +59,6 @@ export class DayComponent implements OnInit, OnChanges {
         if (this.onfDay) {
             this.holidayMins = 480;
             this.updateTotal('Holiday', 480);
-            this.projectTimeChange.emit({name: 'Holiday', minutes: 480});
             this.tsdaysService.updateTimeInDay(this.email, this.day, 'Holiday', 480);
         }
 
@@ -101,7 +101,7 @@ export class DayComponent implements OnInit, OnChanges {
                     default:
                 }
                 this.updateTotal(time.name, time.minutes);
-                this.projectTimeChange.emit({name: time.name, minutes: time.minutes});
+                this.projectTimeChange.emit({ name: time.name, minutes: time.minutes });
             }
         }
     }
@@ -112,16 +112,48 @@ export class DayComponent implements OnInit, OnChanges {
 
     update(project, minutes) {
 
+        const oldMinutes = this.getOldMinutes(project);
+
         if (minutes !== undefined) {
             if (minutes === ''){
                 minutes = 0;
             }
-
             this.updateTotal(project, minutes);
+            this.tsdaysService.updateTimeInDay(this.email, this.day, project, minutes);
+
+            if (oldMinutes - minutes > 0) {
+                minutes = (oldMinutes - minutes) * -1;
+            }
+            else{
+                minutes = (oldMinutes - minutes) * -1;
+            }
 
             this.projectTimeChange.emit({name: project, minutes});
+        }
+    }
 
-            this.tsdaysService.updateTimeInDay(this.email, this.day, project, minutes);
+    getOldMinutes(name) {
+        switch (name) {
+            case 'Darpa HR001120C0107':
+                console.log(this.darpaMins);
+                return this.darpaMins;
+                break;
+            case 'Sick':
+                return this.sickMins;
+                break;
+            case 'Holiday':
+                return this.holidayMins;
+                break;
+            case 'PTO':
+                return this.ptoMins;
+                break;
+            case 'G_A':
+                return this.gAMins;
+                break;
+            case 'IR_D':
+                return this.iRDMins;
+                break;
+            default:
         }
     }
 

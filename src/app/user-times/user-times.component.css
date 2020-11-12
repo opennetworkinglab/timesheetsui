@@ -103,7 +103,23 @@ tbody.collapse.in {
     height: auto;
 }
 
-.tr {
-    height: 23px;
-    max-height: 23px;
+.pad {
+    border-bottom: 1px solid rgb(197, 197, 197);
+    width: auto;
+    padding: 12px;
+}
+
+.pad-warn {
+    background-color: #C72930!important;
+}
+
+.warn-text {
+    color: #C72930;
+}
+
+.total {
+    background-color: #00bfed!important;
+    border-bottom: 1px solid rgb(197, 197, 197)!important;
+    padding: 12px!important;
+    width: auto!important;
 }
