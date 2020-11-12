@@ -67,6 +67,12 @@ $md-accent: (
     )
 );
 
+$custom-typography: mat-typography-config(
+    $font-family: 'Open Sans',
+);
+
+@include mat-core($custom-typography);
+
 $custom-primary: mat-palette($md-primary, 500);
 
 $custom-accent:  mat-palette($md-accent, 500);

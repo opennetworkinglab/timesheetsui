@@ -59,6 +59,8 @@ tbody.collapse.in {
     background-color: #fafafa;
     padding: 12px;
     border-bottom: 1px solid rgb(197, 197, 197);
+    height: 23px;
+    max-height: 23px;
 }
 
 .table thead th {
@@ -99,4 +101,9 @@ tbody.collapse.in {
     width: 100%;
     max-width: 600px;
     height: auto;
+}
+
+.tr {
+    height: 23px;
+    max-height: 23px;
 }

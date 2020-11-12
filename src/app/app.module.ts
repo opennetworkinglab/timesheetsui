@@ -67,6 +67,7 @@ const routes: Routes = [
         LayoutModule,
         MatButtonModule,
         MatListModule,
+        MatIconModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

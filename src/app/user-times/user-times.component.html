@@ -26,15 +26,12 @@
         <div class="center" *ngIf="!showPreview">
             <h4 class="mat-subheading-1">Please choose hours in decimal format</h4>
         </div>
-                <div class="center">
-                    <button (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary btn-sm"><i
-                        class="fa fa-chevron-left"></i></button>
+                <div class="center custom-theme center">
+                    <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
                     Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
                     - {{weeks.get(currentWeekId)?.end | date}}
-                    <button (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary btn-sm"><i
-                        class="fa fa-chevron-right"></i></button>
+                    <button mat-mini-fab (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
                 </div>
-
         <div class="center-table" *ngIf="!showPreview">
 
             <div class="cdk-overlay-pane center" *ngIf="loadingProgress">
@@ -68,16 +65,15 @@
                     <td>
                         <table>
                             <thead>
-                            <th>Totals</th>
+                            <th>Project Totals</th>
                             </thead>
                             <tbody>
-                            <tr ></tr>
-                            <tr >{{ darpaMins}}</tr>
-                            <tr >{{sickMins}}</tr>
-                            <tr >{{holidayMins}}</tr>
-                            <tr >{{ptoMins}}</tr>
-                            <tr >{{gAMins}}</tr>
-                            <tr >{{iRDMins}}</tr>
+                            <tr>{{darpaMins}}</tr>
+                            <tr>{{sickMins}}</tr>
+                            <tr>{{holidayMins}}</tr>
+                            <tr>{{ptoMins}}</tr>
+                            <tr>{{gAMins}}</tr>
+                            <tr>{{iRDMins}}</tr>
                         </table>
                     </td>
                 </tr>
