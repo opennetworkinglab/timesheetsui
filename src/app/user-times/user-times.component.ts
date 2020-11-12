@@ -39,8 +39,8 @@ export class UserTimesComponent implements OnInit {
     @Input() year: number;
     @Input() loggedIn: boolean;
 
-    nameBtnSign: string = 'Sign Timesheets';
-    nameBtnUnsign: string = 'Unsign Timesheets';
+    nameBtnSign: string = 'Sign Timesheet';
+    nameBtnUnsign: string = 'Unsign Timesheet';
     userSigned: boolean = false;
 
     showPreview: boolean = false;
