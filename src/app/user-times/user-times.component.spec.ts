@@ -38,8 +38,8 @@ class MockTsWeeksService {
                 end: number = thisWeekStart + 7 * 24 * 3600 * 1000 - 1;
                 id: number = 1;
                 year: number = 2020;
-                weekno: number = 33;
-                monthno: number = 8;
+                weekNo: number = 33;
+                monthNo: number = 8;
                 onfDays: [];
             };
             observer.next(sampleWeek);

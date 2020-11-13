@@ -24,8 +24,8 @@ import {OAuthService} from 'angular-oauth2-oidc';
 export interface TsWeek {
     id: number;
     year: number;
-    weekno: number;
-    monthno: number;
+    weekNo: number;
+    monthNo: number;
     begin: number;
     end: number;
     onfDays: OnfDay[];
@@ -60,8 +60,8 @@ export class TsweeksService {
                 begin: number = Date.parse((item.begin as unknown) as string);
                 end: number = Date.parse((item.end as unknown) as string);
                 id: number = item.id;
-                weekno: number = item.weekno;
-                monthno: number = item.monthno;
+                weekNo: number = item.weekNo;
+                monthNo: number = item.monthNo;
                 year: number = item.year;
                 onfDays = item.onfDays;
             })

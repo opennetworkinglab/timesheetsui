@@ -38,6 +38,7 @@ export class UserTimesComponent implements OnInit {
     @Input() weekid: number;
     @Input() year: number;
     @Input() loggedIn: boolean;
+    name: string;
 
     nameBtnSign: string = 'Sign Timesheet';
     nameBtnUnsign: string = 'Unsign Timesheet';
@@ -60,12 +61,7 @@ export class UserTimesComponent implements OnInit {
     remainingWeekHours: number = this.weekHours;
     darpaAllocationPct: number = 100;
     remainingDarpaHours: number = this.weekHours * (this.darpaAllocationPct / 100);
-    currentDarpaString: string;
-    currentWeekString: string;
-    weekStringActive: boolean = false;
-    darpaStringActive: boolean = true;
     darpaWarn: boolean = true;
-    weekHoursWarn: boolean = true;
 
     darpaMins: number = 0;
     sickMins: number = 0;
@@ -90,6 +86,7 @@ export class UserTimesComponent implements OnInit {
             this.email = localStorage.getItem(EMAIL_ATTR);
 
             user.getUser().subscribe(result => {
+                this.name = result.firstName + ' ' + result.lastName;
                 this.darpaAllocationPct = result.darpaAllocationPct;
             });
 
@@ -102,12 +99,14 @@ export class UserTimesComponent implements OnInit {
 
                     if ((this.weekid === undefined || this.year === undefined) &&
                         weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
+
                         this.currentWeekId = weekdata.id;
-                        this.weekid = weekdata.weekno;
+                        this.weekid = weekdata.weekNo;
                         this.year = weekdata.year;
 
-                        tsdayssService.date = new Date(weekdata.begin);
-                        console.log('Current week is', new Date(weekdata.begin));
+                        const newDate = new Date(weekdata.begin);
+                        tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
+                        console.log('Current week is', new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate()));
                     }
                 },
                 error => console.log('error getting weeks', error),
@@ -128,16 +127,19 @@ export class UserTimesComponent implements OnInit {
         }
 
         this.currentWeekId = this.currentWeekId + delta;
-
-        this.tsdayssService.date = new Date(this.weeks.get(this.currentWeekId).begin);
+        const newDate = new Date(this.weeks.get(this.currentWeekId).begin);
+        this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
         this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
             (daydata: TsDay) => {
-
                 this.days.set(daydata.day, daydata);
             },
             error => console.log('error getting days', error),
             () => {
+
+                for (const [key, value] of this.days.entries()) {
+                    console.log(key, value);
+                }
                 if (this.days.size < 7) { // If there are no day records for a week, add them
 
                     this.resetTotals();
@@ -212,10 +214,11 @@ export class UserTimesComponent implements OnInit {
 
     isWeekend(dayMs: number): boolean {
         const date = new Date(dayMs);
-        return date.getDay() === 6 || date.getDay() === 0;
+        return date.getUTCDay() === 6 || date.getUTCDay() === 0;
     }
 
     isOnfDay(dayMs: number, currentWeekId: number): boolean{
+
         const date = new Date(dayMs);
 
         for (const el of this.weeks.get(currentWeekId).onfDays){
@@ -239,6 +242,7 @@ export class UserTimesComponent implements OnInit {
         }
         else {
             this.signBtnName = this.nameBtnSign;
+
         }
 
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
@@ -250,6 +254,10 @@ export class UserTimesComponent implements OnInit {
 
                 this.loadingProgress = false;
                 this.signBtnDisabled = false;
+
+                if (userSigned === false){
+                    this.userSigned = false;
+                }
             }
         );
         this.loadingProgress = true;
@@ -321,36 +329,19 @@ export class UserTimesComponent implements OnInit {
 
     checkHoursAllocated(){
 
-        this.remainingWeekHours = this.weekHours -  this.totalMins;
         this.remainingDarpaHours = this.weekHours * (this.darpaAllocationPct / 100) - this.darpaMins;
+        const leeway = (this.weekHours * (this.darpaAllocationPct / 100)) * 0.10;
 
-        if (this.remainingWeekHours < 0){
-            this.remainingWeekHours *= -1;
-            this.weekStringActive = true;
-            this.currentWeekString = 'Hours over total week hours: ' + this.remainingWeekHours;
-        }
-        else{
-            this.weekStringActive = false;
-        }
+        const darpaHoursCompleted = this.weekHours - this.remainingDarpaHours;
+        const remainingMinusLeeway = this.weekHours * (this.darpaAllocationPct / 100) - leeway;
+        const remainingPlusLeeway = this.weekHours * (this.darpaAllocationPct / 100) + leeway;
 
-        if (this.remainingDarpaHours === 0){
+        if (darpaHoursCompleted >= remainingMinusLeeway && darpaHoursCompleted <= remainingPlusLeeway){
             this.darpaWarn = false;
-            this.darpaStringActive = false;
         }
-        else if (this.remainingDarpaHours < 0){
-            this.remainingDarpaHours *= -1;
-            this.currentDarpaString = 'Hours over Darpa allocation: ' + this.remainingDarpaHours;
+        else if (darpaHoursCompleted < remainingMinusLeeway || darpaHoursCompleted > remainingPlusLeeway) {
             this.darpaWarn = true;
-            this.darpaStringActive = true;
-        }else{
-
-            this.currentDarpaString = 'Darpa hours remaining for this week: ' + this.remainingDarpaHours;
-            this.darpaWarn = true;
-            this.darpaStringActive = true;
         }
-        // this.remainingDarpaHours -= this.totalMins;
-
-        // this.currentWeekString = 'Hours remaining for this week: ' + this.remainingWeekHours;
     }
 
 }
