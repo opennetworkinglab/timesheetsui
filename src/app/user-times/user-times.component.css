@@ -108,7 +108,7 @@ tbody.collapse.in {
 }
 
 .pad-warn {
-    background-color: #C72930!important;
+    background-color: #fac4c4!important;
 }
 
 .warn-text {
@@ -122,7 +122,7 @@ tbody.collapse.in {
     width: auto!important;
 }
 
-h2 {
+.h2 {
     display:inline-block;
 }
 

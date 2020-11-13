@@ -17,20 +17,29 @@
 <div>
 
     <div class="mat-typography">
-        <div><img src="assets/images/ONF-logo.png"><h2 class="mat-title" style="padding: 10px 0px 0px 20px">{{email}}</h2></div>
+
+        <div style="padding-right: 20px; display: inline-block">
+            <img src="assets/images/ONF-logo.png">
+        </div>
+        <div style="padding-right: 20px; display: inline-block">
+            <h3 style="padding: 10px 0px 0px 0px">{{name}}</h3>
+        </div>
+
         <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
             <img class="responsive" src="{{weekly.preview}}">
+        </div>
+
+        <div class="center custom-theme center">
+            <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
+            Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
+            - {{weeks.get(currentWeekId)?.end | date}}
+            <button mat-mini-fab (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
         </div>
 
         <div class="center" *ngIf="!showPreview">
             <h4 class="mat-subheading-1">Please choose hours in decimal format</h4>
         </div>
-                <div class="center custom-theme center">
-                    <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
-                    Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
-                    - {{weeks.get(currentWeekId)?.end | date}}
-                    <button mat-mini-fab (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
-                </div>
+
         <div class="center-table" *ngIf="!showPreview">
 
             <div class="cdk-overlay-pane center" *ngIf="loadingProgress">
@@ -38,8 +47,6 @@
             </div>
 
             <table class="table table-responsive">
-<!--                <div class="center-table" *ngIf="weekStringActive"><p>{{currentWeekString}}</p></div>-->
-                <div class="center-table" *ngIf="darpaStringActive" [ngClass]="darpaWarn?'warn-text':''"><p>{{currentDarpaString}}</p></div>
                 <tbody>
                 <tr>
                     <td>
@@ -57,7 +64,7 @@
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
-                        <app-day [day]="d.key | date: 'EEE dd'" [email]="d.value.email"
+                        <app-day [day]="d.key | date: 'EEE dd':'UTC'" [email]="d.value.email"
                                  [onfDay]="isOnfDay(d.key, currentWeekId)"
                                  [times]="d.value.times" [userSigned]="userSigned"
                                  [weekend]="isWeekend(d.key)" (projectTimeChange)="projectTimeChange($event)">
@@ -66,7 +73,7 @@
                     <td>
                         <table>
                             <thead>
-                            <th>Project Totals</th>
+                            <th>Weekly Totals</th>
                             </thead>
                             <tbody>
                             <tr [ngClass]="darpaWarn?'pad-warn':''">{{darpaMins}}</tr>

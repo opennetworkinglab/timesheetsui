@@ -67,13 +67,6 @@ $md-accent: (
     )
 );
 
-
-$custom-typography: mat-typography-config(
-    $font-family: 'Open Sans',
-);
-
-@include mat-core($custom-typography);
-
 $md-warn: (
     50 : #f8e5e6,
     100 : #eebfc1,
@@ -107,6 +100,10 @@ $md-warn: (
     )
 );
 
+$custom-typography: mat-typography-config(
+    $font-family: 'Open Sans'
+);
+
 $custom-primary: mat-palette($md-primary, 500);
 
 $custom-accent:  mat-palette($md-accent, 500);
@@ -116,3 +113,4 @@ $custom-warn: mat-palette($md-warn, 500);
 $custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warn);
 
 @include angular-material-theme($custom-theme);
+@include mat-core($custom-typography);
