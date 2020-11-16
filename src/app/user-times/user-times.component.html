@@ -25,15 +25,15 @@
             <h3 style="padding: 10px 0px 0px 0px">{{name}}</h3>
         </div>
 
-        <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
-            <img class="responsive" src="{{weekly.preview}}">
-        </div>
-
         <div class="center custom-theme center">
             <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
-            Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date}}
-            - {{weeks.get(currentWeekId)?.end | date}}
+            Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date: 'MMM d, y':'UTC'}}
+            - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
             <button mat-mini-fab (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
+        </div>
+
+        <div class="img-container" style="margin-top: 50px" id="signed" *ngIf="showPreview">
+            <img class="responsive" src="{{weekly.preview}}">
         </div>
 
         <div class="center" *ngIf="!showPreview">
