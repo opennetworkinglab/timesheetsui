@@ -14,56 +14,42 @@
 ~ limitations under the License.
 -->
 
-<select [(ngModel)]="mins" (click)="updatedEvent.emit(mins)" [disabled]="userSigned">
+<select id="{{id}}" [(ngModel)]="mins" (click)="updatedEvent.emit(mins)" [disabled]="userSigned">
     <option selected value></option>
-    <option [value]="15">0.25</option>
     <option [value]="30">0.50</option>
-    <option [value]="45">0.75</option>
 
     <option [value]="60">1.00</option>
-    <option [value]="75">1.25</option>
     <option [value]="90">1.50</option>
-    <option [value]="105">1.75</option>
 
     <option [value]="120">2.00</option>
-    <option [value]="135">2.25</option>
     <option [value]="150">2.50</option>
-    <option [value]="165">2.75</option>
 
     <option [value]="180">3.00</option>
-    <option [value]="195">3.25</option>
     <option [value]="210">3.50</option>
-    <option [value]="225">3.75</option>
 
     <option [value]="240">4.00</option>
-    <option [value]="255">4.25</option>
     <option [value]="270">4.50</option>
-    <option [value]="285">4.75</option>
 
     <option [value]="300">5.00</option>
-    <option [value]="315">5.25</option>
     <option [value]="330">5.50</option>
-    <option [value]="345">5.75</option>
 
     <option [value]="360">6.00</option>
-    <option [value]="375">6.25</option>
     <option [value]="390">6.50</option>
-    <option [value]="405">6.75</option>
 
     <option [value]="420">7.00</option>
-    <option [value]="435">7.25</option>
     <option [value]="450">7.50</option>
-    <option [value]="465">7.75</option>
 
     <option [value]="480">8.00</option>
-    <option [value]="495">8.25</option>
     <option [value]="510">8.50</option>
-    <option [value]="525">8.75</option>
 
     <option [value]="540">9.00</option>
-    <option [value]="555">9.25</option>
     <option [value]="570">9.50</option>
-    <option [value]="585">9.75</option>
 
     <option [value]="600">10.00</option>
+    <option [value]="630">10.50</option>
+
+    <option [value]="660">11.00</option>
+    <option [value]="690">11.50</option>
+
+    <option [value]="720">12.00</option>
 </select>

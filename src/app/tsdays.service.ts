@@ -30,7 +30,6 @@ export interface TsDay {
     times: [];
 }
 
-
 @Injectable({
     providedIn: 'root'
 })

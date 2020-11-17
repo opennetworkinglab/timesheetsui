@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
 
 export interface Time {
@@ -27,7 +27,7 @@ export interface Time {
     templateUrl: './day.component.html',
     styleUrls: ['./day.component.css']
 })
-export class DayComponent implements OnInit, OnChanges {
+export class DayComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() email: string;
     @Input() day: string;
     @Input() date: string;
@@ -43,6 +43,8 @@ export class DayComponent implements OnInit, OnChanges {
     @Input() ptoMins: number = 0;
     @Input() gAMins: number = 0;
     @Input() iRDMins: number = 0;
+
+    @Input() dayId: number;
 
     totalHours: number = 0;
 
@@ -110,7 +112,6 @@ export class DayComponent implements OnInit, OnChanges {
     }
 
     update(project, minutes) {
-
         const oldMinutes = this.getOldMinutes(project);
 
         if (minutes !== undefined) {
@@ -193,5 +194,9 @@ export class DayComponent implements OnInit, OnChanges {
         this.totalHours += (this.gAMins === undefined ? 0 : this.gAMins);
         this.totalHours += (this.iRDMins === undefined ? 0 : this.iRDMins);
         this.totalHours /= 60;
+    }
+
+    ngAfterViewInit(): void {
+        // console.log(this.dayId);
     }
 }

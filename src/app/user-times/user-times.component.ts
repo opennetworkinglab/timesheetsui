@@ -40,8 +40,8 @@ export class UserTimesComponent implements OnInit {
     @Input() loggedIn: boolean;
     name: string;
 
-    nameBtnSign: string = 'Sign Timesheet';
-    nameBtnUnsign: string = 'Unsign Timesheet';
+    nameBtnSign: string = 'Submit Timesheet';
+    nameBtnUnsign: string = 'Retract Timesheet';
     userSigned: boolean = false;
 
     showPreview: boolean = false;
@@ -137,9 +137,6 @@ export class UserTimesComponent implements OnInit {
             error => console.log('error getting days', error),
             () => {
 
-                for (const [key, value] of this.days.entries()) {
-                    console.log(key, value);
-                }
                 if (this.days.size < 7) { // If there are no day records for a week, add them
 
                     this.resetTotals();

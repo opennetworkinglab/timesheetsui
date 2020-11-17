@@ -18,6 +18,7 @@ import {Component, OnInit} from '@angular/core';
 import {authConfig} from '../environments/environment';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {Router} from '@angular/router';
+import {UserService} from './user.service';
 
 export const USERNAME_ATTR = 'username';
 export const EMAIL_ATTR = 'email';
@@ -32,7 +33,8 @@ export class AppComponent implements OnInit {
     ready: boolean = false;
 
     constructor(private oauthService: OAuthService,
-                private router: Router) { }
+                private router: Router,
+                private userService: UserService) { }
 
 
     async ngOnInit(): Promise<void> {
@@ -53,11 +55,17 @@ export class AppComponent implements OnInit {
                     'as', localStorage.getItem(USERNAME_ATTR),
                     '(' + localStorage.getItem(EMAIL_ATTR) + ')');
 
-                this.ready = true;
+                this.userService.getUser().subscribe(result => {
 
-                // this.router.navigate([localStorage.getItem(EMAIL_ATTR)]).then(() => {
-                //     console.log('Redirected');
-                // });
+                    this.ready = true;
+
+                    this.router.navigate(['']).then(() => {
+                        console.log('Redirected');
+                    });
+                },
+                error => {
+                    console.log('Not part of timesheets');
+                });
             }
         }
     }

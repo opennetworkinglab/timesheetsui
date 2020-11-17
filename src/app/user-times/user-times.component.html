@@ -67,7 +67,8 @@
                         <app-day [day]="d.key | date: 'EEE dd':'UTC'" [email]="d.value.email"
                                  [onfDay]="isOnfDay(d.key, currentWeekId)"
                                  [times]="d.value.times" [userSigned]="userSigned"
-                                 [weekend]="isWeekend(d.key)" (projectTimeChange)="projectTimeChange($event)">
+                                 [weekend]="isWeekend(d.key)" (projectTimeChange)="projectTimeChange($event)"
+                                 [dayId]="d.key">
                         </app-day>
                     </td>
                     <td>
