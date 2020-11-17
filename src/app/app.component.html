@@ -14,7 +14,10 @@
 ~ limitations under the License.
 -->
 
-<app-navigation *ngIf="ready">
+<app-navigation *ngIf="ready" class="mat-typography">
     <router-outlet></router-outlet>
 </app-navigation>
 
+<div class="center" *ngIf="!ready">
+    <h1 class="center">You are not part of timesheets Application</h1>
+</div>

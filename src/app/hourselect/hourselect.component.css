@@ -15,4 +15,7 @@
  */
 
 
-
+select{
+    height: 23px;
+    width: auto;
+}

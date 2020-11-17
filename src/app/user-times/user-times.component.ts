@@ -23,6 +23,7 @@ import {generate} from 'rxjs';
 import {EMAIL_ATTR} from '../app.component';
 import { DOCUMENT } from '@angular/common';
 import {UserService} from '../user.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 const msInDay = 24 * 60 * 60 * 1000;
 
@@ -40,8 +41,8 @@ export class UserTimesComponent implements OnInit {
     @Input() loggedIn: boolean;
     name: string;
 
-    nameBtnSign: string = 'Sign Timesheet';
-    nameBtnUnsign: string = 'Unsign Timesheet';
+    nameBtnSign: string = 'Submit Timesheet';
+    nameBtnUnsign: string = 'Retract Timesheet';
     userSigned: boolean = false;
 
     showPreview: boolean = false;
@@ -77,7 +78,8 @@ export class UserTimesComponent implements OnInit {
         private tsweekliesService: TsweeklyService,
         private oauthService: OAuthService,
         private user: UserService,
-        @Inject(DOCUMENT) private document: Document) {
+        @Inject(DOCUMENT) private document: Document,
+        private snackBar: MatSnackBar) {
 
         if (oauthService.hasValidAccessToken()) {
 
@@ -139,9 +141,6 @@ export class UserTimesComponent implements OnInit {
             error => console.log('error getting days', error),
             () => {
 
-                for (const [key, value] of this.days.entries()) {
-                    console.log(key, value);
-                }
                 if (this.days.size < 7) { // If there are no day records for a week, add them
 
                     // Add the days
@@ -232,7 +231,8 @@ export class UserTimesComponent implements OnInit {
     }
 
     sign() {
-
+        this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 3000});
+        return;
         this.signBtnDisabled = true;
         let userSigned = false;
 
@@ -255,6 +255,7 @@ export class UserTimesComponent implements OnInit {
                 this.loadingProgress = false;
                 this.signBtnDisabled = false;
 
+                this.snackBar.open('Redirecting to Docusign');
                 if (userSigned === false){
                     this.userSigned = false;
                 }

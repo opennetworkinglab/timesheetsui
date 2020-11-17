@@ -18,6 +18,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HourselectComponent} from './hourselect.component';
 
+declare var $: any;
 describe('HourselectComponent', () => {
     let component: HourselectComponent;
     let fixture: ComponentFixture<HourselectComponent>;

@@ -57,7 +57,6 @@ tbody.collapse.in {
 .table tbody tr {
     text-align: center;
     background-color: #fafafa;
-    padding: 12px;
     border-bottom: 1px solid rgb(197, 197, 197);
     height: 23px;
     max-height: 23px;
@@ -101,18 +100,8 @@ tbody.collapse.in {
     height: auto;
 }
 
-.pad {
-    border-bottom: 1px solid rgb(197, 197, 197);
-    width: auto;
-    padding: 12px;
-}
-
 .pad-warn {
     background-color: #fac4c4!important;
-}
-
-.warn-text {
-    color: #C72930;
 }
 
 .total {
@@ -124,6 +113,18 @@ tbody.collapse.in {
 
 .h2 {
     display:inline-block;
+}
+
+h3 {
+    font-size: 18px;
+    /*font-family: Calibri, serif;*/
+}
+
+.font-size-weekchooser {
+    font-size: 18px;
+}
+.font-size-btn {
+    font-size: 16px;
 }
 
 img {

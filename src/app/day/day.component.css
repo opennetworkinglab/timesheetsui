@@ -17,12 +17,10 @@
 .total {
     background-color: #00bfed;
     border-bottom: 1px solid rgb(197, 197, 197);
-    padding: 12px;
     width: auto;
     height: 23px;
     max-height: 23px;
 }
-
 
 .weekend {
     color: #fafafa;
@@ -44,8 +42,8 @@
 
 .pad {
     width: auto;
-    height: 23px;
-    max-height: 23px;
+
+    max-height: 20px;
 }
 
 .times {
