@@ -21,14 +21,15 @@
         <div style="padding-right: 20px; display: inline-block">
             <img src="assets/images/ONF-logo.png">
         </div>
-        <div style="padding-right: 20px; display: inline-block">
-            <h3 style="padding: 10px 0px 0px 0px">{{name}}</h3>
+        <div style="padding-right: 20px; padding-top: 20px; display: inline-block">
+            <h3 style="padding-right: 20px">{{name}}</h3>
+<!--            <h3 style="padding-right: 20px">Supervisor: {{name}}</h3>-->
         </div>
 
-        <div class="center custom-theme center">
+        <div class="center custom-theme font-size-weekchooser">
             <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
             Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date: 'MMM d, y':'UTC'}}
-            - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
+                - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
             <button mat-mini-fab (click)="changeWeek(1); changeWeekAlreadySigned(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
         </div>
 
@@ -37,7 +38,7 @@
         </div>
 
         <div class="center" *ngIf="!showPreview">
-            <h4 class="mat-subheading-1">Please choose hours in decimal format</h4>
+            <h3>Please choose hours in decimal format</h3>
         </div>
 
         <div class="center-table" *ngIf="!showPreview">
@@ -91,7 +92,7 @@
             </table>
         </div>
         <div *ngIf="!showPreview" class="custom-theme center">
-            <button (click)="sign()" [disabled]="signBtnDisabled" color="accent"
+            <button (click)="sign()" [disabled]="signBtnDisabled" color="accent" class="font-size-btn"
                     mat-raised-button>{{signBtnName}}</button>
         </div>
     </div>
