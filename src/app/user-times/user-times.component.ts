@@ -126,6 +126,8 @@ export class UserTimesComponent implements OnInit {
             return;
         }
 
+        this.resetTotals();
+        this.resetHours();
         this.currentWeekId = this.currentWeekId + delta;
         const newDate = new Date(this.weeks.get(this.currentWeekId).begin);
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
@@ -142,8 +144,6 @@ export class UserTimesComponent implements OnInit {
                 }
                 if (this.days.size < 7) { // If there are no day records for a week, add them
 
-                    this.resetTotals();
-                    this.resetHours();
                     // Add the days
                     generate(
                         this.weeks.get(this.currentWeekId).begin,
