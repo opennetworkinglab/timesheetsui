@@ -231,8 +231,7 @@ export class UserTimesComponent implements OnInit {
     }
 
     sign() {
-        this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 3000});
-        return;
+
         this.signBtnDisabled = true;
         let userSigned = false;
 
@@ -245,6 +244,7 @@ export class UserTimesComponent implements OnInit {
 
         }
 
+        this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 3000});
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
             (result) => {
 
@@ -255,7 +255,6 @@ export class UserTimesComponent implements OnInit {
                 this.loadingProgress = false;
                 this.signBtnDisabled = false;
 
-                this.snackBar.open('Redirecting to Docusign');
                 if (userSigned === false){
                     this.userSigned = false;
                 }
