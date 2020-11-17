@@ -24,6 +24,7 @@ import {TsdaysService} from '../tsdays.service';
 import {TsweeklyService} from '../tsweekly.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Observable, Subscriber} from 'rxjs';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 const msInWeek = 7 * 24 * 60 * 60 * 1000;
 
@@ -59,6 +60,7 @@ describe('UserTimesComponent', () => {
             imports: [
                 OAuthModule.forRoot(),
                 HttpClientTestingModule,
+                MatSnackBarModule
             ],
             declarations: [UserTimesComponent],
             providers: [
@@ -66,6 +68,7 @@ describe('UserTimesComponent', () => {
                 {provide: TsdaysService},
                 {provide: TsweeklyService},
                 {provide: AuthInterceptor},
+                {provide: MatSnackBar}
             ]
         })
             .compileComponents();

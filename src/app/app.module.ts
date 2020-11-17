@@ -37,6 +37,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
@@ -68,6 +69,7 @@ const routes: Routes = [
         MatButtonModule,
         MatListModule,
         MatIconModule,
+        MatSnackBarModule
     ],
     providers: [],
     bootstrap: [AppComponent]
