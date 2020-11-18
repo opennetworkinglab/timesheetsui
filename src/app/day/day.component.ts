@@ -135,7 +135,6 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
     getOldMinutes(name) {
         switch (name) {
             case 'Darpa HR001120C0107':
-                console.log(this.darpaMins);
                 return this.darpaMins;
                 break;
             case 'Sick':
