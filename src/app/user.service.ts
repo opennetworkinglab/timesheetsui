@@ -19,6 +19,7 @@ import {TIMESHEETS_REST_URL} from '../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {map} from 'rxjs/operators';
+import {EMAIL_ATTR} from "./app.component";
 
 export interface User {
     email: string;
@@ -43,8 +44,22 @@ export class UserService {
 
     configUrl = TIMESHEETS_REST_URL + '/auth';
 
+    email: string;
+
     constructor(private http: HttpClient,
                 private oAuthService: OAuthService) {
+    }
+
+    createUser(user: User){
+        console.log('Creating User info');
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        // user.supervisorEmail = localStorage.getItem(EMAIL_ATTR);
     }
 
     getUser(){

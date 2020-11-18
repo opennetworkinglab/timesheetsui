@@ -20,7 +20,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {DayComponent} from './day/day.component';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HourselectComponent} from './hourselect/hourselect.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {RouterModule, Routes} from '@angular/router';
@@ -38,9 +38,14 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { AddUserComponent } from './add-user/add-user.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {MatSelectModule} from "@angular/material/select";
 
 const routes: Routes = [
-    { path: '', component: UserTimesComponent},
+    { path: '', component: AddUserComponent},
 ];
 
 @NgModule({
@@ -49,7 +54,8 @@ const routes: Routes = [
         DayComponent,
         HourselectComponent,
         UserTimesComponent,
-        NavigationComponent
+        NavigationComponent,
+        AddUserComponent
     ],
     imports: [
         BrowserModule,
@@ -69,7 +75,12 @@ const routes: Routes = [
         MatButtonModule,
         MatListModule,
         MatIconModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatSelectModule
     ],
     providers: [],
     bootstrap: [AppComponent]
