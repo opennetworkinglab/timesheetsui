@@ -25,24 +25,24 @@
                     (updatedEvent)="update('Darpa HR001120C0107', $event)" [userSigned]="userSigned" [id]="dayId+1"></app-hourselect>
 </tr>
 <tr class="pad">
-    <app-hourselect [mins]="sickMins"
-                    (updatedEvent)="update('Sick', $event)" [userSigned]="userSigned" [id]="dayId+2"></app-hourselect>
+    <app-hourselect [mins]="iRDMins"
+                    (updatedEvent)="update('IR_D', $event)" [userSigned]="userSigned" [id]="dayId+2"></app-hourselect>
 </tr>
 <tr class="pad">
-    <app-hourselect [mins]="holidayMins"
-                    (updatedEvent)="update('Holiday', $event)" [userSigned]="userSigned" [id]="dayId+3"></app-hourselect>
+    <app-hourselect [mins]="gAMins"
+                    (updatedEvent)="update('G_A', $event)" [userSigned]="userSigned" [id]="dayId+3"></app-hourselect>
 </tr>
 <tr class="pad">
     <app-hourselect [mins]="ptoMins"
                     (updatedEvent)="update('PTO', $event)" [userSigned]="userSigned" [id]="dayId+4"></app-hourselect>
 </tr>
 <tr >
-    <app-hourselect [mins]="gAMins"
-                    (updatedEvent)="update('G_A', $event)" [userSigned]="userSigned" [id]="dayId+5"></app-hourselect>
+    <app-hourselect [mins]="sickMins"
+                    (updatedEvent)="update('Sick', $event)" [userSigned]="userSigned" [id]="dayId+5"></app-hourselect>
 </tr>
 <tr class="pad">
-    <app-hourselect [mins]="iRDMins"
-                    (updatedEvent)="update('IR_D', $event)" [userSigned]="userSigned" [id]="dayId+6"></app-hourselect>
+    <app-hourselect [mins]="holidayMins"
+                    (updatedEvent)="update('Holiday', $event)" [userSigned]="userSigned" [id]="dayId+6"></app-hourselect>
 </tr>
 <tr class="total">{{totalHours}}</tr>
 </tbody>

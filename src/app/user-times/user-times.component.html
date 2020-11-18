@@ -57,11 +57,11 @@
                             </thead>
                             <tbody>
                             <tr title="Darpa project">Darpa HR001120C0107</tr>
+                            <tr title="Internal Research and Development">IR&D</tr>
+                            <tr title="General and Administrative">G&A</tr>
+                            <tr title="Personal time off">PTO</tr>
                             <tr title="Hours taken due to illness">Sick</tr>
                             <tr title="ONF days and US public holidays">ONF Holiday</tr>
-                            <tr title="Personal time off">PTO</tr>
-                            <tr title="General and Administrative">G&A</tr>
-                            <tr title="Internal Research and Development">IR&D</tr>
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
@@ -79,11 +79,11 @@
                             </thead>
                             <tbody>
                             <tr [ngClass]="darpaWarn?'pad-warn':''">{{darpaMins}}</tr>
+                            <tr>{{iRDMins}}</tr>
+                            <tr>{{gAMins}}</tr>
+                            <tr>{{ptoMins}}</tr>
                             <tr>{{sickMins}}</tr>
                             <tr>{{holidayMins}}</tr>
-                            <tr>{{ptoMins}}</tr>
-                            <tr>{{gAMins}}</tr>
-                            <tr>{{iRDMins}}</tr>
                             <tr [ngClass]="darpaWarn?'pad-warn':'total'">{{totalMins}}</tr>
                         </table>
                     </td>
