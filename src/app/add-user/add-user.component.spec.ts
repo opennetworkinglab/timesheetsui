@@ -14,28 +14,43 @@
  * limitations under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddUserComponent } from './add-user.component';
+import {AddUserComponent} from './add-user.component';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {FormBuilder} from '@angular/forms';
+import {UserService} from '../user.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 describe('AddUserComponent', () => {
-  let component: AddUserComponent;
-  let fixture: ComponentFixture<AddUserComponent>;
+    let component: AddUserComponent;
+    let fixture: ComponentFixture<AddUserComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AddUserComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                HttpClientTestingModule,
+                OAuthModule.forRoot(),
+                MatSnackBarModule
+            ],
+            declarations: [AddUserComponent],
+            providers: [
+                {provide: FormBuilder},
+                {provide: UserService},
+                {provide: MatSnackBar}
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AddUserComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AddUserComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
+    it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

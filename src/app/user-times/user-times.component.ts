@@ -39,8 +39,6 @@ export class UserTimesComponent implements OnInit {
     @Input() weekid: number;
     @Input() year: number;
     @Input() loggedIn: boolean;
-    name: string;
-    supervisorName: string;
 
     nameBtnSign: string = 'Submit Timesheet';
     nameBtnUnsign: string = 'Retract Timesheet';
@@ -78,7 +76,7 @@ export class UserTimesComponent implements OnInit {
         private tsdayssService: TsdaysService,
         private tsweekliesService: TsweeklyService,
         private oauthService: OAuthService,
-        private user: UserService,
+        private userService: UserService,
         @Inject(DOCUMENT) private document: Document,
         private snackBar: MatSnackBar) {
 
@@ -88,13 +86,8 @@ export class UserTimesComponent implements OnInit {
 
             this.email = localStorage.getItem(EMAIL_ATTR);
 
-            user.getUser().subscribe(result => {
-                this.name = result.firstName + ' ' + result.lastName;
+            userService.getUser().subscribe(result => {
                 this.darpaAllocationPct = result.darpaAllocationPct;
-            });
-
-            user.getSupervisor().subscribe(result => {
-                this.supervisorName = result.firstName + ' ' + result.lastName;
             });
 
             const dateTimeNow = Date.now();

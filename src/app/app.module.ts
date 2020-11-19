@@ -46,7 +46,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
-    { path: '', component: AddUserComponent},
+    { path: '', component: UserTimesComponent},
+    { path: 'user/add', component: AddUserComponent}
 ];
 
 @NgModule({

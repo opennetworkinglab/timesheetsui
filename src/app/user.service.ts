@@ -37,6 +37,11 @@ export interface Project {
     priority: number;
 }
 
+export interface AddUserReply {
+    statusCode: number;
+    message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -86,6 +91,14 @@ export class UserService {
         });
 
         user.supervisorEmail = localStorage.getItem(EMAIL_ATTR);
+
+        return this.http.post(this.configUrl + '/createuser', user, {headers: httpHeaders}).pipe(
+            // tslint:disable-next-line:new-parens
+            map((item: AddUserReply) => new class implements AddUserReply {
+                statusCode = item.statusCode;
+                message = item.message;
+            })
+        );
     }
 
     getUser(){

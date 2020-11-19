@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {User, UserService} from '../user.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-user',
@@ -30,11 +31,13 @@ export class AddUserComponent implements OnInit, AfterViewInit {
     nameRegx = /^([a-zA-Z \-]{1,40})$/;
     darpaRegx = /^(100|[0-9][0-9]?)$/;
 
+    addUserBtnDisabled = false;
     selected: boolean;
 
     constructor(
         private formBuilder: FormBuilder,
-        private userService: UserService
+        private userService: UserService,
+        private snackBar: MatSnackBar
     ) { }
 
     ngOnInit() {
@@ -43,30 +46,42 @@ export class AddUserComponent implements OnInit, AfterViewInit {
             firstName: [null, [Validators.required, Validators.pattern(this.nameRegx)]],
             lastName: [null, [Validators.required, Validators.pattern(this.nameRegx)]],
             darpaAllocationPct: [null, [Validators.required, Validators.pattern(this.darpaRegx)]],
-            isSupervisor: [null, [Validators.required]],
+        });
+    }
+
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            this.selected = false;
         });
     }
 
     submit() {
+
         if (!this.loginForm.valid) {
             return;
         }
+
         const user: User = {
             email: this.loginForm.value.email,
             firstName: this.loginForm.value.firstName,
             lastName: this.loginForm.value.lastName,
             darpaAllocationPct: this.loginForm.value.darpaAllocationPct,
             supervisorEmail: undefined,
-            isSupervisor: true,
+            isSupervisor: this.selected,
             isActive: true,
             projects: undefined
         };
-        this.userService.createUser(user);
-    }
+        this.addUserBtnDisabled = true;
 
-    ngAfterViewInit(): void {
-        setTimeout(() => {
-            this.selected = false;
+        this.userService.createUser(user).subscribe(result => {
+
+            this.snackBar.open(result.message, 'Dismiss', {duration: 5000});
+            this.addUserBtnDisabled = false;
+        },
+        error => {
+
+            this.snackBar.open(error.error.message, 'Dismiss', {duration: 5000});
+            this.addUserBtnDisabled = false;
         });
     }
 }
