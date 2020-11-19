@@ -38,6 +38,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
@@ -69,7 +70,8 @@ const routes: Routes = [
         MatButtonModule,
         MatListModule,
         MatIconModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTooltipModule
     ],
     providers: [],
     bootstrap: [AppComponent]
