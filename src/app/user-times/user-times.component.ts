@@ -238,13 +238,13 @@ export class UserTimesComponent implements OnInit {
         if (this.signBtnName === this.nameBtnSign) {
             userSigned = true;
             this.signBtnName = this.nameBtnUnsign;
+            this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 10000});
         }
         else {
             this.signBtnName = this.nameBtnSign;
 
         }
 
-        this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 3000});
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
             (result) => {
 
