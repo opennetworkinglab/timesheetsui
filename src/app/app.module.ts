@@ -38,7 +38,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
