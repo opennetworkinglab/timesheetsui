@@ -18,15 +18,13 @@
 
     <div class="mat-typography">
 
-        <div style="padding-right: 20px; display: inline-block">
-            <img src="assets/images/ONF-logo.png">
-        </div>
-        <div style="padding-right: 20px; padding-top: 20px; display: inline-block">
-            <h3 class="mat-h2" style="padding-right: 20px">{{name}}</h3>
-<!--            <h3 style="padding-right: 20px">Supervisor: {{name}}</h3>-->
+        <div style="padding-top: 20px">
+            <img src="assets/images/ONF-logo.png" style="float: left; padding-right: 20px">
+            <h3 class="mat-h2" style="padding-top: 13px; margin-bottom: 5px">{{name}}</h3>
+            <h3 class="mat-h2">Supervisor: {{supervisorName}}</h3>
         </div>
 
-        <div class="center custom-theme font-size-weekchooser">
+        <div class="center custom-theme font-size-weekchooser" style="padding-top: 100px; padding-left: 20px; padding-right: 20px">
             <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
             Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date: 'MMM d, y':'UTC'}}
                 - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
@@ -58,10 +56,10 @@
                             <tbody>
                             <tr title="Darpa project">Darpa HR001120C0107</tr>
                             <tr title="Hours taken due to illness">Sick</tr>
-                            <tr title="Hours taken for relaxation">Holiday</tr>
+                            <tr title="ONF days and US public holidays">ONF Holiday</tr>
                             <tr title="Personal time off">PTO</tr>
                             <tr title="General and Administrative">G&A</tr>
-                            <tr title="Independent Research and Development">IR&D</tr>
+                            <tr title="Internal Research and Development">IR&D</tr>
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
@@ -91,9 +89,9 @@
                 </tbody>
             </table>
         </div>
-        <div *ngIf="!showPreview" class="custom-theme center">
+        <div *ngIf="!showPreview" class="custom-theme center" style="padding-top: 60px">
             <button (click)="sign()" [disabled]="signBtnDisabled" color="accent" class="font-size-btn"
-                    mat-raised-button>{{signBtnName}}</button>
+                    mat-raised-button>{{signBtnName}}</button><mat-icon color="primary" matTooltip="Upon completing your weekly timesheet, press the button below to submit it to DocuSign for your signature.  You will be directed to DocuSign, please sign your timesheet there" matTooltipPosition="right">info</mat-icon>
         </div>
     </div>
 </div>

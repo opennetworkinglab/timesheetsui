@@ -50,6 +50,32 @@ export class UserService {
                 private oAuthService: OAuthService) {
     }
 
+    getSupervisor() {
+
+        console.log('Getting Supervisor info');
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get<User>(this.configUrl + '/supervisor', {headers: httpHeaders}).pipe(
+            // tslint:disable-next-line:new-parens
+            map((item: User) => new class implements User {
+
+                email: string = item.email;
+                firstName: string = item.firstName;
+                lastName: string = item.lastName;
+                supervisorEmail: string = item.supervisorEmail;
+                darpaAllocationPct: number = item.darpaAllocationPct;
+                isSupervisor: boolean = item.isSupervisor;
+                isActive: boolean = item.isActive;
+                projects: Project[] = item.projects;
+            })
+        );
+    }
+
     createUser(user: User){
         console.log('Creating User info');
 

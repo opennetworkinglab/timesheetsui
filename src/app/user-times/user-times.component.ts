@@ -40,6 +40,7 @@ export class UserTimesComponent implements OnInit {
     @Input() year: number;
     @Input() loggedIn: boolean;
     name: string;
+    supervisorName: string;
 
     nameBtnSign: string = 'Submit Timesheet';
     nameBtnUnsign: string = 'Retract Timesheet';
@@ -48,7 +49,7 @@ export class UserTimesComponent implements OnInit {
     showPreview: boolean = false;
     signBtnName: string = this.nameBtnSign;
     signBtnDisabled: boolean = false;
-    supervisor: boolean = false;
+    isSupervisor: boolean = false;
     loadingProgress: boolean = false;
 
     title = 'timesheetsui';
@@ -90,6 +91,10 @@ export class UserTimesComponent implements OnInit {
             user.getUser().subscribe(result => {
                 this.name = result.firstName + ' ' + result.lastName;
                 this.darpaAllocationPct = result.darpaAllocationPct;
+            });
+
+            user.getSupervisor().subscribe(result => {
+                this.supervisorName = result.firstName + ' ' + result.lastName;
             });
 
             const dateTimeNow = Date.now();
@@ -238,13 +243,13 @@ export class UserTimesComponent implements OnInit {
         if (this.signBtnName === this.nameBtnSign) {
             userSigned = true;
             this.signBtnName = this.nameBtnUnsign;
+            this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 10000});
         }
         else {
             this.signBtnName = this.nameBtnSign;
 
         }
 
-        this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 3000});
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
             (result) => {
 

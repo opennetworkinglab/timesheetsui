@@ -43,6 +43,7 @@ import {MatInputModule} from '@angular/material/input';
 import { AddUserComponent } from './add-user/add-user.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     { path: '', component: AddUserComponent},
@@ -80,7 +81,8 @@ const routes: Routes = [
         MatInputModule,
         ReactiveFormsModule,
         MatRadioModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTooltipModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -91,7 +91,7 @@ export class TsdaysService {
             { headers: httpHeaders })
             .subscribe(
                 result => {
-                    console.log(result);
+                    // console.log(result);
                 },
                 error => {
                     console.log(error);
