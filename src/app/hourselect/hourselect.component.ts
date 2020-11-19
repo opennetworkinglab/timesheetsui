@@ -47,12 +47,17 @@ export class HourselectComponent implements OnInit, AfterViewInit{
         const select = $('#' + this.id);
         $(select).mousedown(() => {
 
-            const option = select.find('option:contains(\'8.00\')');
-            const optionTop = option.offset().top;
-            const selectTop = select.offset().top;
-            select.scrollTop(select.scrollTop() + (optionTop - selectTop));
-            option.prop('selected', true);
-            this.updatedEvent.emit(480);
+            // Only jumps to 8 when there is no value selected
+            if (this.mins === 0) {
+
+                const option = select.find('option:contains(\'8.00\')');
+                const optionTop = option.offset().top;
+                const selectTop = select.offset().top;
+                select.scrollTop(select.scrollTop() + (optionTop - selectTop));
+                option.prop('selected', true);
+
+                this.updatedEvent.emit(480);
+            }
         });
     }
 }
