@@ -27,8 +27,8 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
     loginForm: FormGroup;
     emailRegx = /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(opennetworking)\.org$/;
-    nameRegx = /^([a-zA-Z]+)$/;
-    darpaRegx = /^(100|[1-9][0-9]?)$/;
+    nameRegx = /^([a-zA-Z \-]{1,40})$/;
+    darpaRegx = /^(100|[0-9][0-9]?)$/;
 
     selected: boolean;
 

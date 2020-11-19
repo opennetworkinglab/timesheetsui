@@ -19,7 +19,7 @@ import {TIMESHEETS_REST_URL} from '../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {map} from 'rxjs/operators';
-import {EMAIL_ATTR} from "./app.component";
+import {EMAIL_ATTR} from './app.component';
 
 export interface User {
     email: string;
@@ -59,7 +59,7 @@ export class UserService {
             Authorization: token
         });
 
-        // user.supervisorEmail = localStorage.getItem(EMAIL_ATTR);
+        user.supervisorEmail = localStorage.getItem(EMAIL_ATTR);
     }
 
     getUser(){
