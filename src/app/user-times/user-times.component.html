@@ -89,12 +89,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="center" style="padding-top: 80px">
-            <h3 class="mat-h2 center" style="width: 400px; text-align: center; padding-left: 10px; padding-right: 10px; font-size: 16px">Upon completing your weekly timesheet, press the button below to submit it to DocuSign for your signature.  You will be directed to DocuSign, please sign your timesheet there</h3>
-        </div>
         <div *ngIf="!showPreview" class="custom-theme center" style="padding-top: 60px">
             <button (click)="sign()" [disabled]="signBtnDisabled" color="accent" class="font-size-btn"
-                    mat-raised-button>{{signBtnName}}</button>
+                    mat-raised-button>{{signBtnName}}</button><mat-icon color="primary" matTooltip="Upon completing your weekly timesheet, press the button below to submit it to DocuSign for your signature.  You will be directed to DocuSign, please sign your timesheet there" matTooltipPosition="right">info</mat-icon>
         </div>
     </div>
 </div>
