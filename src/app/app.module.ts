@@ -41,8 +41,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { AddUserComponent } from './add-user/add-user.component';
-import {MatRadioModule} from "@angular/material/radio";
-import {MatSelectModule} from "@angular/material/select";
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 const routes: Routes = [
     { path: '', component: AddUserComponent},
