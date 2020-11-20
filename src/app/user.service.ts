@@ -18,7 +18,8 @@ import { Injectable } from '@angular/core';
 import {TIMESHEETS_REST_URL} from '../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {OAuthService} from 'angular-oauth2-oidc';
-import {map} from 'rxjs/operators';
+import {map, mergeMap} from 'rxjs/operators';
+import {from} from 'rxjs';
 
 export interface User {
     email: string;
@@ -84,6 +85,33 @@ export class UserService {
         });
 
         return this.http.get<User>(this.configUrl, {headers: httpHeaders}).pipe(
+            // tslint:disable-next-line:new-parens
+            map((item: User) => new class implements User {
+
+                email: string = item.email;
+                firstName: string = item.firstName;
+                lastName: string = item.lastName;
+                supervisorEmail: string = item.supervisorEmail;
+                darpaAllocationPct: number = item.darpaAllocationPct;
+                isSupervisor: boolean = item.isSupervisor;
+                isActive: boolean = item.isActive;
+                projects: Project[] = item.projects;
+            })
+        );
+    }
+
+    getUsers() {
+
+        console.log('Getting Users info');
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get<User[]>(this.configUrl + '/users', {headers: httpHeaders}).pipe(
+            mergeMap((items: User[]) => from(items)),
             // tslint:disable-next-line:new-parens
             map((item: User) => new class implements User {
 

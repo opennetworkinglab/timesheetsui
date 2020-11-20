@@ -39,9 +39,17 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { UserListComponent } from './user-list/user-list.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const routes: Routes = [
-    { path: '', component: UserTimesComponent},
+    // { path: '', component: UserTimesComponent},
+    { path: '', component: UserListComponent},
 ];
 
 @NgModule({
@@ -50,7 +58,8 @@ const routes: Routes = [
         DayComponent,
         HourselectComponent,
         UserTimesComponent,
-        NavigationComponent
+        NavigationComponent,
+        UserListComponent
     ],
     imports: [
         BrowserModule,
@@ -71,7 +80,13 @@ const routes: Routes = [
         MatListModule,
         MatIconModule,
         MatSnackBarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDialogModule
     ],
     providers: [],
     bootstrap: [AppComponent]
