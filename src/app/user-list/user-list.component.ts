@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from '../user.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
+import {AddUserComponent} from './add-user/add-user.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-user-list',
@@ -30,7 +32,7 @@ export class UserListComponent implements OnInit {
 
     listData: MatTableDataSource<User>;
     userArray = [];
-    displayedColumns = ['email', 'lastName', 'darpaAllocationPct', 'isSupervisor', 'isActive', 'actions'];
+    displayedColumns = ['email', 'fullName', 'darpaAllocationPct', 'isSupervisor', 'isActive', 'actions'];
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     searchKey: string;
@@ -38,7 +40,9 @@ export class UserListComponent implements OnInit {
     hidden = false;
 
     constructor(private userService: UserService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private snackBar: MatSnackBar,
+                private changeDetectorRefs: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
@@ -50,16 +54,30 @@ export class UserListComponent implements OnInit {
 
                 this.userArray.push(item);
             },
-            (error) => {
+            () => {
             },
             () => {
+                // Testing code
+                // tslint:disable-next-line:new-parens
+                // const user = new class implements User{
+                //     darpaAllocationPct = 50;
+                //     email = 'gohj@opennetworking.org';
+                //     firstName = 'Bob';
+                //     isActive = true;
+                //     isSupervisor: false;
+                //     lastName = 'James';
+                //     projects = undefined;
+                //     supervisorEmail = undefined;
+                // };
+                // this.userArray.push(user);
+
                 this.listData = new MatTableDataSource<User>(this.userArray);
                 this.listData.sort = this.sort;
                 this.listData.paginator = this.paginator;
             });
     }
 
-    onSearchClear(){
+    onSearchClear() {
         this.searchKey = '';
         this.applyFilter();
     }
@@ -68,8 +86,70 @@ export class UserListComponent implements OnInit {
         this.listData.filter = this.searchKey.trim().toLowerCase();
     }
 
-    onCreate(){
-        // this.dialog.open()
+    onCreate() {
+
+        const dialog = this.dialog.open(AddUserComponent);
+        dialog.afterClosed().subscribe(result => {
+            this.userArray = [];
+            this.userService.getUsers().subscribe((item: User) => {
+                    setTimeout(() => {
+                        this.hidden = true;
+                    });
+
+                    this.userArray.push(item);
+                },
+                () => {
+                },
+                () => {
+                    this.listData = new MatTableDataSource<User>(this.userArray);
+                    this.listData.sort = this.sort;
+                    this.listData.paginator = this.paginator;
+                    this.changeDetectorRefs.detectChanges();
+                });
+        });
+    }
+
+    onEdit(row) {
+
+        this.userService.setEditUser(row);
+
+        const dialog = this.dialog.open(AddUserComponent);
+        dialog.afterClosed().subscribe(result => {
+            this.userArray = [];
+            this.userService.getUsers().subscribe((item: User) => {
+                    setTimeout(() => {
+                        this.hidden = true;
+                    });
+
+                    this.userArray.push(item);
+                },
+                () => {
+                },
+                () => {
+                    this.listData = new MatTableDataSource<User>(this.userArray);
+                    this.listData.sort = this.sort;
+                    this.listData.paginator = this.paginator;
+                    this.changeDetectorRefs.detectChanges();
+                    this.userService.setEditUser(undefined);
+                });
+        });
+    }
+
+    updateUser(row, event) {
+
+        const body = {
+            isActive: event.checked,
+        };
+
+        this.userService.updateUser(row.email, body).subscribe(result => {
+            if (body.isActive) {
+                this.snackBar.open('User is active', 'Dismiss', {duration: 5000});
+            } else {
+                this.snackBar.open('User is no longer active', 'Dismiss', {duration: 5000});
+            }
+        }, error => {
+            console.log(error);
+        });
     }
 }
 

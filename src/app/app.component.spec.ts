@@ -16,13 +16,9 @@
 
 import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {TsWeek, TsweeksService} from './tsweeks.service';
-import {Observable, Subscriber} from 'rxjs';
 import {HourselectComponent} from './hourselect/hourselect.component';
 import {DayComponent} from './day/day.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
-import {AuthInterceptor} from './auth-interceptor.service';
-import {Meta} from '@angular/platform-browser';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 

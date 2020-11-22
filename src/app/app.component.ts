@@ -43,8 +43,12 @@ export class AppComponent implements OnInit {
 
             this.oauthService.configure(authConfig);
 
-            const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
+            if (this.oauthService.hasValidAccessToken()) {
+                this.ready = true;
+                return;
+            }
 
+            const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
             if (loggedIn) {
 
                 localStorage.setItem(EMAIL_ATTR, this.oauthService.getIdentityClaims()[EMAIL_ATTR]);
@@ -62,9 +66,10 @@ export class AppComponent implements OnInit {
                     this.router.navigate(['']).then(() => {
                         console.log('Redirected');
                     });
+
                 },
                 error => {
-                    console.log('Not part of timesheets');
+                    console.log('You are not part of Timesheets. Contact your supervisor');
                 });
             }
         }

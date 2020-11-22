@@ -329,7 +329,6 @@ export class UserTimesComponent implements OnInit {
 
     resetHours(){
         this.weekHours = 40;
-        this.darpaAllocationPct = 100;
     }
 
     checkHoursAllocated(){

@@ -20,6 +20,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {map, mergeMap} from 'rxjs/operators';
 import {from} from 'rxjs';
+import {EMAIL_ATTR} from './app.component';
 
 export interface User {
     email: string;
@@ -37,15 +38,61 @@ export interface Project {
     priority: number;
 }
 
+export interface AddUserReply {
+    statusCode: number;
+    message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
     configUrl = TIMESHEETS_REST_URL + '/auth';
+    editUser: User = undefined;
 
     constructor(private http: HttpClient,
                 private oAuthService: OAuthService) {
+    }
+
+    createUser(user: User){
+
+        console.log('Creating User info');
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        user.supervisorEmail = localStorage.getItem(EMAIL_ATTR);
+
+        return this.http.post(this.configUrl + '/createuser', user, {headers: httpHeaders}).pipe(
+            // tslint:disable-next-line:new-parens
+            map((item: AddUserReply) => new class implements AddUserReply {
+                statusCode = item.statusCode;
+                message = item.message;
+            })
+        );
+    }
+
+    updateUser(email, body){
+
+        console.log('Updating User info');
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+;
+        return this.http.patch(this.configUrl + '/' + email, body, {headers: httpHeaders}).pipe(
+            // tslint:disable-next-line:new-parens
+            map((item: AddUserReply) => new class implements AddUserReply {
+                statusCode = item.statusCode;
+                message = item.message;
+            })
+        );
     }
 
     getSupervisor() {
@@ -125,5 +172,13 @@ export class UserService {
                 projects: Project[] = item.projects;
             })
         );
+    }
+
+    setEditUser(user: User){
+        this.editUser = user;
+    }
+
+    getEditUser(){
+        return this.editUser;
     }
 }

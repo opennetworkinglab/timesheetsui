@@ -102,6 +102,7 @@ $md-warn: (
 
 $custom-typography: mat-typography-config(
     $font-family: 'Open Sans',
+    $input: mat-typography-level(inherit, 1.4, inherit),
 );
 
 $custom-primary: mat-palette($md-primary, 500);

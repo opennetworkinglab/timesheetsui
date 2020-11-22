@@ -20,7 +20,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {DayComponent} from './day/day.component';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HourselectComponent} from './hourselect/hourselect.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {RouterModule, Routes} from '@angular/router';
@@ -46,10 +46,13 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
+import { AddUserComponent } from './user-list/add-user/add-user.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const routes: Routes = [
-    // { path: '', component: UserTimesComponent},
-    { path: '', component: UserListComponent},
+    { path: '', component: UserTimesComponent},
+    { path: 'users', component: UserListComponent},
 ];
 
 @NgModule({
@@ -59,7 +62,8 @@ const routes: Routes = [
         HourselectComponent,
         UserTimesComponent,
         NavigationComponent,
-        UserListComponent
+        UserListComponent,
+        AddUserComponent
     ],
     imports: [
         BrowserModule,
@@ -86,10 +90,13 @@ const routes: Routes = [
         MatSortModule,
         MatFormFieldModule,
         MatInputModule,
-        MatDialogModule
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatSlideToggleModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 
 export class AppModule {}
