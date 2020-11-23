@@ -50,7 +50,6 @@ export class UserTimesComponent implements OnInit{
     isSupervisor: boolean = false;
     loadingProgress: boolean = false;
 
-    title = 'timesheetsui';
     weeks: Map<number, TsWeek> = new Map();
     days: Map<number, TsDay> = new Map();
     weekly: TsWeekly;
