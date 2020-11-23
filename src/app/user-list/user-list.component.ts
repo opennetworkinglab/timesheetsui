@@ -30,9 +30,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class UserListComponent implements OnInit {
 
+    email: string;
     listData: MatTableDataSource<User>;
     userArray = [];
-    displayedColumns = ['email', 'fullName', 'darpaAllocationPct', 'isSupervisor', 'isActive', 'actions'];
+    displayedColumns = ['email', 'lastName', 'darpaAllocationPct', 'isSupervisor', 'isActive', 'supervisorEmail', 'actions'];
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     searchKey: string;
@@ -46,6 +47,10 @@ export class UserListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        this.userService.getUser().subscribe(user => {
+           this.email = user.email;
+        });
 
         this.userService.getUsers().subscribe((item: User) => {
                 setTimeout(() => {

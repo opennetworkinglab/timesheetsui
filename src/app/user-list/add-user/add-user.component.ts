@@ -19,6 +19,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User, UserService} from '../../user.service';
 import {MatDialogRef} from '@angular/material/dialog';
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
     selector: 'app-add-user',
@@ -78,6 +79,10 @@ export class AddUserComponent implements OnInit, AfterViewInit {
             }
 
         });
+    }
+
+    onIsSupervisorSelect(event: MatSlideToggleChange){
+        this.isSupervisorSelect = event.checked;
     }
 
     submit() {

@@ -22,3 +22,6 @@
 .form-field {
     display: block;
 }
+::ng-deep .mat-form-field-underline {
+    display: none;
+}

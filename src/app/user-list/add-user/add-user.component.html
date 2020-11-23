@@ -55,12 +55,15 @@
                 <span *ngIf="loginForm.controls.darpaAllocationPct.errors.pattern">This field is invalid.</span>
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="form-field" appearance="outline">
+        <mat-form-field floatLabel="always" appearance="standard">
             <mat-label> Is a Supervisor
             </mat-label>
-            <mat-select placeholder="Select" [(value)]="isSupervisorSelect">
-                <mat-option [value]="false">False</mat-option>
-                <mat-option [value]="true">True</mat-option>
+            <mat-slide-toggle color="accent"
+                              class="example-margin"
+                              (change)="onIsSupervisorSelect($event)"
+                              [checked]="isSupervisorSelect">
+            </mat-slide-toggle>
+            <mat-select [hidden]="true">
             </mat-select>
         </mat-form-field>
         <button mat-raised-button color="accent" type="submit" [disabled]="addUserBtnDisabled">Submit</button>
