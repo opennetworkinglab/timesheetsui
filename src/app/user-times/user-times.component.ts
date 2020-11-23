@@ -34,17 +34,15 @@ const msInDay = 24 * 60 * 60 * 1000;
   templateUrl: './user-times.component.html',
   styleUrls: ['./user-times.component.css']
 })
-export class UserTimesComponent implements OnInit {
+export class UserTimesComponent implements OnInit{
     @Input() email: string;
     @Input() weekid: number;
     @Input() year: number;
     @Input() loggedIn: boolean;
-    name: string;
-    supervisorName: string;
 
     nameBtnSign: string = 'Submit Timesheet';
     nameBtnUnsign: string = 'Retract Timesheet';
-    userSigned: boolean = false;
+    userSigned: boolean = true;
 
     showPreview: boolean = false;
     signBtnName: string = this.nameBtnSign;
@@ -63,7 +61,7 @@ export class UserTimesComponent implements OnInit {
     remainingWeekHours: number = this.weekHours;
     darpaAllocationPct: number = 100;
     remainingDarpaHours: number = this.weekHours * (this.darpaAllocationPct / 100);
-    darpaWarn: boolean = true;
+    darpaWarn: boolean = false;
 
     darpaMins: number = 0;
     sickMins: number = 0;
@@ -89,12 +87,9 @@ export class UserTimesComponent implements OnInit {
             this.email = localStorage.getItem(EMAIL_ATTR);
 
             user.getUser().subscribe(result => {
-                this.name = result.firstName + ' ' + result.lastName;
-                this.darpaAllocationPct = result.darpaAllocationPct;
-            });
 
-            user.getSupervisor().subscribe(result => {
-                this.supervisorName = result.firstName + ' ' + result.lastName;
+                this.darpaAllocationPct = result.darpaAllocationPct;
+
             });
 
             const dateTimeNow = Date.now();
@@ -184,7 +179,7 @@ export class UserTimesComponent implements OnInit {
                     if (this.weekly.supervisorSigned){
                         this.showPreview = true;
                     }
-                    else if (this.weekly.userSigned != null && this.weekly.userSigned.length > 0){
+                    else if ((this.weekly.userSigned != null && this.weekly.userSigned.length > 0)){
                         this.userSigned = true;
                         this.signBtnName = this.nameBtnUnsign;
                     }
@@ -211,6 +206,12 @@ export class UserTimesComponent implements OnInit {
                     this.showPreview = false;
                     this.signBtnName  = this.nameBtnSign;
 
+                }
+
+                if (this.darpaAllocationPct === 0){
+                    this.userSigned = true;
+                    this.darpaWarn = false;
+                    this.signBtnDisabled = true;
                 }
             }
         );
@@ -241,7 +242,10 @@ export class UserTimesComponent implements OnInit {
         let userSigned = false;
 
         if (this.signBtnName === this.nameBtnSign) {
+
             userSigned = true;
+
+            this.userSigned = true;
             this.signBtnName = this.nameBtnUnsign;
             this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 10000});
         }
@@ -329,24 +333,23 @@ export class UserTimesComponent implements OnInit {
 
     resetHours(){
         this.weekHours = 40;
-        this.darpaAllocationPct = 100;
     }
 
-    checkHoursAllocated(){
+    checkHoursAllocated() {
 
-        this.remainingDarpaHours = this.weekHours * (this.darpaAllocationPct / 100) - this.darpaMins;
-        const leeway = (this.weekHours * (this.darpaAllocationPct / 100)) * 0.10;
+        if (this.darpaAllocationPct > 0) {
+            this.remainingDarpaHours = this.weekHours * (this.darpaAllocationPct / 100) - this.darpaMins;
+            const leeway = (this.weekHours * (this.darpaAllocationPct / 100)) * 0.10;
 
-        const darpaHoursCompleted = this.weekHours - this.remainingDarpaHours;
-        const remainingMinusLeeway = this.weekHours * (this.darpaAllocationPct / 100) - leeway;
-        const remainingPlusLeeway = this.weekHours * (this.darpaAllocationPct / 100) + leeway;
+            const darpaHoursCompleted = this.weekHours - this.remainingDarpaHours;
+            const remainingMinusLeeway = this.weekHours * (this.darpaAllocationPct / 100) - leeway;
+            const remainingPlusLeeway = this.weekHours * (this.darpaAllocationPct / 100) + leeway;
 
-        if (darpaHoursCompleted >= remainingMinusLeeway && darpaHoursCompleted <= remainingPlusLeeway){
-            this.darpaWarn = false;
-        }
-        else if (darpaHoursCompleted < remainingMinusLeeway || darpaHoursCompleted > remainingPlusLeeway) {
-            this.darpaWarn = true;
+            if (darpaHoursCompleted >= remainingMinusLeeway && darpaHoursCompleted <= remainingPlusLeeway) {
+                this.darpaWarn = false;
+            } else if (darpaHoursCompleted < remainingMinusLeeway || darpaHoursCompleted > remainingPlusLeeway) {
+                this.darpaWarn = true;
+            }
         }
     }
-
 }

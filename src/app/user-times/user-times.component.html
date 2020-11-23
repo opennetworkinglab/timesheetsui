@@ -18,13 +18,7 @@
 
     <div class="mat-typography">
 
-        <div style="padding-top: 20px">
-            <img src="assets/images/ONF-logo.png" style="float: left; padding-right: 20px">
-            <h3 class="mat-h2" style="padding-top: 13px; margin-bottom: 5px">{{name}}</h3>
-            <h3 class="mat-h2">Supervisor: {{supervisorName}}</h3>
-        </div>
-
-        <div class="center custom-theme font-size-weekchooser" style="padding-top: 100px; padding-left: 20px; padding-right: 20px">
+        <div class="center custom-theme font-size-weekchooser" style="padding-top: 50px; padding-left: 20px; padding-right: 20px">
             <button mat-mini-fab (click)="changeWeek(-1); changeWeekAlreadySigned(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
             Week: {{currentWeekId}} || {{weeks.get(currentWeekId)?.begin | date: 'MMM d, y':'UTC'}}
                 - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
@@ -48,18 +42,18 @@
             <table class="table table-responsive">
                 <tbody>
                 <tr>
-                    <td>
+                    <td style="min-width: 180px; cursor: default">
                         <table>
                             <thead>
-                            <th>Day-Date</th>
+                            <th>Day - Date</th>
                             </thead>
                             <tbody>
-                            <tr title="Darpa project">Darpa HR001120C0107</tr>
-                            <tr title="Hours taken due to illness">Sick</tr>
-                            <tr title="ONF days and US public holidays">ONF Holiday</tr>
-                            <tr title="Personal time off">PTO</tr>
-                            <tr title="General and Administrative">G&A</tr>
+                            <tr title="DARPA Project">DARPA HR001120C0107 ({{darpaAllocationPct}}%)</tr>
                             <tr title="Internal Research and Development">IR&D</tr>
+                            <tr title="General and Administrative">G&A</tr>
+                            <tr title="Paid time off">PTO</tr>
+                            <tr title="Medical Leave">Sick</tr>
+                            <tr title="US Public Holiday or ONF Day Off">ONF Holiday</tr>
                         </table>
                     </td>
                     <td *ngFor="let d of days | keyvalue">
@@ -77,11 +71,11 @@
                             </thead>
                             <tbody>
                             <tr [ngClass]="darpaWarn?'pad-warn':''">{{darpaMins}}</tr>
+                            <tr>{{iRDMins}}</tr>
+                            <tr>{{gAMins}}</tr>
+                            <tr>{{ptoMins}}</tr>
                             <tr>{{sickMins}}</tr>
                             <tr>{{holidayMins}}</tr>
-                            <tr>{{ptoMins}}</tr>
-                            <tr>{{gAMins}}</tr>
-                            <tr>{{iRDMins}}</tr>
                             <tr [ngClass]="darpaWarn?'pad-warn':'total'">{{totalMins}}</tr>
                         </table>
                     </td>

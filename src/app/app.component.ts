@@ -31,6 +31,8 @@ export const EMAIL_ATTR = 'email';
 export class AppComponent implements OnInit {
 
     ready: boolean = false;
+    name: string;
+    supervisorName: string;
 
     constructor(private oauthService: OAuthService,
                 private router: Router,
@@ -55,9 +57,14 @@ export class AppComponent implements OnInit {
                     'as', localStorage.getItem(USERNAME_ATTR),
                     '(' + localStorage.getItem(EMAIL_ATTR) + ')');
 
-                this.userService.getUser().subscribe(result => {
+                this.userService.getUser().subscribe(user => {
 
                     this.ready = true;
+                    this.name = user.firstName + ' ' + user.lastName;
+
+                    this.userService.getSupervisor().subscribe(supervisor => {
+                        this.supervisorName = supervisor.firstName + ' ' + supervisor.lastName;
+                    });
 
                     this.router.navigate(['']).then(() => {
                         console.log('Redirected');
