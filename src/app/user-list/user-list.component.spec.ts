@@ -14,28 +14,47 @@
  * limitations under the License.
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UserListComponent } from './user-list.component';
+import {UserListComponent} from './user-list.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {ChangeDetectorRef} from '@angular/core';
+import {UserService} from '../user.service';
+import {OAuthModule} from 'angular-oauth2-oidc';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('UserListComponent', () => {
-  let component: UserListComponent;
-  let fixture: ComponentFixture<UserListComponent>;
+    let component: UserListComponent;
+    let fixture: ComponentFixture<UserListComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserListComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [UserListComponent],
+            imports: [
+                OAuthModule.forRoot(),
+                HttpClientTestingModule,
+                MatIconModule,
+                MatDialogModule
+            ],
+            providers: [
+                {provide: UserService},
+                {provide: MatDialog},
+                {provide: MatSnackBar},
+                {provide: ChangeDetectorRef}
+            ]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(UserListComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -22,8 +22,12 @@ import {FormBuilder} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {UserService} from '../../user.service';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
 describe('AddUserComponent', () => {
+    const mockDialogRef = {
+        close: jasmine.createSpy('close')
+    };
     let component: AddUserComponent;
     let fixture: ComponentFixture<AddUserComponent>;
 
@@ -32,13 +36,15 @@ describe('AddUserComponent', () => {
             imports: [
                 HttpClientTestingModule,
                 OAuthModule.forRoot(),
-                MatSnackBarModule
+                MatSnackBarModule,
+                MatDialogModule
             ],
             declarations: [AddUserComponent],
             providers: [
                 {provide: FormBuilder},
                 {provide: UserService},
-                {provide: MatSnackBar}
+                {provide: MatSnackBar},
+                {provide: MatDialogRef, useValue: mockDialogRef}
             ]
         })
             .compileComponents();

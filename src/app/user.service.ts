@@ -85,7 +85,7 @@ export class UserService {
             'Content-Type': 'application/json',
             Authorization: token
         });
-;
+
         return this.http.patch(this.configUrl + '/' + email, body, {headers: httpHeaders}).pipe(
             // tslint:disable-next-line:new-parens
             map((item: AddUserReply) => new class implements AddUserReply {

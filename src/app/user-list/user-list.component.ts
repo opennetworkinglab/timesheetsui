@@ -94,7 +94,7 @@ export class UserListComponent implements OnInit {
     onCreate() {
 
         const dialog = this.dialog.open(AddUserComponent);
-        dialog.afterClosed().subscribe(result => {
+        dialog.afterClosed().subscribe(() => {
             this.userArray = [];
             this.userService.getUsers().subscribe((item: User) => {
                     setTimeout(() => {
@@ -119,7 +119,7 @@ export class UserListComponent implements OnInit {
         this.userService.setEditUser(row);
 
         const dialog = this.dialog.open(AddUserComponent);
-        dialog.afterClosed().subscribe(result => {
+        dialog.afterClosed().subscribe(() => {
             this.userArray = [];
             this.userService.getUsers().subscribe((item: User) => {
                     setTimeout(() => {
@@ -146,7 +146,7 @@ export class UserListComponent implements OnInit {
             isActive: event.checked,
         };
 
-        this.userService.updateUser(row.email, body).subscribe(result => {
+        this.userService.updateUser(row.email, body).subscribe(() => {
             if (body.isActive) {
                 this.snackBar.open('User is active', 'Dismiss', {duration: 5000});
             } else {
