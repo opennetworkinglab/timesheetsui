@@ -31,6 +31,8 @@ export const EMAIL_ATTR = 'email';
 export class AppComponent implements OnInit {
 
     ready: boolean = false;
+    name: string;
+    supervisorName: string;
 
     constructor(private oauthService: OAuthService,
                 private router: Router,
@@ -39,13 +41,14 @@ export class AppComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
 
+        let validToken = false;
+
         if (authConfig.issuer !== undefined) {
 
             this.oauthService.configure(authConfig);
 
             if (this.oauthService.hasValidAccessToken()) {
-                this.ready = true;
-                return;
+                validToken = true;
             }
 
             const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
@@ -59,13 +62,20 @@ export class AppComponent implements OnInit {
                     'as', localStorage.getItem(USERNAME_ATTR),
                     '(' + localStorage.getItem(EMAIL_ATTR) + ')');
 
-                this.userService.getUser().subscribe(result => {
+                this.userService.getUser().subscribe(user => {
 
                     this.ready = true;
+                    this.name = user.firstName + ' ' + user.lastName;
 
-                    this.router.navigate(['']).then(() => {
-                        console.log('Redirected');
+                    this.userService.getSupervisor().subscribe(supervisor => {
+                        this.supervisorName = supervisor.firstName + ' ' + supervisor.lastName;
                     });
+
+                    if (!validToken) {
+                        this.router.navigate(['']).then(() => {
+                            console.log('Redirected');
+                        });
+                    }
 
                 },
                 error => {

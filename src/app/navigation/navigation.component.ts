@@ -56,16 +56,14 @@ export class NavigationComponent implements OnInit {
         });
     }
 
-    logout() {
+    async logout() {
 
-        this.oAuthService.logOut();
+        await this.oAuthService.logOut();
 
         try {
 
-            this.router.navigate(['']).then(() => {
+            document.location.reload();
 
-                document.location.reload();
-            });
         } catch (e) {
         }
     }
