@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
             }
 
             const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
+
             if (loggedIn) {
 
                 localStorage.setItem(EMAIL_ATTR, this.oauthService.getIdentityClaims()[EMAIL_ATTR]);
