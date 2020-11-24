@@ -56,8 +56,11 @@ export class NavigationComponent implements OnInit {
         });
     }
 
-    async logout() {
+    logout() {
+        this.oAuthService.logOut();
 
-        this.oAuthService.logOut({ returnTo: document.location.reload() });
+        this.router.navigate(['']).then(() => {
+            document.location.reload();
+        });
     }
 }
