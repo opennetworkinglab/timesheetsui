@@ -56,13 +56,9 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
     ngOnInit(): void {
 
         this.updateTotal('', 0);
-
-        if (this.onfDay) {
-            this.holidayMins = 480;
-            this.updateTotal('Holiday', 480);
-            this.tsdaysService.updateTimeInDay(this.email, this.day, 'Holiday', 480);
-        }
-
+        //  if any time has been set for anything for a day. This will be set to true
+        //  This will not be set to true for 0 hours
+        let timeSet = false;
 
         if (this.times !== undefined) {
 
@@ -72,31 +68,37 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
                     case 'Darpa HR001120C0107':
                         if (time.minutes !== 0) {
                             this.darpaMins = time.minutes;
+                            timeSet = true;
                         }
                         break;
                     case 'Sick':
                         if (time.minutes !== 0) {
                             this.sickMins = time.minutes;
+                            timeSet = true;
                         }
                         break;
                     case 'Holiday':
                         if (time.minutes !== 0) {
                             this.holidayMins = time.minutes;
+                            timeSet = true;
                         }
                         break;
                     case 'PTO':
                         if (time.minutes !== 0) {
                             this.ptoMins = time.minutes;
+                            timeSet = true;
                         }
                         break;
                     case 'G_A':
                         if (time.minutes !== 0) {
                             this.gAMins = time.minutes;
+                            timeSet = true;
                         }
                         break;
                     case 'IR_D':
                         if (time.minutes !== 0) {
                             this.iRDMins = time.minutes;
+                            timeSet = true;
                         }
                         break;
                     default:
@@ -104,6 +106,13 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
                 this.updateTotal(time.name, time.minutes);
                 this.projectTimeChange.emit({ name: time.name, minutes: time.minutes });
             }
+        }
+
+        // If timeSet is true will not set onf holiday as hours are already allocated for that day.
+        if (this.onfDay && timeSet === false) {
+            this.holidayMins = 480;
+            this.updateTotal('Holiday', 480);
+            this.tsdaysService.updateTimeInDay(this.email, this.day, 'Holiday', 480);
         }
     }
 
