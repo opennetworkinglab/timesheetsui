@@ -30,7 +30,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
     loginForm: FormGroup;
     emailRegx = /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(opennetworking)\.org$/;
-    nameRegx = /^([a-zA-Z \-]{1,40})$/;
+    nameRegx = /^([a-zA-Z'\-]{1,40})$/;
     darpaRegx = /^(100|[0-9][0-9]?)$/;
 
     user: User = undefined;
@@ -53,6 +53,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
             firstName: [null, [Validators.required, Validators.pattern(this.nameRegx)]],
             lastName: [null, [Validators.required, Validators.pattern(this.nameRegx)]],
             darpaAllocationPct: [null, [Validators.required, Validators.pattern(this.darpaRegx)]],
+            supervisorEmail: [null, [Validators.required, Validators.pattern(this.emailRegx)]]
         });
 
         this.user = this.userService.getEditUser();
@@ -63,6 +64,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
                 firstName: this.user.firstName,
                 lastName: this.user.lastName,
                 darpaAllocationPct: this.user.darpaAllocationPct,
+                supervisorEmail: this.user.supervisorEmail
             });
         }
     }
@@ -97,7 +99,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
                 firstName: this.loginForm.value.firstName,
                 lastName: this.loginForm.value.lastName,
                 darpaAllocationPct: this.loginForm.value.darpaAllocationPct,
-                supervisorEmail: undefined,
+                supervisorEmail: this.loginForm.value.supervisorEmail,
                 isSupervisor: this.isSupervisorSelect,
             };
 
@@ -116,7 +118,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
             firstName: this.loginForm.value.firstName,
             lastName: this.loginForm.value.lastName,
             darpaAllocationPct: this.loginForm.value.darpaAllocationPct,
-            supervisorEmail: undefined,
+            supervisorEmail: this.loginForm.value.supervisorEmail,
             isSupervisor: this.isSupervisorSelect,
             isActive: true,
             projects: undefined

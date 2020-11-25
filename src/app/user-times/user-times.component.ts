@@ -179,11 +179,13 @@ export class UserTimesComponent implements OnInit{
                         this.showPreview = true;
                     }
                     else if ((this.weekly.userSigned != null && this.weekly.userSigned.length > 0)){
+
                         this.userSigned = true;
                         this.signBtnName = this.nameBtnUnsign;
                     }
                     else {
                         this.userSigned = false;
+                        this.signBtnName = this.nameBtnSign;
                     }
                 }
                 else {
@@ -242,15 +244,13 @@ export class UserTimesComponent implements OnInit{
 
         if (this.signBtnName === this.nameBtnSign) {
 
+            if (this.totalMins === 0){
+                return;
+            }
+
             userSigned = true;
-
             this.userSigned = true;
-            this.signBtnName = this.nameBtnUnsign;
             this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 10000});
-        }
-        else {
-            this.signBtnName = this.nameBtnSign;
-
         }
 
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
@@ -260,12 +260,22 @@ export class UserTimesComponent implements OnInit{
                     this.document.location.href = result.viewRequest;
                 }
 
+                if (this.signBtnName === this.nameBtnSign) {
+                    this.signBtnName = this.nameBtnUnsign;
+                }else {
+                    this.signBtnName = this.nameBtnSign;
+                }
+
                 this.loadingProgress = false;
                 this.signBtnDisabled = false;
 
                 if (userSigned === false){
                     this.userSigned = false;
                 }
+            }, (error) => {
+
+                this.snackBar.open(error.error.message, 'Dismiss', {duration: 10000});
+                this.loadingProgress = false;
             }
         );
         this.loadingProgress = true;
