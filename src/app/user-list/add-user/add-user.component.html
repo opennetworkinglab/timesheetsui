@@ -26,7 +26,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="form-field" appearance="outline" [hidden]="editedUser">
+        <mat-form-field class="form-field" appearance="outline">
             <mat-label> First Name
             </mat-label>
             <input matInput formControlName="firstName" required>
@@ -36,7 +36,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="form-field" appearance="outline" [hidden]="editedUser">
+        <mat-form-field class="form-field" appearance="outline">
             <mat-label> Last Name
             </mat-label>
             <input matInput formControlName="lastName" required>
@@ -54,6 +54,15 @@
                 *ngIf="loginForm.controls.darpaAllocationPct.touched && loginForm.controls.darpaAllocationPct.invalid">
                 <span *ngIf="loginForm.controls.darpaAllocationPct.errors.required">This field is mandatory.</span>
                 <span *ngIf="loginForm.controls.darpaAllocationPct.errors.pattern">This field is invalid.</span>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label> Approver E-mail
+            </mat-label>
+            <input matInput formControlName="supervisorEmail" required >
+            <mat-error *ngIf="loginForm.controls.supervisorEmail.touched && loginForm.controls.supervisorEmail.invalid">
+                <span *ngIf="loginForm.controls.supervisorEmail.errors.required">This field is mandatory.</span>
+                <span *ngIf="loginForm.controls.supervisorEmail.errors.pattern">This field is invalid.</span>
             </mat-error>
         </mat-form-field>
         <mat-form-field floatLabel="always" appearance="standard">
