@@ -14,81 +14,15 @@
  * limitations under the License.
  */
 
-.h2 {
-    text-align: center;
-    margin: 0px auto;
-    display: block;
-    margin-top: 5vh;
-}
-
-.card-title {
-    color: #707070;
-}
-
-.inline {
-    display: inline-block;
-    margin-right: 10px;
-    text-align: center;
-}
-
-.btn-outline-primary {
-    font-size: 12px;
-    display: inline-block;
-}
-
-.clickable {
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.table {
-    width: auto;
-    margin: 20px auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-collapse: collapse;
-}
-
-tbody.collapse.in {
-    padding: 12px;
-    border-bottom: 1px solid rgb(197, 197, 197);
-    display: table-row-group;
-}
-
-.table tbody tr {
-    text-align: center;
-    background-color: #fafafa;
-    padding: 12px;
-    border-bottom: 1px solid rgb(197, 197, 197);
-}
-
-.table thead th {
-    text-align: center;
-    font-weight: bold;
-}
-
-.table tbody td {
-    border-bottom: 1px solid rgb(197, 197, 197);
-    padding: 12px;
-}
-
 .center {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
     height: 50px;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding: 40px 20px;
 }
 
-.center-table {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /*gap: 12px;*/
-    /*padding-top: 40px;*/
-    /*padding-bottom: 40px;*/
-}
 
 .img-container {
     text-align: center;
