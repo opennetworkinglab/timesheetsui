@@ -18,45 +18,28 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserTimesComponent} from './user-times.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
-import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {AuthInterceptor} from '../auth-interceptor.service';
 import {TsdaysService} from '../tsdays.service';
 import {TsweeklyService} from '../tsweekly.service';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {Observable, Subscriber} from 'rxjs';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {HttpClient} from '@angular/common/http';
 
-const msInWeek = 7 * 24 * 60 * 60 * 1000;
-
-class MockTsWeeksService {
-    getWeeks(): Observable<TsWeek> {
-        const weeks = new Observable<TsWeek>((observer: Subscriber<TsWeek>) => {
-            const thisWeekStart: number = Date.now() - Date.now() % msInWeek;
-            console.log('Starting week', thisWeekStart, Date.now());
-            // tslint:disable-next-line:new-parens
-            const sampleWeek: TsWeek = new class implements TsWeek {
-                begin: number = thisWeekStart;
-                end: number = thisWeekStart + 7 * 24 * 3600 * 1000 - 1;
-                id: number = 1;
-                year: number = 2020;
-                weekNo: number = 33;
-                monthNo: number = 8;
-                onfDays: [];
-            };
-            observer.next(sampleWeek);
-            observer.complete();
-        });
-
-        return weeks;
-    }
-}
+import {TsweeksService} from '../tsweeks.service';
+import {testWeeks} from '../tsweeks.service.spec';
+import {tsDaysSampelData} from '../tsdays.service.spec';
+import {DayComponent} from '../day/day.component';
+import {HourselectComponent} from '../hourselect/hourselect.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('UserTimesComponent', () => {
     let component: UserTimesComponent;
     let fixture: ComponentFixture<UserTimesComponent>;
+    let httpClient: HttpClient;
+    let httpTestingController: HttpTestingController;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -65,27 +48,50 @@ describe('UserTimesComponent', () => {
                 HttpClientTestingModule,
                 MatSnackBarModule,
                 MatIconModule,
+                FormsModule,
+                ReactiveFormsModule,
             ],
-            declarations: [UserTimesComponent],
+            declarations: [UserTimesComponent, DayComponent, HourselectComponent],
             providers: [
-                {provide: TsweeksService, useClass: MockTsWeeksService},
+                {provide: TsweeksService},
                 {provide: TsdaysService},
                 {provide: TsweeklyService},
                 {provide: AuthInterceptor},
                 {provide: MatSnackBar}
-            ]
-        })
+            ],
+    })
             .compileComponents();
     }));
 
     beforeEach(() => {
+        httpClient = TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
         fixture = TestBed.createComponent(UserTimesComponent);
         component = fixture.componentInstance;
+        component.getTsWeeks(1606403431073);
+        component.email = 'test@email';
+        const reqWeeks = httpTestingController.expectOne('http://localhost:3000/week');
+        expect(reqWeeks.request.method).toEqual('GET');
+        reqWeeks.flush(testWeeks);
+
+        const reqDays = httpTestingController.expectOne('http://localhost:3000/day/test@email/29');
+        expect(reqDays.request.method).toEqual('GET');
+        reqDays.flush(tsDaysSampelData);
+
+        component.checkHoursAllocated();
         fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
+        expect(component.weeks.size).toEqual(2);
+        expect(component.email).toMatch('test@email');
+        expect(component.currentWeekId).toEqual(29);
+        expect(component.darpaAllocationPct).toEqual(100);
+        // Check totals
+        expect(component.gAMins).toEqual(0);
+        component.projectTimeChange({name: 'G_A', minutes: 90});
+        expect(component.gAMins).toEqual(1.5);
     });
 
     it('should have centre-table', () => {
