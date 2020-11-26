@@ -21,6 +21,27 @@ import {DayComponent} from './day/day.component';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -29,6 +50,28 @@ describe('AppComponent', () => {
                 OAuthModule.forRoot(),
                 RouterTestingModule,
                 HttpClientTestingModule,
+                MatProgressSpinnerModule,
+                MatSliderModule,
+                MatCardModule,
+                MatToolbarModule,
+                MatIconModule,
+                MatTabsModule,
+                MatSidenavModule,
+                LayoutModule,
+                MatButtonModule,
+                MatListModule,
+                MatIconModule,
+                MatSnackBarModule,
+                MatTooltipModule,
+                MatTableModule,
+                MatPaginatorModule,
+                MatSortModule,
+                MatFormFieldModule,
+                MatInputModule,
+                MatDialogModule,
+                ReactiveFormsModule,
+                MatSelectModule,
+                MatSlideToggleModule
             ],
             declarations: [
                 AppComponent, DayComponent, HourselectComponent

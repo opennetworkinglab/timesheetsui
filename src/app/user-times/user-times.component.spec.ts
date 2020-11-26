@@ -25,6 +25,9 @@ import {TsweeklyService} from '../tsweekly.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Observable, Subscriber} from 'rxjs';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatIconModule} from '@angular/material/icon';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
 const msInWeek = 7 * 24 * 60 * 60 * 1000;
 
@@ -60,7 +63,8 @@ describe('UserTimesComponent', () => {
             imports: [
                 OAuthModule.forRoot(),
                 HttpClientTestingModule,
-                MatSnackBarModule
+                MatSnackBarModule,
+                MatIconModule,
             ],
             declarations: [UserTimesComponent],
             providers: [
@@ -83,4 +87,26 @@ describe('UserTimesComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should have centre-table', () => {
+        const devDe: DebugElement = fixture.debugElement;
+        const divDe = devDe.query(By.css('div div.mat-typography div.center-table'));
+        expect(divDe).toBeTruthy();
+    });
+
+    it('should have row-names-table', () => {
+        const devDe: DebugElement = fixture.debugElement;
+        const divDe = devDe.query(
+            By.css('div div.mat-typography div.center-table table tbody tr td#row-names table#row-names-table tbody'));
+        expect(divDe).toBeTruthy();
+        expect(divDe.children.length).toEqual(6);
+
+        expect(divDe.children[1].nativeElement.textContent).toContain('IR&D');
+        expect(divDe.children[2].nativeElement.textContent).toContain('G&A');
+        expect(divDe.children[3].nativeElement.textContent).toContain('PTO');
+        expect(divDe.children[4].nativeElement.textContent).toContain('Sick');
+        expect(divDe.children[5].nativeElement.textContent).toContain('ONF Holiday');
+    });
+
+
 });

@@ -42,8 +42,8 @@
             <table class="table table-responsive">
                 <tbody>
                 <tr>
-                    <td style="min-width: 180px; cursor: default">
-                        <table>
+                    <td id="row-names" style="min-width: 180px; cursor: default">
+                        <table id="row-names-table">
                             <thead>
                             <th>Day - Date</th>
                             </thead>
@@ -54,9 +54,10 @@
                             <tr title="Paid time off">PTO</tr>
                             <tr title="Medical Leave">Sick</tr>
                             <tr title="US Public Holiday or ONF Day Off">ONF Holiday</tr>
+                            </tbody>
                         </table>
                     </td>
-                    <td *ngFor="let d of days | keyvalue">
+                    <td id="body-cell" *ngFor="let d of days | keyvalue">
                         <app-day [day]="d.key | date: 'EEE dd':'UTC'" [email]="d.value.email"
                                  [onfDay]="isOnfDay(d.key, currentWeekId)"
                                  [times]="d.value.times" [userSigned]="userSigned"

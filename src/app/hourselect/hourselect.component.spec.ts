@@ -17,6 +17,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HourselectComponent} from './hourselect.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 declare var $: any;
 describe('HourselectComponent', () => {
@@ -25,7 +26,11 @@ describe('HourselectComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HourselectComponent]
+            declarations: [HourselectComponent],
+            imports: [
+                FormsModule,
+                ReactiveFormsModule,
+            ]
         })
             .compileComponents();
     }));
