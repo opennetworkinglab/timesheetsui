@@ -19,6 +19,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {DayComponent} from './day.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {OAuthModule} from 'angular-oauth2-oidc';
+import {HourselectComponent} from '../hourselect/hourselect.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('DayComponent', () => {
     let component: DayComponent;
@@ -28,9 +30,11 @@ describe('DayComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
-                OAuthModule.forRoot()
+                OAuthModule.forRoot(),
+                FormsModule,
+                ReactiveFormsModule,
             ],
-            declarations: [DayComponent]
+            declarations: [DayComponent, HourselectComponent]
         })
             .compileComponents();
     }));

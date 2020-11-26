@@ -18,11 +18,16 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AddUserComponent} from './add-user.component';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {UserService} from '../../user.service';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 describe('AddUserComponent', () => {
     const mockDialogRef = {
@@ -36,8 +41,14 @@ describe('AddUserComponent', () => {
             imports: [
                 HttpClientTestingModule,
                 OAuthModule.forRoot(),
-                MatSnackBarModule,
-                MatDialogModule
+                BrowserAnimationsModule,
+                FormsModule,
+                ReactiveFormsModule,
+                MatInputModule,
+                MatFormFieldModule,
+                MatSlideToggleModule,
+                MatDialogModule,
+                MatSelectModule,
             ],
             declarations: [AddUserComponent],
             providers: [

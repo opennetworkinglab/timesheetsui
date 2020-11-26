@@ -24,6 +24,14 @@ import {ChangeDetectorRef} from '@angular/core';
 import {UserService} from '../user.service';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 describe('UserListComponent', () => {
     let component: UserListComponent;
@@ -36,7 +44,17 @@ describe('UserListComponent', () => {
                 OAuthModule.forRoot(),
                 HttpClientTestingModule,
                 MatIconModule,
-                MatDialogModule
+                MatDialogModule,
+                BrowserAnimationsModule,
+                FormsModule,
+                ReactiveFormsModule,
+                MatPaginatorModule,
+                MatInputModule,
+                MatFormFieldModule,
+                MatSlideToggleModule,
+                MatDialogModule,
+                MatSelectModule,
+                MatTableModule,
             ],
             providers: [
                 {provide: UserService},
