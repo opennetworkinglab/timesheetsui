@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output
+} from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
 
 export interface Time {
@@ -27,7 +34,7 @@ export interface Time {
     templateUrl: './day.component.html',
     styleUrls: ['./day.component.css']
 })
-export class DayComponent implements OnInit, OnChanges, AfterViewInit {
+export class DayComponent implements OnInit, OnChanges {
     @Input() email: string;
     @Input() day: string;
     @Input() date: string;
@@ -48,7 +55,7 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
 
     totalHours: number = 0;
 
-    @Output() projectTimeChange: EventEmitter<{name, minutes}> = new EventEmitter<{name, minutes}>(true);
+    @Output() projectTimeChange: EventEmitter<{name, minutes}> = new EventEmitter<{name, minutes}>();
 
     constructor(private tsdaysService: TsdaysService) {
     }
@@ -114,6 +121,7 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
             this.updateTotal('Holiday', 480);
             this.tsdaysService.updateTimeInDay(this.email, this.day, 'Holiday', 480);
         }
+
     }
 
     ngOnChanges(val) {
@@ -202,9 +210,5 @@ export class DayComponent implements OnInit, OnChanges, AfterViewInit {
         this.totalHours += (this.gAMins === undefined ? 0 : this.gAMins);
         this.totalHours += (this.iRDMins === undefined ? 0 : this.iRDMins);
         this.totalHours /= 60;
-    }
-
-    ngAfterViewInit(): void {
-        // console.log(this.dayId);
     }
 }

@@ -59,7 +59,7 @@ describe('UserTimesComponent', () => {
                 {provide: AuthInterceptor},
                 {provide: MatSnackBar}
             ],
-    })
+        })
             .compileComponents();
     }));
 
@@ -89,9 +89,11 @@ describe('UserTimesComponent', () => {
         expect(component.currentWeekId).toEqual(29);
         expect(component.darpaAllocationPct).toEqual(100);
         // Check totals
-        expect(component.gAMins).toEqual(0);
+        expect(component.gAMins).toEqual(6.5);
+        expect(component.totalMins).toEqual(48.5);
         component.projectTimeChange({name: 'G_A', minutes: 90});
-        expect(component.gAMins).toEqual(1.5);
+        expect(component.gAMins).toEqual(8);
+        expect(component.totalMins).toEqual(50);
     });
 
     it('should have centre-table', () => {
@@ -131,6 +133,4 @@ describe('UserTimesComponent', () => {
         expect(component.currentWeekId).toEqual(31);
         expect(component.days.size).toEqual(7);
     });
-
-
 });

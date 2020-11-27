@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {TsDay, TsdaysService} from '../tsdays.service';
 import {TsWeekly, TsweeklyService} from '../tsweekly.service';
@@ -78,7 +78,9 @@ export class UserTimesComponent implements OnInit{
         private oauthService: OAuthService,
         private user: UserService,
         @Inject(DOCUMENT) private document: Document,
-        private snackBar: MatSnackBar) {
+        private snackBar: MatSnackBar,
+        private cdr: ChangeDetectorRef) {
+
         if (oauthService.hasValidAccessToken()) {
 
             console.log(this.oauthService.getIdToken());
@@ -131,6 +133,7 @@ export class UserTimesComponent implements OnInit{
         if (!this.daysSubscription.closed) {
             this.daysSubscription.unsubscribe();
         }
+
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
             return;
         }
@@ -142,6 +145,7 @@ export class UserTimesComponent implements OnInit{
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
         this.daysSubscription = this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
+
             (daydata: TsDay) => {
                 this.days.set(daydata.day, daydata);
             },
@@ -346,6 +350,7 @@ export class UserTimesComponent implements OnInit{
         }
         this.getTotal();
         this.checkHoursAllocated();
+        this.cdr.detectChanges();
     }
 
     resetHours(){
