@@ -78,7 +78,6 @@ export class UserTimesComponent implements OnInit{
         private user: UserService,
         @Inject(DOCUMENT) private document: Document,
         private snackBar: MatSnackBar) {
-
         if (oauthService.hasValidAccessToken()) {
 
             console.log(this.oauthService.getIdToken());
@@ -90,34 +89,39 @@ export class UserTimesComponent implements OnInit{
                 this.darpaAllocationPct = result.darpaAllocationPct;
 
             });
-
             const dateTimeNow = Date.now();
-            console.log('Current time is', dateTimeNow);
+            this.getTsWeeks(dateTimeNow);
 
-            tsweeksService.getWeeks().subscribe(
-                (weekdata: TsWeek) => {
-                    this.weeks.set(weekdata.id, weekdata);
-
-                    if ((this.weekid === undefined || this.year === undefined) &&
-                        weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
-
-                        this.currentWeekId = weekdata.id;
-                        this.weekid = weekdata.weekNo;
-                        this.year = weekdata.year;
-
-                        const newDate = new Date(weekdata.begin);
-                        tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
-                        console.log('Current week is', new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate()));
-                    }
-                },
-                error => console.log('error getting weeks', error),
-                () => {
-                    this.changeWeek(0);
-                    this.changeWeekAlreadySigned(0);
-                }
-            );
             // this.activeSession = true;
         }
+    }
+
+    // broken out to allow testing
+    getTsWeeks(dateTimeNow: number) {
+        console.log('Current time is', dateTimeNow);
+
+        this.tsweeksService.getWeeks().subscribe(
+            (weekdata: TsWeek) => {
+                this.weeks.set(weekdata.id, weekdata);
+
+                if ((this.weekid === undefined || this.year === undefined) &&
+                    weekdata.begin < dateTimeNow && weekdata.end + msInDay - 1 > dateTimeNow) {
+
+                    this.currentWeekId = weekdata.id;
+                    this.weekid = weekdata.weekNo;
+                    this.year = weekdata.year;
+
+                    const newDate = new Date(weekdata.begin);
+                    this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
+                    console.log('Current week is', new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate()));
+                }
+            },
+            error => console.log('error getting weeks', error),
+            () => {
+                this.changeWeek(0);
+                this.changeWeekAlreadySigned(0);
+            }
+        );
     }
 
     ngOnInit(): void {}

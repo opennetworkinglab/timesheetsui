@@ -17,11 +17,19 @@
 import {TestBed} from '@angular/core/testing';
 
 import {TsdaysService} from './tsdays.service';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {OAuthModule} from 'angular-oauth2-oidc';
+import {HttpClient} from '@angular/common/http';
+import {TIMESHEETS_REST_URL} from '../environments/environment';
+import {testWeeks} from './tsweeks.service.spec';
+
+export const tsDaysSampelData: any = require('../assets/tsdays-sample-data.json');
 
 describe('DaysService', () => {
     let service: TsdaysService;
+    let httpClient: HttpClient;
+    let httpTestingController: HttpTestingController;
+    const configUrl = TIMESHEETS_REST_URL + '/day/test@email/29';
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -31,9 +39,35 @@ describe('DaysService', () => {
             ],
         });
         service = TestBed.inject(TsdaysService);
+        httpClient = TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
     });
 
     it('should be created', () => {
         expect(service).toBeTruthy();
     });
+
+    it('gets weeks by http long', () => {
+        service.getDays('test@email', 29).subscribe(
+            (days) => {
+                // expect(days.day).toMatch('2020-11-29');
+                expect(days.weekId).toMatch('29');
+                expect(days.user.email).toMatch('test@email');
+                expect(days.user.supervisorEmail).toMatch('approver@email');
+                expect(days.user.firstName).toMatch('Test');
+                expect(days.user.lastName).toMatch('User');
+                expect(days.user.darpaAllocationPct).toEqual(100);
+                expect(days.user.isSupervisor).toBeFalse();
+                expect(days.user.isActive).toBeTruthy();
+                expect(days.user.projects.length).toEqual(6);
+            },
+            (err) => expect(err).toBeNull()
+        );
+        const req = httpTestingController.expectOne(configUrl);
+        expect(req.request.method).toEqual('GET');
+        req.flush(tsDaysSampelData);
+
+        httpTestingController.verify();
+    });
+
 });
