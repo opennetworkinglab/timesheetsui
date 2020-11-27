@@ -351,10 +351,10 @@ export class UserTimesComponent implements OnInit{
     checkHoursAllocated() {
 
         if (this.darpaAllocationPct > 0) {
-            this.remainingDarpaHours = this.weekHours * (this.darpaAllocationPct / 100) - this.darpaMins;
-            const leeway = (this.weekHours * (this.darpaAllocationPct / 100)) * 0.10;
 
-            const darpaHoursCompleted = this.weekHours - this.remainingDarpaHours;
+            const remainingDarpaHours = this.weekHours * (this.darpaAllocationPct / 100) - this.darpaMins;
+            const leeway = (this.weekHours * (this.darpaAllocationPct / 100)) * 0.10;
+            const darpaHoursCompleted = this.weekHours * (this.darpaAllocationPct / 100) - remainingDarpaHours;
             const remainingMinusLeeway = this.weekHours * (this.darpaAllocationPct / 100) - leeway;
             const remainingPlusLeeway = this.weekHours * (this.darpaAllocationPct / 100) + leeway;
 
