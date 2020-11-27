@@ -23,7 +23,9 @@ import {HttpClient} from '@angular/common/http';
 import {TIMESHEETS_REST_URL} from '../environments/environment';
 import {testWeeks} from './tsweeks.service.spec';
 
-export const tsDaysSampelData: any = require('../assets/tsdays-sample-data.json');
+export const tsDaysWeek29SampleData: any = require('../assets/tsdays-week29-sample-data.json');
+export const tsDaysWeek30SampleData: any = require('../assets/tsdays-week30-sample-data.json');
+export const tsDaysWeek31SampleData: any = require('../assets/tsdays-week31-sample-data.json');
 
 describe('DaysService', () => {
     let service: TsdaysService;
@@ -65,7 +67,7 @@ describe('DaysService', () => {
         );
         const req = httpTestingController.expectOne(configUrl);
         expect(req.request.method).toEqual('GET');
-        req.flush(tsDaysSampelData);
+        req.flush(tsDaysWeek29SampleData);
 
         httpTestingController.verify();
     });

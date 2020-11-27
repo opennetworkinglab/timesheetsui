@@ -28,6 +28,9 @@ export const testWeeks = [
         onfDays: [{date: '2020-11-26'}, {date: '2020-11-27' }]},
     {id: 30, year: 2020, weekNo: 48, monthNo: 11,
         begin: '2020-11-30', end: '2020-12-06',
+        onfDays: []},
+    {id: 31, year: 2020, weekNo: 49, monthNo: 12,
+        begin: '2020-12-07', end: '2020-12-13',
         onfDays: []}
 ];
 

@@ -30,7 +30,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {TsweeksService} from '../tsweeks.service';
 import {testWeeks} from '../tsweeks.service.spec';
-import {tsDaysSampelData} from '../tsdays.service.spec';
+import {tsDaysWeek29SampleData, tsDaysWeek30SampleData, tsDaysWeek31SampleData} from '../tsdays.service.spec';
 import {DayComponent} from '../day/day.component';
 import {HourselectComponent} from '../hourselect/hourselect.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -74,9 +74,9 @@ describe('UserTimesComponent', () => {
         expect(reqWeeks.request.method).toEqual('GET');
         reqWeeks.flush(testWeeks);
 
-        const reqDays = httpTestingController.expectOne('http://localhost:3000/day/test@email/29');
-        expect(reqDays.request.method).toEqual('GET');
-        reqDays.flush(tsDaysSampelData);
+        const reqWeek29Days = httpTestingController.expectOne('http://localhost:3000/day/test@email/29');
+        expect(reqWeek29Days.request.method).toEqual('GET');
+        reqWeek29Days.flush(tsDaysWeek29SampleData);
 
         component.checkHoursAllocated();
         fixture.detectChanges();
@@ -84,7 +84,7 @@ describe('UserTimesComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
-        expect(component.weeks.size).toEqual(2);
+        expect(component.weeks.size).toEqual(3);
         expect(component.email).toMatch('test@email');
         expect(component.currentWeekId).toEqual(29);
         expect(component.darpaAllocationPct).toEqual(100);
@@ -112,5 +112,23 @@ describe('UserTimesComponent', () => {
         expect(divDe.children[3].nativeElement.textContent).toContain('PTO');
         expect(divDe.children[4].nativeElement.textContent).toContain('Sick');
         expect(divDe.children[5].nativeElement.textContent).toContain('ONF Holiday');
+    });
+
+    it('should change week', () => {
+        expect(component.currentWeekId).toEqual(29);
+        expect(component.days.size).toEqual(7);
+
+        component.changeWeek(1);
+        const reqWeek30Days = httpTestingController.expectOne('http://localhost:3000/day/test@email/30');
+        expect(reqWeek30Days.request.method).toEqual('GET');
+        reqWeek30Days.flush(tsDaysWeek30SampleData);
+
+        component.changeWeek(1);
+        const reqWeek31Days = httpTestingController.expectOne('http://localhost:3000/day/test@email/31');
+        expect(reqWeek31Days.request.method).toEqual('GET');
+        reqWeek31Days.flush(tsDaysWeek31SampleData);
+
+        expect(component.currentWeekId).toEqual(31);
+        expect(component.days.size).toEqual(7);
     });
 });
