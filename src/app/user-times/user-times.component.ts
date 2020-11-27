@@ -56,6 +56,8 @@ export class UserTimesComponent implements OnInit{
     previewImgUrl: any;
     currentWeekId: number;
 
+    weekChooseDisabled = false;
+
     weekHours: number = 40;
     remainingWeekHours: number = this.weekHours;
     darpaAllocationPct: number = 100;
@@ -133,6 +135,7 @@ export class UserTimesComponent implements OnInit{
             return;
         }
 
+        this.weekChooseDisabled = true;
         this.resetTotals();
         this.resetHours();
         this.currentWeekId = this.currentWeekId + delta;
@@ -166,6 +169,7 @@ export class UserTimesComponent implements OnInit{
                         }
                     );
                 }
+                this.weekChooseDisabled = false;
             }
         );
     }
