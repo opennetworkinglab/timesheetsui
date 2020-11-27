@@ -113,6 +113,4 @@ describe('UserTimesComponent', () => {
         expect(divDe.children[4].nativeElement.textContent).toContain('Sick');
         expect(divDe.children[5].nativeElement.textContent).toContain('ONF Holiday');
     });
-
-
 });
