@@ -57,6 +57,7 @@ export class UserTimesComponent implements OnInit{
     currentWeekId: number;
 
     weekChooseDisabled = false;
+    weekLoaded = undefined;
 
     weekHours: number = 40;
     remainingWeekHours: number = this.weekHours;
@@ -135,6 +136,10 @@ export class UserTimesComponent implements OnInit{
             return;
         }
 
+        if (this.weekLoaded !== undefined){
+            this.weekLoaded.unsubscribe();
+        }
+
         this.weekChooseDisabled = true;
         this.resetTotals();
         this.resetHours();
@@ -142,7 +147,7 @@ export class UserTimesComponent implements OnInit{
         const newDate = new Date(this.weeks.get(this.currentWeekId).begin);
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
-        this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
+        this.weekLoaded = this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
             (daydata: TsDay) => {
                 this.days.set(daydata.day, daydata);
             },
