@@ -1,0 +1,486 @@
+[
+    {
+        "id": 46,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-13",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 271,
+                "name": "Darpa HR001120C0107",
+                "minutes": 0
+            },
+            {
+                "id": 272,
+                "name": "Sick",
+                "minutes": 0
+            },
+            {
+                "id": 274,
+                "name": "PTO",
+                "minutes": 0
+            },
+            {
+                "id": 276,
+                "name": "G_A",
+                "minutes": 0
+            },
+            {
+                "id": 278,
+                "name": "IR_D",
+                "minutes": 0
+            },
+            {
+                "id": 273,
+                "name": "Holiday",
+                "minutes": 0
+            }
+        ]
+    },
+    {
+        "id": 36,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-10",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 213,
+                "name": "Holiday",
+                "minutes": 720
+            },
+            {
+                "id": 211,
+                "name": "Darpa HR001120C0107",
+                "minutes": 0
+            }
+        ]
+    },
+    {
+        "id": 37,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-11",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 217,
+                "name": "Sick",
+                "minutes": 0
+            },
+            {
+                "id": 220,
+                "name": "PTO",
+                "minutes": 0
+            },
+            {
+                "id": 221,
+                "name": "G_A",
+                "minutes": 0
+            },
+            {
+                "id": 222,
+                "name": "IR_D",
+                "minutes": 0
+            },
+            {
+                "id": 215,
+                "name": "Darpa HR001120C0107",
+                "minutes": 420
+            },
+            {
+                "id": 219,
+                "name": "Holiday",
+                "minutes": 0
+            }
+        ]
+    },
+    {
+        "id": 44,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-08",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 265,
+                "name": "Darpa HR001120C0107",
+                "minutes": 180
+            },
+            {
+                "id": 270,
+                "name": "IR_D",
+                "minutes": 150
+            },
+            {
+                "id": 269,
+                "name": "G_A",
+                "minutes": 120
+            },
+            {
+                "id": 268,
+                "name": "PTO",
+                "minutes": 90
+            },
+            {
+                "id": 266,
+                "name": "Sick",
+                "minutes": 60
+            },
+            {
+                "id": 267,
+                "name": "Holiday",
+                "minutes": 30
+            }
+        ]
+    },
+    {
+        "id": 38,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-09",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 223,
+                "name": "Darpa HR001120C0107",
+                "minutes": 240
+            },
+            {
+                "id": 224,
+                "name": "Sick",
+                "minutes": 0
+            },
+            {
+                "id": 226,
+                "name": "PTO",
+                "minutes": 0
+            },
+            {
+                "id": 227,
+                "name": "G_A",
+                "minutes": 180
+            },
+            {
+                "id": 228,
+                "name": "IR_D",
+                "minutes": 90
+            },
+            {
+                "id": 225,
+                "name": "Holiday",
+                "minutes": 0
+            }
+        ]
+    },
+    {
+        "id": 45,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-07",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 265,
+                "name": "Darpa HR001120C0107",
+                "minutes": 30
+            },
+            {
+                "id": 270,
+                "name": "IR_D",
+                "minutes": 60
+            },
+            {
+                "id": 269,
+                "name": "G_A",
+                "minutes": 90
+            },
+            {
+                "id": 268,
+                "name": "PTO",
+                "minutes": 120
+            },
+            {
+                "id": 266,
+                "name": "Sick",
+                "minutes": 150
+            },
+            {
+                "id": 267,
+                "name": "Holiday",
+                "minutes": 180
+            }
+        ]
+    },
+    {
+        "id": 48,
+        "user": {
+            "email": "test@email",
+            "firstName": "Test",
+            "lastName": "User",
+            "supervisorEmail": "approver@email",
+            "darpaAllocationPct": 100,
+            "isSupervisor": false,
+            "isActive": true,
+            "projects": [
+                {
+                    "name": "Darpa HR001120C0107",
+                    "priority": 1
+                },
+                {
+                    "name": "Sick",
+                    "priority": 1
+                },
+                {
+                    "name": "Holiday",
+                    "priority": 1
+                },
+                {
+                    "name": "PTO",
+                    "priority": 1
+                },
+                {
+                    "name": "G_A",
+                    "priority": 1
+                },
+                {
+                    "name": "IR_D",
+                    "priority": 1
+                }
+            ]
+        },
+        "day": "2020-12-12",
+        "weekId": 31,
+        "times": [
+            {
+                "id": 285,
+                "name": "Holiday",
+                "minutes": 0
+            },
+            {
+                "id": 283,
+                "name": "Darpa HR001120C0107",
+                "minutes": 0
+            },
+            {
+                "id": 284,
+                "name": "Sick",
+                "minutes": 0
+            },
+            {
+                "id": 286,
+                "name": "PTO",
+                "minutes": 0
+            },
+            {
+                "id": 287,
+                "name": "G_A",
+                "minutes": 0
+            },
+            {
+                "id": 288,
+                "name": "IR_D",
+                "minutes": 0
+            }
+        ]
+    }
+]

@@ -8,7 +8,7 @@ build: deps
 
 test: # @HELP run the unit tests and source code validation
 test: deps build lint license_check
-	ng test --browsers=ChromeHeadless --watch=false
+	ng test --browsers=ChromeHeadless,FirefoxHeadless --watch=false
 
 deps: # @HELP ensure that the required dependencies are in place
 	NG_CLI_ANALYTICS=false npm install
