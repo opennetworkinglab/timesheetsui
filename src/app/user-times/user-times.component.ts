@@ -19,7 +19,7 @@ import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {TsDay, TsdaysService} from '../tsdays.service';
 import {TsWeekly, TsweeklyService} from '../tsweekly.service';
 import {OAuthService} from 'angular-oauth2-oidc';
-import {generate} from 'rxjs';
+import {generate, Subscription} from 'rxjs';
 import {EMAIL_ATTR} from '../app.component';
 import { DOCUMENT } from '@angular/common';
 import {UserService} from '../user.service';
@@ -69,6 +69,7 @@ export class UserTimesComponent implements OnInit{
     gAMins: number = 0;
     iRDMins: number = 0;
     totalMins: number = 0;
+    daysSubscription: Subscription = new Subscription();
 
     constructor(
         private tsweeksService: TsweeksService,
@@ -127,6 +128,9 @@ export class UserTimesComponent implements OnInit{
     ngOnInit(): void {}
 
     changeWeek(delta: number) {
+        if (!this.daysSubscription.closed) {
+            this.daysSubscription.unsubscribe();
+        }
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
             return;
         }
@@ -137,7 +141,7 @@ export class UserTimesComponent implements OnInit{
         const newDate = new Date(this.weeks.get(this.currentWeekId).begin);
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
-        this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
+        this.daysSubscription = this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
             (daydata: TsDay) => {
                 this.days.set(daydata.day, daydata);
             },
