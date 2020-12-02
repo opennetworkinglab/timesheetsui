@@ -178,6 +178,8 @@ export class UserTimesComponent implements OnInit{
 
     changeWeekAlreadySigned(delta: number) {
 
+        this.userSigned = false;
+        this.showPreview = false;
         this.weekly = undefined;
         this.previewImgUrl = undefined;
         this.tsweekliesService.getWeeklies(this.email, this.currentWeekId).subscribe(
@@ -199,10 +201,6 @@ export class UserTimesComponent implements OnInit{
                         this.userSigned = false;
                         this.signBtnName = this.nameBtnSign;
                     }
-                }
-                else {
-                    this.showPreview = false;
-                    this.userSigned = false;
                 }
 
                 // console.log('Binary data length', weekly.preview.length);
