@@ -89,7 +89,7 @@ export class UserTimesComponent implements OnInit{
 
             user.getUser().subscribe(result => {
 
-                this.darpaAllocationPct = 50; // result.darpaAllocationPct;
+                this.darpaAllocationPct = result.darpaAllocationPct;
 
             });
             const dateTimeNow = Date.now();
