@@ -53,22 +53,26 @@ export class HourselectComponent implements OnInit, AfterViewInit{
             // Only jumps to 8 when there is no value selected
             if (this.mins === 0) {
 
-                let num = (this.normalDayHours * this.darpaAllocationPct) / 100;
-                const numInt = Math.floor(num);
-                if (num - numInt !== 0 && num - numInt < 0.5){
-                    num = numInt + 0.5;
-                }
-                else if (num - numInt !== 0 && num - numInt > 0.5){
-                    num = numInt + 1;
-                }
+                let num = 8.00;
 
+                // 0 is passed for darpaAllocationPct for not Darpa projects. This only allows the darpa time to be the percent of darpa
+                if (this.darpaAllocationPct !== 0) {
+
+                    num = (this.normalDayHours * this.darpaAllocationPct) / 100;
+                    const numInt = Math.floor(num);
+                    if (num - numInt !== 0 && num - numInt < 0.5) {
+                        num = numInt + 0.5;
+                    } else if (num - numInt !== 0 && num - numInt > 0.5) {
+                        num = numInt + 1;
+                    }
+                }
                 const option = select.find('option:contains(' + num + ')');
                 const optionTop = option.offset().top;
                 const selectTop = select.offset().top;
                 select.scrollTop(select.scrollTop() + (optionTop - selectTop));
                 option.prop('selected', true);
 
-                this.updatedEvent.emit(480);
+                this.updatedEvent.emit(num * 60);
             }
         });
     }
