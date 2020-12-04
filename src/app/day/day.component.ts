@@ -52,6 +52,7 @@ export class DayComponent implements OnInit, OnChanges {
     @Input() iRDMins: number = 0;
 
     @Input() dayId: number;
+    @Input() darpaAllocationPct: number
 
     totalHours: number = 0;
 

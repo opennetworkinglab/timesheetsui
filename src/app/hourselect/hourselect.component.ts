@@ -34,6 +34,9 @@ export class HourselectComponent implements OnInit, AfterViewInit{
     @Output() updatedEvent = new EventEmitter<number>();
     @Input() userSigned: boolean;
     @Input() id: string;
+    @Input() darpaAllocationPct: number;
+
+    normalDayHours: number = 8;
 
     constructor() {
     }
@@ -50,7 +53,16 @@ export class HourselectComponent implements OnInit, AfterViewInit{
             // Only jumps to 8 when there is no value selected
             if (this.mins === 0) {
 
-                const option = select.find('option:contains(\'8.00\')');
+                let num = (this.normalDayHours * this.darpaAllocationPct) / 100;
+                const numInt = Math.floor(num);
+                if (num - numInt !== 0 && num - numInt < 0.5){
+                    num = numInt + 0.5;
+                }
+                else if (num - numInt !== 0 && num - numInt > 0.5){
+                    num = numInt + 1;
+                }
+
+                const option = select.find('option:contains(' + num + ')');
                 const optionTop = option.offset().top;
                 const selectTop = select.offset().top;
                 select.scrollTop(select.scrollTop() + (optionTop - selectTop));
