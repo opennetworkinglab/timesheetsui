@@ -62,7 +62,8 @@
                                  [onfDay]="isOnfDay(d.key, currentWeekId)"
                                  [times]="d.value.times" [userSigned]="userSigned"
                                  [weekend]="isWeekend(d.key)" (projectTimeChange)="projectTimeChange($event)"
-                                 [dayId]="d.key">
+                                 [dayId]="d.key"
+                                 [darpaAllocationPct]="darpaAllocationPct">
                         </app-day>
                     </td>
                     <td>
