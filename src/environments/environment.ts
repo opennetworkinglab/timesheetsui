@@ -33,6 +33,7 @@ export const environment = {
  */
 
 export const TIMESHEETS_REST_URL = 'http://localhost:3000';
+// export const TIMESHEETS_REST_URL = 'https://timesheets.opennetworking.org/rest';
 export const REDIRECT_URL = 'https://www.google.ie';
 
 export const OIDC_AUTH_CLIENT_ID = '714812020196-e7jruo2d8ca73fhe6h1j4aqeaaa3ac1s.apps.googleusercontent.com';
