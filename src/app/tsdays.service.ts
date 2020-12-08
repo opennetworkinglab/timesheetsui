@@ -69,10 +69,15 @@ export class TsdaysService {
         console.log('Updating day for ', email, project);
 
         const dayArr = dayInWeek.split(' ');
-        let month = this.date.getMonth() + 1;
+        let month = this.date.getUTCMonth() + 1;
+        let year = this.date.getUTCFullYear();
 
-        if (dayArr[1] < this.date.getDate()){
+        if (dayArr[1] < this.date.getUTCDate()){
             month++;
+            if (month > 12) {
+                year++;
+                month = 1;
+            }
         }
 
         const body = {
@@ -86,7 +91,7 @@ export class TsdaysService {
             Authorization: token
         });
 
-        this.http.patch(this.configUrl + '/' + email + '/' + this.date.getFullYear() + '-' + month + '-' + dayArr[1],
+        this.http.patch(this.configUrl + '/' + email + '/' + year + '-' + month + '-' + dayArr[1],
             body,
             { headers: httpHeaders })
             .subscribe(
