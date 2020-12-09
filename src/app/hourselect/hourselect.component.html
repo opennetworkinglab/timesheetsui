@@ -14,7 +14,7 @@
 ~ limitations under the License.
 -->
 
-<select id="{{id}}" [(ngModel)]="mins" (change)="updatedEvent.emit(mins)" [disabled]="userSigned" [tabIndex]="">
+<select id="{{id}}" [(ngModel)]="mins" (change)="updatedEvent.emit(mins)" [disabled]="userSigned" [tabIndex]="tabIndex">
     <option selected value></option>
     <option [value]="30">0.50</option>
 

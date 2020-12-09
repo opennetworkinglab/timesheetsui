@@ -40,7 +40,7 @@ export class DayComponent implements OnInit, OnChanges {
     @Input() date: string;
     @Input() weekend: boolean;
     @Input() onfDay: boolean;
-    @Input() tabIndex: number = 0;
+    @Input() tabIndex: number;
 
     @Input() times: Time[];
     @Input() userSigned: boolean;
