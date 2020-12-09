@@ -14,7 +14,7 @@
 ~ limitations under the License.
 -->
 
-<div>
+<div #topdiv tabindex="1">
 
     <div class="mat-typography">
 
@@ -30,7 +30,7 @@
         </div>
 
         <div class="center" *ngIf="!showPreview">
-            <h3 class="mat-h2">Please choose hours in decimal format</h3>
+            <h3 class="mat-h2"><small>Please choose hours in decimal format</small></h3>
         </div>
 
         <div class="center-table" *ngIf="!showPreview">
@@ -57,13 +57,13 @@
                             </tbody>
                         </table>
                     </td>
-                    <td id="body-cell" *ngFor="let d of days | keyvalue">
+                    <td id="body-cell" *ngFor="let d of days | keyvalue; index as i">
                         <app-day [day]="d.key | date: 'EEE dd':'UTC'" [email]="d.value.email"
                                  [onfDay]="isOnfDay(d.key, currentWeekId)"
                                  [times]="d.value.times" [userSigned]="userSigned"
                                  [weekend]="isWeekend(d.key)" (projectTimeChange)="projectTimeChange($event)"
                                  [dayId]="d.key"
-                                 [darpaAllocationPct]="darpaAllocationPct">
+                                 [darpaAllocationPct]="darpaAllocationPct" [tabIndex]="i+1">
                         </app-day>
                     </td>
                     <td>
@@ -78,7 +78,7 @@
                             <tr>{{ptoMins}}</tr>
                             <tr>{{sickMins}}</tr>
                             <tr>{{holidayMins}}</tr>
-                            <tr [ngClass]="darpaWarn?'pad-warn':'total'">{{totalMins}}</tr>
+                            <tr [ngClass]="totalWarn?'pad-warn':'total'">{{totalMins}}</tr>
                         </table>
                     </td>
                 </tr>
@@ -86,7 +86,7 @@
             </table>
         </div>
         <div *ngIf="!showPreview" class="custom-theme center" style="padding-top: 60px">
-            <button (click)="sign()" [disabled]="signBtnDisabled" color="accent" class="font-size-btn"
+            <button (click)="sign()" [disabled]="signBtnDisabled" color="accent" class="font-size-btn" tabindex="8"
                     mat-raised-button>{{signBtnName}}</button><mat-icon color="primary" matTooltip="Upon completing your weekly timesheet, press the button below to submit it to DocuSign for your signature.  You will be directed to DocuSign, please sign your timesheet there" matTooltipPosition="right">info</mat-icon>
         </div>
     </div>
