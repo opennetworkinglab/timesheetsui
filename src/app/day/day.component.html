@@ -21,7 +21,7 @@
 
 <tbody [ngClass]="onfDay?'onfDay':'' || weekend?'weekend':''">
 <tr class="pad">
-    <app-hourselect [mins]="darpaMins"
+    <app-hourselect [mins]="darpaMins" [tabIndex]="tabIndex < 6 ? tabIndex:undefined"
                     (updatedEvent)="update('Darpa HR001120C0107', $event)" [userSigned]="userSigned" [id]="dayId+1" [darpaAllocationPct]="darpaAllocationPct"></app-hourselect>
 </tr>
 <tr class="pad">

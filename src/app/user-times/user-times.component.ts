@@ -14,31 +14,34 @@
  * limitations under the License.
  */
 
-import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {TsDay, TsdaysService} from '../tsdays.service';
 import {TsWeekly, TsweeklyService} from '../tsweekly.service';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {generate, Subscription} from 'rxjs';
 import {EMAIL_ATTR} from '../app.component';
-import { DOCUMENT } from '@angular/common';
+import {DOCUMENT} from '@angular/common';
 import {UserService} from '../user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {DayComponent} from '../day/day.component';
 
 const msInDay = 24 * 60 * 60 * 1000;
-
+const weekTotalExpectedHours = 40;
+const totalTolerancePct = 10; // percent
 
 // TODO: implement service? Warnings based on darpaAllocationPct and hours per week.
 @Component({
-  selector: 'app-user-times',
-  templateUrl: './user-times.component.html',
-  styleUrls: ['./user-times.component.css']
+    selector: 'app-user-times',
+    templateUrl: './user-times.component.html',
+    styleUrls: ['./user-times.component.css']
 })
-export class UserTimesComponent implements OnInit{
+export class UserTimesComponent {
     @Input() email: string;
     @Input() weekid: number;
     @Input() year: number;
     @Input() loggedIn: boolean;
+    @ViewChild('topdiv') topDiv: ElementRef;
 
     nameBtnSign: string = 'Submit Timesheet';
     nameBtnUnsign: string = 'Retract Timesheet';
@@ -56,11 +59,12 @@ export class UserTimesComponent implements OnInit{
     previewImgUrl: any;
     currentWeekId: number;
 
-    weekHours: number = 40;
+    weekHours: number = weekTotalExpectedHours;
     remainingWeekHours: number = this.weekHours;
     darpaAllocationPct: number = 100;
     remainingDarpaHours: number = this.weekHours * (this.darpaAllocationPct / 100);
-    darpaWarn: boolean = false;
+    darpaWarn: boolean = true;
+    totalWarn: boolean = true;
 
     darpaMins: number = 0;
     sickMins: number = 0;
@@ -127,8 +131,6 @@ export class UserTimesComponent implements OnInit{
         );
     }
 
-    ngOnInit(): void {}
-
     changeWeek(delta: number) {
         if (!this.daysSubscription.closed) {
             this.daysSubscription.unsubscribe();
@@ -137,7 +139,10 @@ export class UserTimesComponent implements OnInit{
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
             return;
         }
-
+        if (this.topDiv !== undefined) {
+            this.topDiv.nativeElement.focus();
+            this.topDiv.nativeElement.blur();
+        }
         this.resetTotals();
         this.resetHours();
         this.currentWeekId = this.currentWeekId + delta;
@@ -145,7 +150,6 @@ export class UserTimesComponent implements OnInit{
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
         this.daysSubscription = this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
-
             (daydata: TsDay) => {
                 this.days.set(daydata.day, daydata);
             },
@@ -187,17 +191,15 @@ export class UserTimesComponent implements OnInit{
 
                 this.weekly = weekly;
 
-                if (this.weekly){
+                if (this.weekly) {
 
-                    if (this.weekly.supervisorSigned){
+                    if (this.weekly.supervisorSigned) {
                         this.showPreview = true;
-                    }
-                    else if ((this.weekly.userSigned != null && this.weekly.userSigned.length > 0)){
+                    } else if ((this.weekly.userSigned != null && this.weekly.userSigned.length > 0)) {
 
                         this.userSigned = true;
                         this.signBtnName = this.nameBtnUnsign;
-                    }
-                    else {
+                    } else {
                         this.userSigned = false;
                         this.signBtnName = this.nameBtnSign;
                     }
@@ -211,15 +213,15 @@ export class UserTimesComponent implements OnInit{
             },
             () => {
 
-                if (this.weekly === undefined){
+                if (this.weekly === undefined) {
 
                     this.userSigned = false;
                     this.showPreview = false;
-                    this.signBtnName  = this.nameBtnSign;
+                    this.signBtnName = this.nameBtnSign;
 
                 }
 
-                if (this.darpaAllocationPct === 0){
+                if (this.darpaAllocationPct === 0) {
                     this.userSigned = true;
                     this.darpaWarn = false;
                     this.signBtnDisabled = true;
@@ -233,14 +235,14 @@ export class UserTimesComponent implements OnInit{
         return date.getUTCDay() === 6 || date.getUTCDay() === 0;
     }
 
-    isOnfDay(dayMs: number, currentWeekId: number): boolean{
+    isOnfDay(dayMs: number, currentWeekId: number): boolean {
 
         const date = new Date(dayMs);
 
-        for (const el of this.weeks.get(currentWeekId).onfDays){
+        for (const el of this.weeks.get(currentWeekId).onfDays) {
             const onfDay = new Date(el.date);
 
-            if (date.getDate() === onfDay.getDate()){
+            if (date.getDate() === onfDay.getDate()) {
                 return true;
             }
         }
@@ -254,7 +256,7 @@ export class UserTimesComponent implements OnInit{
 
         if (this.signBtnName === this.nameBtnSign) {
 
-            if (this.totalMins === 0){
+            if (this.totalMins === 0) {
                 return;
             }
 
@@ -272,14 +274,14 @@ export class UserTimesComponent implements OnInit{
 
                 if (this.signBtnName === this.nameBtnSign) {
                     this.signBtnName = this.nameBtnUnsign;
-                }else {
+                } else {
                     this.signBtnName = this.nameBtnSign;
                 }
 
                 this.loadingProgress = false;
                 this.signBtnDisabled = false;
 
-                if (userSigned === false){
+                if (userSigned === false) {
                     this.userSigned = false;
                 }
             }, (error) => {
@@ -351,8 +353,8 @@ export class UserTimesComponent implements OnInit{
         this.cdr.detectChanges();
     }
 
-    resetHours(){
-        this.weekHours = 40;
+    resetHours() {
+        this.weekHours = weekTotalExpectedHours;
     }
 
     checkHoursAllocated() {
@@ -371,5 +373,8 @@ export class UserTimesComponent implements OnInit{
                 this.darpaWarn = true;
             }
         }
+
+        this.totalWarn = (this.totalMins < weekTotalExpectedHours * (100 - totalTolerancePct) / 100.0
+            || this.totalMins > weekTotalExpectedHours * (100 + totalTolerancePct) / 100.0);
     }
 }

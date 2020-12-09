@@ -35,6 +35,7 @@ export class HourselectComponent implements OnInit, AfterViewInit{
     @Input() userSigned: boolean;
     @Input() id: string;
     @Input() darpaAllocationPct: number;
+    @Input() tabIndex: number;
 
     normalDayHours: number = 8;
 
