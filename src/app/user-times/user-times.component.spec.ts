@@ -74,6 +74,10 @@ describe('UserTimesComponent', () => {
         expect(reqWeeks.request.method).toEqual('GET');
         reqWeeks.flush(testWeeks);
 
+        const r = httpTestingController.expectOne('http://localhost:3000/weekly/unsigned');
+        expect(r.request.method).toEqual('GET');
+        r.flush({diff: 0});
+
         const reqWeek29Days = httpTestingController.expectOne('http://localhost:3000/day/test@email/29');
         expect(reqWeek29Days.request.method).toEqual('GET');
         reqWeek29Days.flush(tsDaysWeek29SampleData);

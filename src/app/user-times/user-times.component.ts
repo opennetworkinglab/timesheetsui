@@ -127,7 +127,6 @@ export class UserTimesComponent {
             () => {
 
                 this.tsweekliesService.getLastUnsignedWeeklyDiff().subscribe((result) => {
-                    console.log(result.diff);
                     this.changeWeek(result.diff);
                     this.changeWeekAlreadySigned(result.diff);
                 });
