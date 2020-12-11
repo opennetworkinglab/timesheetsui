@@ -126,3 +126,10 @@ h3 {
 .font-size-btn {
     font-size: 16px;
 }
+
+.material-icons {
+    font-size: 20px;
+    vertical-align: middle;
+    position: relative;
+    margin-top: 1px;
+}
