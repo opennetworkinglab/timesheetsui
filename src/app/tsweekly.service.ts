@@ -58,6 +58,19 @@ export class TsweeklyService {
         return window.btoa(binary);
     }
 
+    getLastUnsignedWeeklyDiff(): Observable<any> {
+
+        console.log('Getting last unsigned week');
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get(this.configUrl + '/unsigned', {headers: httpHeaders});
+    }
+
     getWeeklies(email: string, weekid: number): Observable<TsWeekly> {
 
         console.log('Getting weeklies for', email, weekid);

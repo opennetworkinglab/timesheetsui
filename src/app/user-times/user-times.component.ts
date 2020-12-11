@@ -125,8 +125,11 @@ export class UserTimesComponent {
             },
             error => console.log('error getting weeks', error),
             () => {
-                this.changeWeek(0);
-                this.changeWeekAlreadySigned(0);
+
+                this.tsweekliesService.getLastUnsignedWeeklyDiff().subscribe((result) => {
+                    this.changeWeek(result.diff);
+                    this.changeWeekAlreadySigned(result.diff);
+                });
             }
         );
     }
