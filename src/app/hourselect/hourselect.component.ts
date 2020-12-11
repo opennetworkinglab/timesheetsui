@@ -51,7 +51,9 @@ export class HourselectComponent implements OnInit, AfterViewInit{
     ngAfterViewInit(): void {
 
         if (this.darpaAllocationPct !== 0){
-            this.value = 0.00;
+            setTimeout(() => {
+                this.value = 0.00;
+            });
         }
 
         const select = $('#' + this.id);
