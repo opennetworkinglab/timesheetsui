@@ -15,7 +15,7 @@
 -->
 
 <select id="{{id}}" [(ngModel)]="mins" (change)="updatedEvent.emit(mins)" [disabled]="userSigned" [tabIndex]="tabIndex">
-    <option selected value></option>
+    <option selected [value]="0">{{value}}</option>
     <option [value]="30">0.50</option>
 
     <option [value]="60">1.00</option>

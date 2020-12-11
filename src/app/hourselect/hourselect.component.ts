@@ -37,6 +37,8 @@ export class HourselectComponent implements OnInit, AfterViewInit{
     @Input() darpaAllocationPct: number;
     @Input() tabIndex: number;
 
+    value;
+
     normalDayHours: number = 8;
 
     constructor() {
@@ -47,6 +49,12 @@ export class HourselectComponent implements OnInit, AfterViewInit{
     }
 
     ngAfterViewInit(): void {
+
+        if (this.darpaAllocationPct !== 0){
+            setTimeout(() => {
+                this.value = 0.00;
+            });
+        }
 
         const select = $('#' + this.id);
         $(select).mousedown(() => {
