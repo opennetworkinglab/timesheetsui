@@ -92,7 +92,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
         if (!this.loginForm.valid) {
             return;
         }
-
+        console.log(this.loginForm);
         if (this.user) {
 
             const body = {
