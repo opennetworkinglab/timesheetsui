@@ -23,6 +23,7 @@
         <mat-nav-list>
             <a mat-list-item [routerLink]="['']">Weekly</a>
             <a mat-list-item [routerLink]="['/users']">Users</a>
+            <a mat-list-item [routerLink]="['/signed']">Signed</a>
             <a mat-list-item (click)="logout()">Log Out</a>
         </mat-nav-list>
     </mat-sidenav>
@@ -38,8 +39,9 @@
             </button>
             <span>{{title}}</span>
             <nav mat-tab-nav-bar *ngIf="(isHandset$ | async) === false">
-                <a mat-tab-link class="mat-tab-link" [routerLink]="['']">Weekly</a>
-                <a mat-tab-link  *ngIf="supervisor" [routerLink]="['/users']">Users</a>
+                <a mat-tab-link [routerLink]="['']">Weekly</a>
+                <a mat-tab-link *ngIf="supervisor" [routerLink]="['/users']">Users</a>
+                <a mat-tab-link *ngIf="supervisor" [routerLink]="['/signed']">Signed</a>
             </nav>
             <span class="spacer"></span>
             <nav mat-tab-nav-bar *ngIf="(isHandset$ | async) === false">

@@ -49,10 +49,12 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { AddUserComponent } from './user-list/add-user/add-user.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { UsersSignedComponent } from './users-signed/users-signed.component';
 
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
     { path: 'users', component: UserListComponent},
+    { path: 'signed', component: UsersSignedComponent}
 ];
 
 @NgModule({
@@ -63,7 +65,8 @@ const routes: Routes = [
         UserTimesComponent,
         NavigationComponent,
         UserListComponent,
-        AddUserComponent
+        AddUserComponent,
+        UsersSignedComponent
     ],
     imports: [
         BrowserModule,

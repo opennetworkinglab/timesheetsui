@@ -71,7 +71,7 @@ export class TsweeklyService {
         return this.http.get(this.configUrl + '/unsigned', {headers: httpHeaders});
     }
 
-    getWeeklies(email: string, weekid: number): Observable<TsWeekly> {
+    getWeekly(email: string, weekid: number): Observable<TsWeekly> {
 
         console.log('Getting weeklies for', email, weekid);
 

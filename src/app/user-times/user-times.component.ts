@@ -26,7 +26,7 @@ import {UserService} from '../user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DayComponent} from '../day/day.component';
 
-const msInDay = 24 * 60 * 60 * 1000;
+export const msInDay = 24 * 60 * 60 * 1000;
 const weekTotalExpectedHours = 40;
 const totalTolerancePct = 10; // percent
 
@@ -189,7 +189,7 @@ export class UserTimesComponent {
         this.showPreview = false;
         this.weekly = undefined;
         this.previewImgUrl = undefined;
-        this.tsweekliesService.getWeeklies(this.email, this.currentWeekId).subscribe(
+        this.tsweekliesService.getWeekly(this.email, this.currentWeekId).subscribe(
             (weekly: TsWeekly) => {
 
                 this.weekly = weekly;
