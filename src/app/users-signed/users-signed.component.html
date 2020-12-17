@@ -25,6 +25,10 @@
 </div>
 
 <div class="search-div" style="margin-left: 20px; padding-top: 20px;">
+    <button mat-raised-button [cdkCopyToClipboard]="data">
+        <mat-icon>content_copy</mat-icon>
+        Copy Emails
+    </button>
     <mat-form-field style="padding-left: 20px">
         <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
         <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
@@ -61,6 +65,6 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             <mat-footer-row *matFooterRowDef="['noData']" [hidden]="hidden"></mat-footer-row>
         </mat-table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
     </div>
 </div>
