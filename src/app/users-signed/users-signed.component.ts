@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {User, UserService} from '../user.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -50,6 +50,7 @@ export class UsersSignedComponent implements OnInit {
 
     searchKey: string;
     hidden = false;
+    @Output() totalSigned = 0;
 
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
@@ -110,6 +111,7 @@ export class UsersSignedComponent implements OnInit {
 
                         if (result.userSigned && result.userSigned.length > 0){
                             user.userSigned = true;
+                            this.totalSigned++;
                         }
                         else {
                             user.userSigned = false;
@@ -133,6 +135,7 @@ export class UsersSignedComponent implements OnInit {
     changeWeek(delta: number) {
 
         this.userArray = [];
+        this.totalSigned = 0;
 
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
             return;
@@ -156,6 +159,7 @@ export class UsersSignedComponent implements OnInit {
 
                     if (result.userSigned && result.userSigned.length > 0){
                         user.userSigned = true;
+                        this.totalSigned++;
                     }
                     else {
                         user.userSigned = false;
