@@ -95,6 +95,17 @@ export class TsweeklyService {
         );
     }
 
+    getUsersAndWeekly(weekId: number): Observable<any>{
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get(this.configUrl + '/usersweekly/' + weekId, { headers: httpHeaders});
+    }
+
     sign(email, weekId, userSigned): Observable<any> {
 
         console.log('Signing weekly for', email, weekId);
