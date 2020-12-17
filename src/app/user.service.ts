@@ -65,8 +65,6 @@ export class UserService {
             Authorization: token
         });
 
-        user.supervisorEmail = localStorage.getItem(EMAIL_ATTR);
-
         return this.http.post(this.configUrl + '/createuser', user, {headers: httpHeaders}).pipe(
             // tslint:disable-next-line:new-parens
             map((item: AddUserReply) => new class implements AddUserReply {
