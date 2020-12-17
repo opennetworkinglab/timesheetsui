@@ -128,7 +128,8 @@ h3 {
 }
 
 .material-icons {
-    font-size: 20px;
+    height: 15px;
+    font-size: 15px;
     vertical-align: middle;
     position: relative;
     margin-top: 1px;

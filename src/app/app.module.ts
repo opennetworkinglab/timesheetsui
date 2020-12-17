@@ -54,7 +54,7 @@ import { UsersSignedComponent } from './users-signed/users-signed.component';
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
     { path: 'users', component: UserListComponent},
-    { path: 'signed', component: UsersSignedComponent}
+    { path: 'completion', component: UsersSignedComponent}
 ];
 
 @NgModule({
