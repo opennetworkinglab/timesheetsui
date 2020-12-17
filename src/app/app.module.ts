@@ -50,6 +50,7 @@ import { AddUserComponent } from './user-list/add-user/add-user.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { UsersSignedComponent } from './users-signed/users-signed.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
@@ -96,7 +97,8 @@ const routes: Routes = [
         MatDialogModule,
         ReactiveFormsModule,
         MatSelectModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        ClipboardModule
     ],
     providers: [],
     bootstrap: [AppComponent],

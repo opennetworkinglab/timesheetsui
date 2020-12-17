@@ -52,6 +52,8 @@ export class UsersSignedComponent implements OnInit {
     hidden = false;
     @Output() totalSigned = 0;
 
+    data = '';
+
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
                 private tsweeklyService: TsweeklyService) {
@@ -82,6 +84,11 @@ export class UsersSignedComponent implements OnInit {
                 this.listData = new MatTableDataSource<TempUser>(this.userArray);
                 this.listData.sort = this.sort;
                 this.listData.paginator = this.paginator;
+
+                this.listData.data.forEach(row => {
+                    this.data += row.email + '\n';
+                });
+
             });
     }
 
