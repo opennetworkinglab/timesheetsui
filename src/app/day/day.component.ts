@@ -122,6 +122,7 @@ export class DayComponent implements OnInit, OnChanges {
             this.holidayMins = 480;
             this.updateTotal('Holiday', 480);
             this.tsdaysService.updateTimeInDay(this.email, this.day, 'Holiday', 480);
+            this.projectTimeChange.emit({ name: 'Holiday', minutes: 480});
         }
 
     }
