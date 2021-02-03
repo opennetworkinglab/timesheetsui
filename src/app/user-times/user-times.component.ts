@@ -330,7 +330,6 @@ export class UserTimesComponent {
                 }
                 break;
             case 'Holiday':
-                console.log("dssddsdsadsdsds");
                 if (event.minutes !== 0) {
                     this.holidayMins += event.minutes / 60;
                 }
