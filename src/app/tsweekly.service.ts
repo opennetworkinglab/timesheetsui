@@ -23,11 +23,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
-interface Preview {
-    type: string;
-    data: number[];
-}
-
 export interface TsWeekly {
     weekId: number;
     document: string;

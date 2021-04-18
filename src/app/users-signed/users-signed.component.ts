@@ -26,7 +26,15 @@ import {TsweeklyService} from '../tsweekly.service';
 class TempUser{
     email: string;
     name: string;
-    userSigned: boolean;
+    alloc: number;
+    darpa = 0;
+    ird = 0;
+    ga = 0;
+    pto = 0;
+    sick = 0;
+    holiday = 0;
+    total = 0;
+    userSigned: string;
     supervisorSigned: boolean;
 }
 
@@ -44,7 +52,7 @@ export class UsersSignedComponent implements OnInit {
 
     listData: MatTableDataSource<TempUser>;
     userArray = [];
-    displayedColumns = ['email', 'name', 'userSigned', 'supervisorSigned'];
+    displayedColumns = ['name', 'alloc', 'userSigned', 'supervisorSigned'];
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -81,6 +89,46 @@ export class UsersSignedComponent implements OnInit {
                 this.tsweeklyService.getUsersAndWeekly(this.currentWeekId).subscribe(result => {
 
                         result.forEach(user => {
+                            const tempUser = new TempUser();
+                            tempUser.email = user.email;
+                            tempUser.name = user.name;
+                            tempUser.alloc = user.alloc;
+                            tempUser.userSigned = "sddda";new Date(user.userSigned).toLocaleString();
+
+                            // tslint:disable-next-line:prefer-for-of
+                            for (let i = 0; i < user.times.length; i++){
+
+                                // tslint:disable-next-line:prefer-for-of
+                                for (let j = 0; j < user.times[i].length; j++){
+
+                                    if (user.times[i][j].name === 'Darpa HR001120C0107'){
+
+                                        tempUser.darpa += user.times[i][j].minutes;
+                                    }
+                                    if (user.times[i][j].name === 'Sick'){
+
+                                        tempUser.sick += user.times[i][j].minutes;
+                                    }
+                                    if (user.times[i][j].name === 'Holiday'){
+
+                                        tempUser.holiday += user.times[i][j].minutes;
+                                    }
+                                    if (user.times[i][j].name === 'PTO'){
+
+                                        tempUser.pto += user.times[i][j].minutes;
+                                    }
+                                    if (user.times[i][j].name === 'G_A'){
+
+                                        tempUser.ga += user.times[i][j].minutes;
+                                    }
+                                    if (user.times[i][j].name === 'IR_D'){
+
+                                        tempUser.ird += user.times[i][j].minutes;
+                                    }
+                                }
+
+                            }
+
                             this.userArray.push(user);
                         });
                     },
@@ -97,9 +145,9 @@ export class UsersSignedComponent implements OnInit {
 
                         this.userArray.forEach((user: TempUser) => {
 
-                            if (user.userSigned === false){
-                                this.data += user.email + '\n';
-                            }
+                            // if (user.userSigned === false){
+                            //     this.data += user.email + '\n';
+                            // }
                         });
                     });
             });
@@ -132,8 +180,7 @@ export class UsersSignedComponent implements OnInit {
                     this.userArray.push(user);
                 });
             },
-            () => {
-            },
+            () => {},
             () => {
 
                 if (this.userArray.length > 0){
@@ -145,11 +192,10 @@ export class UsersSignedComponent implements OnInit {
 
                 this.userArray.forEach((user: TempUser) => {
 
-                    if (user.userSigned === false){
-                        this.data += user.email + '\n';
-                    }
+                    // if (user.userSigned === false){
+                    //     this.data += user.email + '\n';
+                    // }
                 });
             });
-
     }
 }

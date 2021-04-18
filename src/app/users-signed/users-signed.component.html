@@ -40,17 +40,17 @@
 <div style="margin-left: 20px; margin-right: 20px;">
     <div class="mat-elevation-z8 table-responsive">
         <mat-table [dataSource]="listData" matSort>
-            <ng-container matColumnDef="email">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
-            </ng-container>
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
             </ng-container>
+            <ng-container matColumnDef="alloc">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Alloc</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.alloc}}</mat-cell>
+            </ng-container>
             <ng-container matColumnDef="userSigned">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>User Signed</mat-header-cell>
-                <mat-cell *matCellDef="let element"><mat-icon color="accent">{{element.userSigned?'check':'clear'}}</mat-icon></mat-cell>
+                <mat-cell *matCellDef="let element"><mat-icon color="accent">{{element.userSigned}}</mat-icon></mat-cell>
             </ng-container>
             <ng-container matColumnDef="supervisorSigned">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Approver Signed</mat-header-cell>
