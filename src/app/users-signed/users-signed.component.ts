@@ -54,7 +54,6 @@ export class UsersSignedComponent implements OnInit {
     currentWeekId: number;
     MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    macX = `<mat-icon color="accent">clear</mat-icon>`;
     listData: MatTableDataSource<TempUser>;
     userArray = [];
     displayedColumns = ['name', 'alloc',
@@ -77,8 +76,7 @@ export class UsersSignedComponent implements OnInit {
 
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
-                private tsweeklyService: TsweeklyService,
-                private oauthService: OAuthService) {
+                private tsweeklyService: TsweeklyService) {
     }
 
     ngOnInit(): void {
