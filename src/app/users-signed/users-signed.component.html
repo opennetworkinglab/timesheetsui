@@ -93,7 +93,7 @@
                 <mat-cell *matCellDef="let element">
                     <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
                         {{element.supervisorSigned}}
-                        <button mat-raised-button color="accent" style="margin-left: 5px">Unsign</button>
+                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
 <!--                        TODO: add unsign button -->
                     </ng-container>
                     <ng-container *ngIf="!element.supervisorCheck">
@@ -101,7 +101,7 @@
                     </ng-container>
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && element.userSigned">
                         <button mat-raised-button color="accent" style="margin-right: 5px">Reject</button>
-                        <button mat-raised-button color="accent" (click)="supervisorSign(element.email)">Sign</button>
+                        <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
                     </ng-container>
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
 <!--                        TODO: Add functionality to reminder button -->

@@ -106,7 +106,7 @@ export class UsersSignedComponent implements OnInit {
     }
 
     getUsersAndWeekly(){
-
+        this.userArray = [];
         this.tsweeklyService.getUsersAndWeekly(this.currentWeekId).subscribe(result => {
 
                 result.forEach(user => {
@@ -206,8 +206,15 @@ export class UsersSignedComponent implements OnInit {
         tempUser.total = 0;
     }
 
-    supervisorSign(userEmail){
-        this.tsweeklyService.supervisorSignSheet(userEmail, this.currentWeekId).subscribe(result => {
+    approverSign(userEmail){
+        this.tsweeklyService.signSheetApprover(userEmail, this.currentWeekId).subscribe(result => {
+            this.getUsersAndWeekly();
+        });
+    }
+
+    approverUnsign(userEmail){
+        this.tsweeklyService.unsignSheetApprover(userEmail, this.currentWeekId).subscribe( result => {
+            console.log(result);
             this.getUsersAndWeekly();
         });
     }
