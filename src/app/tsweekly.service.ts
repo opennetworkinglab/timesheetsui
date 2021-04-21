@@ -90,6 +90,16 @@ export class TsweeklyService {
         );
     }
 
+    supervisorSignSheet(userEmail: string, weekId: number){
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.post(this.configUrl + '/approver/' + userEmail + '/' + weekId, {}, {headers: httpHeaders});
+    }
+
     getUsersAndWeekly(weekId: number): Observable<any>{
 
         const token = 'Bearer ' + this.oAuthService.getIdToken();

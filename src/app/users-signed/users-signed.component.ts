@@ -15,13 +15,15 @@
  */
 
 import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {User, UserService} from '../user.service';
+import {UserService} from '../user.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {msInDay} from '../user-times/user-times.component';
 import {TsweeklyService} from '../tsweekly.service';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {EMAIL_ATTR} from '../app.component';
 
 class TempUser{
     email: string;
@@ -35,7 +37,8 @@ class TempUser{
     holiday = 0;
     total = 0;
     userSigned: string;
-    supervisorSigned: boolean;
+    supervisorCheck = false;
+    supervisorSigned: string;
 }
 
 @Component({
@@ -49,10 +52,20 @@ export class UsersSignedComponent implements OnInit {
     @Input() weekid: number;
     @Input() year: number;
     currentWeekId: number;
+    MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+    macX = `<mat-icon color="accent">clear</mat-icon>`;
     listData: MatTableDataSource<TempUser>;
     userArray = [];
-    displayedColumns = ['name', 'alloc', 'userSigned', 'supervisorSigned'];
+    displayedColumns = ['name', 'alloc',
+        'darpa',
+        'ird',
+        'ga',
+        'pto',
+        'sick',
+        'holiday',
+        'total',
+        'userSigned', 'supervisorSigned'];
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -64,7 +77,8 @@ export class UsersSignedComponent implements OnInit {
 
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
-                private tsweeklyService: TsweeklyService) {
+                private tsweeklyService: TsweeklyService,
+                private oauthService: OAuthService) {
     }
 
     ngOnInit(): void {
@@ -72,6 +86,7 @@ export class UsersSignedComponent implements OnInit {
         const dateTimeNow = Date.now();
 
         this.tsweeksService.getWeeks().subscribe(
+
             (weekdata: TsWeek) => {
                 this.weeks.set(weekdata.id, weekdata);
 
@@ -86,71 +101,115 @@ export class UsersSignedComponent implements OnInit {
             error => console.log('error getting weeks', error),
             () => {
 
-                this.tsweeklyService.getUsersAndWeekly(this.currentWeekId).subscribe(result => {
+                this.getUsersAndWeekly();
+            });
+    }
 
-                        result.forEach(user => {
-                            const tempUser = new TempUser();
-                            tempUser.email = user.email;
-                            tempUser.name = user.name;
-                            tempUser.alloc = user.alloc;
-                            tempUser.userSigned = "sddda";new Date(user.userSigned).toLocaleString();
+    getUsersAndWeekly(){
+
+        this.tsweeklyService.getUsersAndWeekly(this.currentWeekId).subscribe(result => {
+
+                result.forEach(user => {
+
+                    const tempUser = new TempUser();
+                    tempUser.email = user.email;
+                    tempUser.name = user.name;
+                    tempUser.alloc = user.alloc;
+
+                    if (user.userSigned) {
+                        const d = new Date(user.userSigned);
+                        tempUser.userSigned = this.MONTHS[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();
+                    }
+
+                    if (user.times) {
+
+                        // tslint:disable-next-line:prefer-for-of
+                        for (let i = 0; i < user.times.length; i++) {
 
                             // tslint:disable-next-line:prefer-for-of
-                            for (let i = 0; i < user.times.length; i++){
+                            for (let j = 0; j < user.times[i].length; j++) {
 
-                                // tslint:disable-next-line:prefer-for-of
-                                for (let j = 0; j < user.times[i].length; j++){
+                                if (user.times[i][j].name === 'Darpa HR001120C0107') {
 
-                                    if (user.times[i][j].name === 'Darpa HR001120C0107'){
+                                    tempUser.darpa += user.times[i][j].minutes / 60;
+                                }
+                                if (user.times[i][j].name === 'Sick') {
 
-                                        tempUser.darpa += user.times[i][j].minutes;
-                                    }
-                                    if (user.times[i][j].name === 'Sick'){
+                                    tempUser.sick += user.times[i][j].minutes / 60;
+                                }
+                                if (user.times[i][j].name === 'Holiday') {
 
-                                        tempUser.sick += user.times[i][j].minutes;
-                                    }
-                                    if (user.times[i][j].name === 'Holiday'){
+                                    tempUser.holiday += user.times[i][j].minutes / 60;
+                                }
+                                if (user.times[i][j].name === 'PTO') {
 
-                                        tempUser.holiday += user.times[i][j].minutes;
-                                    }
-                                    if (user.times[i][j].name === 'PTO'){
+                                    tempUser.pto += user.times[i][j].minutes / 60;
+                                }
+                                if (user.times[i][j].name === 'G_A') {
 
-                                        tempUser.pto += user.times[i][j].minutes;
-                                    }
-                                    if (user.times[i][j].name === 'G_A'){
+                                    tempUser.ga += user.times[i][j].minutes / 60;
+                                }
+                                if (user.times[i][j].name === 'IR_D') {
 
-                                        tempUser.ga += user.times[i][j].minutes;
-                                    }
-                                    if (user.times[i][j].name === 'IR_D'){
-
-                                        tempUser.ird += user.times[i][j].minutes;
-                                    }
+                                    tempUser.ird += user.times[i][j].minutes / 60;
                                 }
 
+                                tempUser.total += user.times[i][j].minutes / 60;
                             }
-
-                            this.userArray.push(user);
-                        });
-                    },
-                    () => {
-                    },
-                    () => {
-
-                        if (this.userArray.length > 0){
-                            this.hidden = true;
                         }
-                        this.listData = new MatTableDataSource<TempUser>(this.userArray);
-                        this.listData.sort = this.sort;
-                        this.listData.paginator = this.paginator;
+                    }
+                    else{
+                        this.defaultTimes(tempUser);
+                    }
 
-                        this.userArray.forEach((user: TempUser) => {
+                    if (user.supervisor === localStorage.getItem(EMAIL_ATTR)){
 
-                            // if (user.userSigned === false){
-                            //     this.data += user.email + '\n';
-                            // }
-                        });
-                    });
+                        tempUser.supervisorCheck = true;
+
+                        if (user.supervisorSigned){
+                            const d = new Date(user.supervisorSigned);
+                            tempUser.supervisorSigned = this.MONTHS[d.getMonth()] + ' ' + d.getDate() + ' '
+                                + d.getHours() + ':' + d.getMinutes();
+                        }
+                    }
+
+                    this.userArray.push(tempUser);
+                });
+            },
+            () => {
+            },
+            () => {
+
+                if (this.userArray.length > 0){
+                    this.hidden = true;
+                }
+                this.listData = new MatTableDataSource<TempUser>(this.userArray);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+
+                this.userArray.forEach((user: TempUser) => {
+
+                    if (!user.userSigned){
+                        this.data += user.email + '\n';
+                    }
+                });
             });
+    }
+
+    defaultTimes(tempUser: TempUser){
+
+        tempUser.darpa = 0;
+        tempUser.ird = 0;
+        tempUser.holiday = 0;
+        tempUser.sick = 0;
+        tempUser.pto = 0;
+        tempUser.total = 0;
+    }
+
+    supervisorSign(userEmail){
+        this.tsweeklyService.supervisorSignSheet(userEmail, this.currentWeekId).subscribe(result => {
+            this.getUsersAndWeekly();
+        });
     }
 
     onSearchClear() {
@@ -174,28 +233,6 @@ export class UsersSignedComponent implements OnInit {
 
         this.currentWeekId = this.currentWeekId + delta;
 
-        this.tsweeklyService.getUsersAndWeekly(this.currentWeekId).subscribe(result => {
-
-                result.forEach(user => {
-                    this.userArray.push(user);
-                });
-            },
-            () => {},
-            () => {
-
-                if (this.userArray.length > 0){
-                    this.hidden = true;
-                }
-                this.listData = new MatTableDataSource<TempUser>(this.userArray);
-                this.listData.sort = this.sort;
-                this.listData.paginator = this.paginator;
-
-                this.userArray.forEach((user: TempUser) => {
-
-                    // if (user.userSigned === false){
-                    //     this.data += user.email + '\n';
-                    // }
-                });
-            });
+        this.getUsersAndWeekly();
     }
 }
