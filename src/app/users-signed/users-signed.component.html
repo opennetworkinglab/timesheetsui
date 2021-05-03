@@ -27,7 +27,7 @@
 <div class="search-div" style="margin-left: 20px; padding-top: 20px;">
     <button mat-raised-button [cdkCopyToClipboard]="data">
         <mat-icon>content_copy</mat-icon>
-        Copy Emails
+        Copy Unsigned Emails
     </button>
     <mat-form-field style="padding-left: 20px">
         <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
@@ -40,24 +40,75 @@
 <div style="margin-left: 20px; margin-right: 20px;">
     <div class="mat-elevation-z8 table-responsive">
         <mat-table [dataSource]="listData" matSort>
-            <ng-container matColumnDef="email">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
-            </ng-container>
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
             </ng-container>
+            <ng-container matColumnDef="alloc">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Alloc</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.alloc}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="darpa">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>DAPRA</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.darpa}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ird">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>IR&D</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.ird}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ga">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>G&A</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.ga}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="pto">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>PTO</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.pto}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="sick">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Sick</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.sick}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="holiday">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Holiday</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.holiday}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="total">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.total}}</mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="userSigned">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>User Signed</mat-header-cell>
-                <mat-cell *matCellDef="let element"><mat-icon color="accent">{{element.userSigned?'check':'clear'}}</mat-icon></mat-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="!element.userSigned">
+                        <mat-icon color="accent">clear</mat-icon>
+                    </ng-container>
+                    <ng-container *ngIf="element.userSigned">{{element.userSigned}}</ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="supervisorSigned">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Approver Signed</mat-header-cell>
-                <mat-cell *matCellDef="let element"><mat-icon color="accent">{{element.supervisorSigned?'check':'clear'}}</mat-icon></mat-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
+                        {{element.supervisorSigned}}
+                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
+                    </ng-container>
+                    <ng-container *ngIf="!element.supervisorCheck">
+                        <mat-icon color="accent">clear</mat-icon>
+                    </ng-container>
+                    <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && element.userSigned">
+                        <button mat-raised-button color="accent" style="margin-right: 5px">Reject</button>
+                        <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
+                    </ng-container>
+                    <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
+<!--                        TODO: Add functionality to reminder button -->
+                        <button mat-raised-button color="accent">Reminder</button>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
             <ng-container matColumnDef="noData">
-                <mat-footer-cell *matFooterCellDef colspan="6">
+                <mat-footer-cell *matFooterCellDef>
                     No data
                 </mat-footer-cell>
             </ng-container>

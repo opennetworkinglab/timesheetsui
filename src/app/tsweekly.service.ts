@@ -23,11 +23,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
-interface Preview {
-    type: string;
-    data: number[];
-}
-
 export interface TsWeekly {
     weekId: number;
     document: string;
@@ -93,6 +88,28 @@ export class TsweeklyService {
                 supervisorSigned = item.supervisorSigned;
             })
         );
+    }
+
+    unsignSheetApprover(userEmail: string, weekId: number){
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.post(this.configUrl + '/approver/unsign/' + userEmail + '/' + weekId, {}, { headers: httpHeaders });
+    }
+
+    signSheetApprover(userEmail: string, weekId: number){
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.post(this.configUrl + '/approver/sign/' + userEmail + '/' + weekId, {}, { headers: httpHeaders });
     }
 
     getUsersAndWeekly(weekId: number): Observable<any>{
