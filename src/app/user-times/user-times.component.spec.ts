@@ -34,6 +34,8 @@ import {tsDaysWeek29SampleData, tsDaysWeek30SampleData, tsDaysWeek31SampleData} 
 import {DayComponent} from '../day/day.component';
 import {HourselectComponent} from '../hourselect/hourselect.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('UserTimesComponent', () => {
     let component: UserTimesComponent;
@@ -50,14 +52,16 @@ describe('UserTimesComponent', () => {
                 MatIconModule,
                 FormsModule,
                 ReactiveFormsModule,
-            ],
+                MatDialogModule,
+                BrowserAnimationsModule],
             declarations: [UserTimesComponent, DayComponent, HourselectComponent],
             providers: [
                 {provide: TsweeksService},
                 {provide: TsdaysService},
                 {provide: TsweeklyService},
                 {provide: AuthInterceptor},
-                {provide: MatSnackBar}
+                {provide: MatSnackBar},
+                {provide: MatDialog}
             ],
         })
             .compileComponents();
@@ -73,6 +77,10 @@ describe('UserTimesComponent', () => {
         const reqWeeks = httpTestingController.expectOne('http://localhost:3000/week');
         expect(reqWeeks.request.method).toEqual('GET');
         reqWeeks.flush(testWeeks);
+
+        const rejectWeek = httpTestingController.expectOne('http://localhost:3000/weekly/reject/weeks');
+        expect(rejectWeek.request.method).toEqual('GET');
+        rejectWeek.flush([{ weekId: 29, comment: 'Rejected' }] );
 
         const r = httpTestingController.expectOne('http://localhost:3000/weekly/unsigned');
         expect(r.request.method).toEqual('GET');

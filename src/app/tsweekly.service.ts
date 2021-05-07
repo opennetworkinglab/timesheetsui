@@ -17,8 +17,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {REDIRECT_URL, TIMESHEETS_REST_URL} from '../environments/environment';
-import {Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {from, Observable} from 'rxjs';
+import {filter, map, mergeMap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
@@ -29,6 +29,15 @@ export interface TsWeekly {
     preview: string;
     userSigned: string;
     supervisorSigned: boolean;
+}
+
+export interface TsWeeklyNew {
+    weekId: number;
+    document: string;
+    preview: string;
+    userSigned: string;
+    supervisorSigned: boolean;
+    comment: any;
 }
 
 @Injectable({
@@ -66,7 +75,7 @@ export class TsweeklyService {
         return this.http.get(this.configUrl + '/unsigned', {headers: httpHeaders});
     }
 
-    getRejectWeeks(): Observable<any> {
+    getRejectWeeks(): Observable<TsWeeklyNew> {
 
         const token = 'Bearer ' + this.oAuthService.getIdToken();
         const httpHeaders: HttpHeaders = new HttpHeaders({
@@ -74,7 +83,9 @@ export class TsweeklyService {
             Authorization: token
         });
 
-        return this.http.get(this.configUrl + '/reject/weeks', {headers: httpHeaders});
+        return this.http.get(this.configUrl + '/reject/weeks', {headers: httpHeaders}).pipe(
+            mergeMap((items: TsWeeklyNew[]) => from(items))
+        );
     }
 
     getWeekly(email: string, weekid: number): Observable<TsWeekly> {

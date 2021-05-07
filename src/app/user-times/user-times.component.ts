@@ -59,6 +59,8 @@ export class UserTimesComponent {
     previewImgUrl: any;
     currentWeekId: number;
 
+    rejectWeeks: Map<number, { weekId, comment }> = new Map();
+
     weekHours: number = weekTotalExpectedHours;
     remainingWeekHours: number = this.weekHours;
     darpaAllocationPct: number = 100;
@@ -127,31 +129,36 @@ export class UserTimesComponent {
             error => console.log('error getting weeks', error),
             () => {
 
+                let weekMovement = 0;
+
                 this.tsweekliesService.getRejectWeeks().subscribe(result => {
 
-                    if ( result[0].weekId ){
+                    this.rejectWeeks.set(result.weekId, result.comment);
 
-                        const weekMovement = result[0].weekId - this.currentWeekId;
+                    if ( result.weekId - this.currentWeekId < weekMovement ){
+
+                        weekMovement = result.weekId - this.currentWeekId;
                         this.changeWeek(weekMovement);
                         this.changeWeekAlreadySigned();
 
                         this.dialog.open(PopupReadTextComponent, {
                             data: {
-                                comment: result[0].comment
+                                comment: result.comment
                             }
                         });
-                    }
-                    else {
-
-                        this.tsweekliesService.getLastUnsignedWeeklyDiff().subscribe(res => {
-                                this.changeWeek(res.diff);
-                                this.changeWeekAlreadySigned();
-                            });
                     }
 
                 }, error => {
                     console.log(error);
-                    }, () => {});
+                    }, () => {
+
+                    if ( weekMovement ===  0 ){
+                        this.tsweekliesService.getLastUnsignedWeeklyDiff().subscribe(res => {
+                            this.changeWeek(res.diff);
+                            this.changeWeekAlreadySigned();
+                        });
+                    }
+                });
             }
         );
     }
@@ -207,6 +214,15 @@ export class UserTimesComponent {
                             }
                         }
                     );
+                }
+
+
+                if ( this.rejectWeeks.get(this.currentWeekId) ) {
+                    this.dialog.open(PopupReadTextComponent, {
+                        data: {
+                            comment: this.rejectWeeks.get(this.currentWeekId)
+                        }
+                    });
                 }
             }
         );
