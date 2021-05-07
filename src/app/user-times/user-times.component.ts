@@ -135,11 +135,13 @@ export class UserTimesComponent {
     }
 
     changeWeek(delta: number) {
+
         if (!this.daysSubscription.closed) {
             this.daysSubscription.unsubscribe();
         }
 
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
+            console.log(this.weeks.get(this.currentWeekId + delta));
             return;
         }
         if (this.topDiv !== undefined) {
@@ -149,6 +151,7 @@ export class UserTimesComponent {
         this.resetTotals();
         this.resetHours();
         this.currentWeekId = this.currentWeekId + delta;
+        console.log(this.currentWeekId)
         const newDate = new Date(this.weeks.get(this.currentWeekId).begin);
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
