@@ -52,6 +52,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { UsersSignedComponent } from './users-signed/users-signed.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { PopupTextComponent } from './users-signed/popup-text/popup-text.component';
+import { PopupReadTextComponent } from './user-times/popup-read-text/popup-read-text.component';
 
 const routes: Routes = [
     { path: '', component: UserTimesComponent},
@@ -69,7 +70,8 @@ const routes: Routes = [
         UserListComponent,
         AddUserComponent,
         UsersSignedComponent,
-        PopupTextComponent
+        PopupTextComponent,
+        PopupReadTextComponent
     ],
     imports: [
         BrowserModule,

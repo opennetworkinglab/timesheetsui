@@ -16,21 +16,21 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PopupTextComponent } from './popup-text.component';
+import { PopupReadTextComponent } from './popup-read-text.component';
 
-describe('PopupTextComponent', () => {
-  let component: PopupTextComponent;
-  let fixture: ComponentFixture<PopupTextComponent>;
+describe('PopupReadTextComponent', () => {
+  let component: PopupReadTextComponent;
+  let fixture: ComponentFixture<PopupReadTextComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PopupTextComponent ]
+      declarations: [ PopupReadTextComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PopupTextComponent);
+    fixture = TestBed.createComponent(PopupReadTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

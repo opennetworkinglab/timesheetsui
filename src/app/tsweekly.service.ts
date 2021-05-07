@@ -66,6 +66,17 @@ export class TsweeklyService {
         return this.http.get(this.configUrl + '/unsigned', {headers: httpHeaders});
     }
 
+    getRejectWeeks(): Observable<any> {
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.get(this.configUrl + '/reject/weeks', {headers: httpHeaders});
+    }
+
     getWeekly(email: string, weekid: number): Observable<TsWeekly> {
 
         console.log('Getting weeklies for', email, weekid);
@@ -86,8 +97,7 @@ export class TsweeklyService {
                 preview = item.preview;
                 userSigned = item.userSigned;
                 supervisorSigned = item.supervisorSigned;
-            })
-        );
+            }));
     }
 
     unsignSheetApprover(userEmail: string, weekId: number){
