@@ -15,7 +15,7 @@
  */
 
 import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {UserService} from '../user.service';
+import {User, UserService} from '../user.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
@@ -24,6 +24,9 @@ import {msInDay} from '../user-times/user-times.component';
 import {TsweeklyService} from '../tsweekly.service';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {EMAIL_ATTR} from '../app.component';
+import {MatDialog} from '@angular/material/dialog';
+import {AddUserComponent} from '../user-list/add-user/add-user.component';
+import {PopupTextComponent} from './popup-text/popup-text.component';
 
 class TempUser{
     email: string;
@@ -53,6 +56,7 @@ export class UsersSignedComponent implements OnInit {
     @Input() year: number;
     currentWeekId: number;
     MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    loadingProgress = false;
 
     listData: MatTableDataSource<TempUser>;
     userArray = [];
@@ -76,7 +80,8 @@ export class UsersSignedComponent implements OnInit {
 
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
-                private tsweeklyService: TsweeklyService) {
+                private tsweeklyService: TsweeklyService,
+                private dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -205,15 +210,18 @@ export class UsersSignedComponent implements OnInit {
     }
 
     approverSign(userEmail){
+        this.loadingProgress = true;
         this.tsweeklyService.signSheetApprover(userEmail, this.currentWeekId).subscribe(result => {
             this.getUsersAndWeekly();
+            this.loadingProgress = false;
         });
     }
 
     approverUnsign(userEmail){
+        this.loadingProgress = true;
         this.tsweeklyService.unsignSheetApprover(userEmail, this.currentWeekId).subscribe( result => {
-            console.log(result);
             this.getUsersAndWeekly();
+            this.loadingProgress = false;
         });
     }
 
@@ -239,5 +247,25 @@ export class UsersSignedComponent implements OnInit {
         this.currentWeekId = this.currentWeekId + delta;
 
         this.getUsersAndWeekly();
+    }
+
+    onReject(userEmail: string, weekId: number){
+
+        const dialog = this.dialog.open(PopupTextComponent, {
+            data: {
+                email: userEmail,
+                weekId
+            }
+        });
+
+        dialog.afterClosed().subscribe(
+            () => {
+
+            },
+            () => {
+
+            }, () => {
+                this.getUsersAndWeekly();
+            });
     }
 }

@@ -41,6 +41,12 @@ mat-footer-row mat-footer-cell {
     padding-bottom: 40px;
 }
 
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
 .font-size-weekchooser {
     font-size: 18px;
 }

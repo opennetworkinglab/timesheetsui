@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild} from '@angular/core';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {TsDay, TsdaysService} from '../tsdays.service';
 import {TsWeekly, TsweeklyService} from '../tsweekly.service';
@@ -24,13 +24,13 @@ import {EMAIL_ATTR} from '../app.component';
 import {DOCUMENT} from '@angular/common';
 import {UserService} from '../user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {DayComponent} from '../day/day.component';
+import {PopupReadTextComponent} from './popup-read-text/popup-read-text.component';
+import {MatDialog} from '@angular/material/dialog';
 
 export const msInDay = 24 * 60 * 60 * 1000;
 const weekTotalExpectedHours = 40;
 const totalTolerancePct = 10; // percent
 
-// TODO: implement service? Warnings based on darpaAllocationPct and hours per week.
 @Component({
     selector: 'app-user-times',
     templateUrl: './user-times.component.html',
@@ -59,6 +59,8 @@ export class UserTimesComponent {
     previewImgUrl: any;
     currentWeekId: number;
 
+    rejectWeeks: Map<number, { weekId, comment }> = new Map();
+
     weekHours: number = weekTotalExpectedHours;
     remainingWeekHours: number = this.weekHours;
     darpaAllocationPct: number = 100;
@@ -83,7 +85,8 @@ export class UserTimesComponent {
         private user: UserService,
         @Inject(DOCUMENT) private document: Document,
         private snackBar: MatSnackBar,
-        private cdr: ChangeDetectorRef) {
+        private cdr: ChangeDetectorRef,
+        private dialog: MatDialog) {
 
         if (oauthService.hasValidAccessToken()) {
 
@@ -126,32 +129,65 @@ export class UserTimesComponent {
             error => console.log('error getting weeks', error),
             () => {
 
-                this.tsweekliesService.getLastUnsignedWeeklyDiff().subscribe((result) => {
-                    this.changeWeek(result.diff);
-                    this.changeWeekAlreadySigned(result.diff);
+                let weekMovement = 0;
+
+                this.tsweekliesService.getRejectWeeks().subscribe(result => {
+
+                    this.rejectWeeks.set(result.weekId, result.comment);
+
+                    if ( result.weekId - this.currentWeekId < weekMovement ){
+
+                        weekMovement = result.weekId - this.currentWeekId;
+                        this.changeWeek(weekMovement);
+                        this.changeWeekAlreadySigned();
+
+                        this.dialog.open(PopupReadTextComponent, {
+                            data: {
+                                comment: result.comment
+                            }
+                        });
+                    }
+
+                }, error => {
+                    console.log(error);
+                    }, () => {
+
+                    if ( weekMovement ===  0 ){
+                        this.tsweekliesService.getLastUnsignedWeeklyDiff().subscribe(res => {
+                            this.changeWeek(res.diff);
+                            this.changeWeekAlreadySigned();
+                        });
+                    }
                 });
             }
         );
     }
 
     changeWeek(delta: number) {
+
         if (!this.daysSubscription.closed) {
             this.daysSubscription.unsubscribe();
         }
 
         if (this.weeks.get(this.currentWeekId + delta) === undefined) {
+            console.log(this.weeks.get(this.currentWeekId + delta));
             return;
         }
         if (this.topDiv !== undefined) {
             this.topDiv.nativeElement.focus();
             this.topDiv.nativeElement.blur();
         }
+
         this.resetTotals();
         this.resetHours();
+
         this.currentWeekId = this.currentWeekId + delta;
+
         const newDate = new Date(this.weeks.get(this.currentWeekId).begin);
+
         this.tsdayssService.date = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
         this.days.clear();
+
         this.daysSubscription = this.tsdayssService.getDays(this.email, this.currentWeekId).subscribe(
             (daydata: TsDay) => {
                 this.days.set(daydata.day, daydata);
@@ -179,11 +215,20 @@ export class UserTimesComponent {
                         }
                     );
                 }
+
+
+                if ( this.rejectWeeks.get(this.currentWeekId) ) {
+                    this.dialog.open(PopupReadTextComponent, {
+                        data: {
+                            comment: this.rejectWeeks.get(this.currentWeekId)
+                        }
+                    });
+                }
             }
         );
     }
 
-    changeWeekAlreadySigned(delta: number) {
+    changeWeekAlreadySigned() {
 
         this.userSigned = false;
         this.showPreview = false;
