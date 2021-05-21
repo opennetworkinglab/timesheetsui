@@ -146,6 +146,17 @@ export class TsweeklyService {
         }, { headers: httpHeaders });
     }
 
+    sendReminder(userEmail: string, weekId: number){
+
+        const token = 'Bearer ' + this.oAuthService.getIdToken();
+        const httpHeaders: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: token
+        });
+
+        return this.http.post(this.configUrl + '/reminders/' + userEmail + '/' + weekId, {}, { headers: httpHeaders });
+    }
+
     getUsersAndWeekly(weekId: number): Observable<any>{
 
         const token = 'Bearer ' + this.oAuthService.getIdToken();

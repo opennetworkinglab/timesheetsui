@@ -106,8 +106,7 @@
                         <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
                     </ng-container>
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
-<!--                        TODO: Add functionality to reminder button -->
-                        <button mat-raised-button color="accent">Reminder</button>
+                        <button mat-raised-button color="accent" (click)="onReminder(element.email)">Reminder</button>
                     </ng-container>
                 </mat-cell>
             </ng-container>
