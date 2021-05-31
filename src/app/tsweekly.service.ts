@@ -179,8 +179,7 @@ export class TsweeklyService {
         });
 
         const body = {
-            userSigned,
-            redirectUrl: REDIRECT_URL
+            userSigned
         };
 
         return this.http.patch(this.configUrl + '/' + email + '/' + weekId, body, { headers: httpHeaders});
