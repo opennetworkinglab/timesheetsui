@@ -43,8 +43,8 @@ export class UserTimesComponent {
     @Input() loggedIn: boolean;
     @ViewChild('topdiv') topDiv: ElementRef;
 
-    nameBtnSign: string = 'Submit Timesheet';
-    nameBtnUnsign: string = 'Retract Timesheet';
+    nameBtnSign: string = 'Sign Timesheet';
+    nameBtnUnsign: string = 'Unsign Timesheet';
     userSigned: boolean = true;
 
     showPreview: boolean = false;
@@ -310,15 +310,15 @@ export class UserTimesComponent {
 
             userSigned = true;
             this.userSigned = true;
-            this.snackBar.open('Redirecting to Docusign', 'Dismiss', {duration: 10000});
+            this.snackBar.open('Updating documents', 'Dismiss', { duration: 10000 });
         }
 
         this.tsweekliesService.sign(this.email, this.currentWeekId, userSigned).subscribe(
             (result) => {
 
-                if (result.viewRequest !== null) {
-                    this.document.location.href = result.viewRequest;
-                }
+                // if (result.viewRequest !== null) {
+                //     this.document.location.href = result.viewRequest;
+                // }
 
                 if (this.signBtnName === this.nameBtnSign) {
                     this.signBtnName = this.nameBtnUnsign;
