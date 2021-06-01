@@ -39,9 +39,9 @@ class TempUser{
     sick = 0;
     holiday = 0;
     total = 0;
-    userSigned: string;
+    userSigned: Date;
     supervisorCheck = false;
-    supervisorSigned: string;
+    supervisorSigned: Date;
 }
 
 @Component({
@@ -121,7 +121,7 @@ export class UsersSignedComponent implements OnInit {
 
                     if (user.userSigned) {
                         const d = new Date(user.userSigned);
-                        tempUser.userSigned = this.MONTHS[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();
+                        tempUser.userSigned = new Date(user.userSigned);
                     }
 
                     if (user.times) {
@@ -171,8 +171,7 @@ export class UsersSignedComponent implements OnInit {
 
                         if (user.supervisorSigned){
                             const d = new Date(user.supervisorSigned);
-                            tempUser.supervisorSigned = this.MONTHS[d.getMonth()] + ' ' + d.getDate() + ' '
-                                + d.getHours() + ':' + d.getMinutes();
+                            tempUser.supervisorSigned = new Date(user.supervisorSigned);
                         }
                     }
 
