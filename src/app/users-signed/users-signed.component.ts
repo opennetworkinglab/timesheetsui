@@ -120,7 +120,6 @@ export class UsersSignedComponent implements OnInit {
                     tempUser.alloc = user.alloc;
 
                     if (user.userSigned) {
-                        const d = new Date(user.userSigned);
                         tempUser.userSigned = new Date(user.userSigned);
                     }
 
@@ -170,7 +169,6 @@ export class UsersSignedComponent implements OnInit {
                         tempUser.supervisorCheck = true;
 
                         if (user.supervisorSigned){
-                            const d = new Date(user.supervisorSigned);
                             tempUser.supervisorSigned = new Date(user.supervisorSigned);
                         }
                     }
