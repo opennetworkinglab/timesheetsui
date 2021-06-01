@@ -50,7 +50,7 @@
             </ng-container>
             <ng-container matColumnDef="alloc">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Alloc</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.alloc}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.alloc}}%</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="darpa">
@@ -88,14 +88,14 @@
                     <ng-container *ngIf="!element.userSigned">
                         <mat-icon color="accent">clear</mat-icon>
                     </ng-container>
-                    <ng-container *ngIf="element.userSigned">{{element.userSigned}}</ng-container>
+                    <ng-container *ngIf="element.userSigned">{{ element.userSigned | date: 'LLL,d hh:mm a' }}</ng-container>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="supervisorSigned">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Approver Signed</mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
-                        {{element.supervisorSigned}}
+                        {{ element.supervisorSigned | date: 'LLL,d hh:mm a' }}
                         <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
                     </ng-container>
                     <ng-container *ngIf="!element.supervisorCheck">
@@ -105,6 +105,7 @@
                         <button mat-raised-button color="accent" style="margin-right: 5px" (click)="onReject(element.email, currentWeekId)">Reject</button>
                         <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
                     </ng-container>
+
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
                         <button mat-raised-button color="accent" (click)="onReminder(element.email)">Reminder</button>
                     </ng-container>

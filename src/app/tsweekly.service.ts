@@ -165,7 +165,7 @@ export class TsweeklyService {
             Authorization: token
         });
 
-        return this.http.get(this.configUrl + '/usersweekly/' + weekId, { headers: httpHeaders});
+        return this.http.get(this.configUrl + '/usersweekly/' + weekId, { headers: httpHeaders });
     }
 
     sign(email, weekId, userSigned): Observable<any> {
