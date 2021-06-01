@@ -27,6 +27,7 @@ import {EMAIL_ATTR} from '../app.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AddUserComponent} from '../user-list/add-user/add-user.component';
 import {PopupTextComponent} from './popup-text/popup-text.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 class TempUser{
     email: string;
@@ -81,6 +82,7 @@ export class UsersSignedComponent implements OnInit {
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
                 private tsweeklyService: TsweeklyService,
+                private snackBar: MatSnackBar,
                 private dialog: MatDialog) {
     }
 
@@ -264,5 +266,12 @@ export class UsersSignedComponent implements OnInit {
             }, () => {
                 this.getUsersAndWeekly();
             });
+    }
+
+    onReminder(emailId: string) {
+
+        this.tsweeklyService.sendReminder(emailId, this.currentWeekId).subscribe(result => {
+            this.snackBar.open('Reminder email sent', 'Dismiss', { duration: 5000 });
+        });
     }
 }
