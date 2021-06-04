@@ -79,7 +79,13 @@
             </ng-container>
             <ng-container matColumnDef="total">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.total}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.total}}
+                    <ng-container *ngIf="element.userSigned">
+                        <button mat-icon-button color="primary" (click)="onViewTimesheet(element.tsPreview)">
+                            <mat-icon color="accent">launch</mat-icon>
+                        </button>
+                    </ng-container>
+                </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="userSigned">
