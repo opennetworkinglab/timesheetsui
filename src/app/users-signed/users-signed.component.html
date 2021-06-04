@@ -88,14 +88,14 @@
                     <ng-container *ngIf="!element.userSigned">
                         <mat-icon color="accent">clear</mat-icon>
                     </ng-container>
-                    <ng-container *ngIf="element.userSigned">{{ element.userSigned | date: 'LLL,d hh:mm a' }}</ng-container>
+                    <ng-container *ngIf="element.userSigned">{{ element.userSigned | date: 'LLL d, hh:mm a' }}</ng-container>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="supervisorSigned">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Approver Signed</mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
-                        {{ element.supervisorSigned | date: 'LLL,d hh:mm a' }}
+                        {{ element.supervisorSigned | date: 'LLL d, hh:mm a' }}
                         <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
                     </ng-container>
                     <ng-container *ngIf="!element.supervisorCheck">
