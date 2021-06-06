@@ -43,6 +43,7 @@ class TempUser{
     userSigned: Date;
     supervisorCheck = false;
     supervisorSigned: Date;
+    tsPreview: string;
 }
 
 @Component({
@@ -56,7 +57,6 @@ export class UsersSignedComponent implements OnInit {
     @Input() weekid: number;
     @Input() year: number;
     currentWeekId: number;
-    MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     loadingProgress = false;
 
     listData: MatTableDataSource<TempUser>;
@@ -120,6 +120,7 @@ export class UsersSignedComponent implements OnInit {
                     tempUser.email = user.email;
                     tempUser.name = user.name;
                     tempUser.alloc = user.alloc;
+                    tempUser.tsPreview = user.preview;
 
                     if (user.userSigned) {
                         tempUser.userSigned = new Date(user.userSigned);
@@ -273,5 +274,9 @@ export class UsersSignedComponent implements OnInit {
         this.tsweeklyService.sendReminder(emailId, this.currentWeekId).subscribe(result => {
             this.snackBar.open('Reminder email sent', 'Dismiss', { duration: 5000 });
         });
+    }
+
+    onViewTimesheet(tsPreview: string) {
+        window.open(tsPreview);
     }
 }
