@@ -21,6 +21,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TsweeklyService} from '../../tsweekly.service';
 import {log} from 'util';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-popup-text',
@@ -35,6 +36,7 @@ export class PopupTextComponent implements OnInit {
 
     addUserBtnDisabled = false;
     editedUser = false;
+    isReminder = false;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -42,17 +44,38 @@ export class PopupTextComponent implements OnInit {
         private userService: UserService,
         private snackBar: MatSnackBar,
         private dialogRef: MatDialogRef<PopupTextComponent>,
-        private tsWeeklyService: TsweeklyService
-    ) {
+        ) {
     }
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
             comment: [null, []]
         });
+        this.isReminder = this.data.isReminder;
     }
 
-    submit() {
+    onAddDate(){
+        let currentValue = this.loginForm.get('comment').value;
+
+        if ( this.loginForm.get('comment').value === null ){
+            currentValue = '';
+        }
+        else if (this.loginForm.get('comment').value.length + 24 > 140){
+            this.snackBar.open('140 character limit exceed', 'Dismiss', { duration: 5000 });
+            return;
+        }
+        else if (this.loginForm.get('comment').value.length + 24 === 140){
+            this.snackBar.open('140 character limit reached', 'Dismiss', { duration: 5000 });
+            return;
+        }
+
+        const begin = new DatePipe('en-US').transform(this.data.begin, 'yyyy-MM-dd');
+        const end = new DatePipe('en-US').transform(this.data.end, 'yyyy-MM-dd');
+
+        this.loginForm.get('comment').setValue(currentValue + ' ' + begin + ' to ' + end);
+    }
+
+    onSubmit() {
 
         if ( !this.loginForm.value.comment ) {
             this.snackBar.open('Comment needs to be added', 'Dismiss', { duration: 5000 });
@@ -61,12 +84,6 @@ export class PopupTextComponent implements OnInit {
             this.snackBar.open('Meaningful comment needs to be added', 'Dismiss', { duration: 5000 });
         }
 
-        this.tsWeeklyService.rejectTimeSheet(this.data.email, this.data.weekId, this.loginForm.value.comment).subscribe(result => {
-            console.log(result);
-            this.dialogRef.close();
-        }, error => {
-            console.log(error);
-            this.dialogRef.close();
-        });
+        this.dialogRef.close({data: this.loginForm.get('comment').value});
     }
 }

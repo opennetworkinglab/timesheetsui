@@ -146,7 +146,7 @@ export class TsweeklyService {
         }, { headers: httpHeaders });
     }
 
-    sendReminder(userEmail: string, weekId: number){
+    sendReminder(userEmail: string, weekId: number, comment: string){
 
         const token = 'Bearer ' + this.oAuthService.getIdToken();
         const httpHeaders: HttpHeaders = new HttpHeaders({
@@ -154,7 +154,9 @@ export class TsweeklyService {
             Authorization: token
         });
 
-        return this.http.post(this.configUrl + '/reminders/' + userEmail + '/' + weekId, {}, { headers: httpHeaders });
+        return this.http.post(this.configUrl + '/reminders/' + userEmail + '/' + weekId, {
+            data: comment
+        }, { headers: httpHeaders });
     }
 
     getUsersAndWeekly(weekId: number): Observable<any>{
