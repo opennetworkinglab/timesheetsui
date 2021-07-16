@@ -169,13 +169,13 @@ export class UsersSignedComponent implements OnInit {
                         this.defaultTimes(tempUser);
                     }
 
-                    if (user.supervisor === localStorage.getItem(EMAIL_ATTR)){
+                    if (user.email !== localStorage.getItem(EMAIL_ATTR)){
 
                         tempUser.supervisorCheck = true;
+                    }
 
-                        if (user.supervisorSigned){
-                            tempUser.supervisorSigned = new Date(user.supervisorSigned);
-                        }
+                    if (user.supervisorSigned){
+                        tempUser.supervisorSigned = new Date(user.supervisorSigned);
                     }
 
                     this.userArray.push(tempUser);
