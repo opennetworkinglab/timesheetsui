@@ -15,12 +15,15 @@
 -->
 
 <div class="container">
-    <form [formGroup]="loginForm" (submit)="submit()">
+    <form [formGroup]="loginForm">
         <mat-form-field class="form-field" appearance="outline">
             <mat-label> Comment (max 140 Characters)
             </mat-label>
-            <textarea style="height: 200px" maxlength="140" matInput formControlName="comment"></textarea>
+            <textarea style="min-height: 100px; height: 100px; resize: none" maxlength="140" matInput formControlName="comment"></textarea>
+            <ng-container *ngIf="isReminder">
+                <button mat-raised-button color="accent" type="submit" (click)="onAddDate()">Add week date</button>
+            </ng-container>
         </mat-form-field>
-        <button mat-raised-button color="accent" type="submit">Submit</button>
+        <button mat-raised-button color="accent" type="submit" (click)="onSubmit()">Submit</button>
     </form>
 </div>

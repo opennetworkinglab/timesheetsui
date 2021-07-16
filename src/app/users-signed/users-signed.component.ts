@@ -83,7 +83,9 @@ export class UsersSignedComponent implements OnInit {
                 private tsweeksService: TsweeksService,
                 private tsweeklyService: TsweeklyService,
                 private snackBar: MatSnackBar,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private tsWeeklyService: TsweeklyService
+    ) {
     }
 
     ngOnInit(): void {
@@ -249,31 +251,62 @@ export class UsersSignedComponent implements OnInit {
         this.getUsersAndWeekly();
     }
 
-    onReject(userEmail: string, weekId: number){
+    onReject(userEmail: string){
 
         const dialog = this.dialog.open(PopupTextComponent, {
             data: {
-                email: userEmail,
-                weekId
+                isReminder: false
             }
         });
 
         dialog.afterClosed().subscribe(
-            () => {
+            (result) => {
+                if ( result !== undefined ) {
+                    this.tsWeeklyService.rejectTimeSheet(userEmail, this.currentWeekId, result.data).subscribe(() => {
 
+                        this.snackBar.open('Timesheet Rejected', 'Dismiss', {duration: 5000});
+                    }, error => {
+                        console.log(error);
+                    }, () => {
+                        this.getUsersAndWeekly();
+                    });
+                }
             },
             () => {
 
             }, () => {
-                this.getUsersAndWeekly();
             });
     }
 
-    onReminder(emailId: string) {
+    onReminder(userEmail: string) {
 
-        this.tsweeklyService.sendReminder(emailId, this.currentWeekId).subscribe(result => {
-            this.snackBar.open('Reminder email sent', 'Dismiss', { duration: 5000 });
+        const dialog = this.dialog.open(PopupTextComponent, {
+            data: {
+                isReminder: true,
+                begin: this.weeks.get(this.currentWeekId).begin,
+                end: this.weeks.get(this.currentWeekId).end
+            }
         });
+
+        dialog.afterClosed().subscribe(
+            (result) => {
+
+                if ( result !== undefined ) {
+
+                    this.tsweeklyService.sendReminder(userEmail, this.currentWeekId, result.data).subscribe(() => {
+
+                        this.snackBar.open('Reminder Sent', 'Dismiss', {duration: 5000});
+                    }, error => {
+                        console.log(error);
+                    }, () => {
+                        this.getUsersAndWeekly();
+                    });
+                }
+            },
+            () => {
+
+            }, () => {
+            });
     }
 
     onViewTimesheet(tsPreview: string) {
