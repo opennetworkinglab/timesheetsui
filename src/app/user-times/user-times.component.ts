@@ -141,11 +141,6 @@ export class UserTimesComponent {
                         this.changeWeek(weekMovement);
                         this.changeWeekAlreadySigned();
 
-                        this.dialog.open(PopupReadTextComponent, {
-                            data: {
-                                comment: result.comment
-                            }
-                        });
                     }
 
                 }, error => {
