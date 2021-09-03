@@ -39,6 +39,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
     isSupervisorSelect: boolean;
     editedUser = false;
 
+
     constructor(
         private formBuilder: FormBuilder,
         private userService: UserService,

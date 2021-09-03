@@ -17,15 +17,13 @@
 import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {User, UserService} from '../user.service';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, MatSortable, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {msInDay} from '../user-times/user-times.component';
 import {TsweeklyService} from '../tsweekly.service';
-import {OAuthService} from 'angular-oauth2-oidc';
 import {EMAIL_ATTR} from '../app.component';
 import {MatDialog} from '@angular/material/dialog';
-import {AddUserComponent} from '../user-list/add-user/add-user.component';
 import {PopupTextComponent} from './popup-text/popup-text.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -44,6 +42,7 @@ class TempUser{
     supervisorCheck = false;
     supervisorSigned: Date;
     tsPreview: string;
+    usercheck = 0;
 }
 
 @Component({
@@ -78,6 +77,7 @@ export class UsersSignedComponent implements OnInit {
     @Output() totalSigned = 0;
 
     data = '';
+    selectedRowIndex = -1;
 
     constructor(private userService: UserService,
                 private tsweeksService: TsweeksService,
@@ -178,6 +178,9 @@ export class UsersSignedComponent implements OnInit {
                         tempUser.supervisorSigned = new Date(user.supervisorSigned);
                     }
 
+                    if (user.supervisor === localStorage.getItem(EMAIL_ATTR)){
+                        tempUser.usercheck = 1;
+                    }
                     this.userArray.push(tempUser);
                 });
             },
@@ -189,8 +192,17 @@ export class UsersSignedComponent implements OnInit {
                     this.hidden = true;
                 }
                 this.listData = new MatTableDataSource<TempUser>(this.userArray);
+
+                // sort approved user users to the top/
+                this.sort.sort(({ id: 'usercheck', start: 'desc'}) as MatSortable);
+
                 this.listData.sort = this.sort;
                 this.listData.paginator = this.paginator;
+
+                // const sortState: Sort = { active: 'Alloc', direction: 'desc'};
+                // this.sort.active = sortState.active;
+                // this.sort.direction = sortState.direction;
+                // this.sort.sortChange.emit(sortState);
 
                 this.userArray.forEach((user: TempUser) => {
 
@@ -311,5 +323,15 @@ export class UsersSignedComponent implements OnInit {
 
     onViewTimesheet(tsPreview: string) {
         window.open(tsPreview);
+    }
+    highlightRow(row){
+        this.selectedRowIndex = row.id;
+    }
+
+    sortYourUsers(){
+        const sortState: Sort = { active: 'usercheck', direction: 'desc'};
+        this.sort.active = sortState.active;
+        this.sort.direction = sortState.direction;
+        this.sort.sortChange.emit(sortState);
     }
 }
