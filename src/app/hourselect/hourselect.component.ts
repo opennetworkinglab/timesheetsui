@@ -37,6 +37,8 @@ export class HourselectComponent implements OnInit, AfterViewInit{
     @Input() darpaAllocationPct: number;
     @Input() tabIndex: number;
 
+    @Input() isDarpaTime = false;
+
     value;
 
     normalDayHours: number = 8;
@@ -50,7 +52,7 @@ export class HourselectComponent implements OnInit, AfterViewInit{
 
     ngAfterViewInit(): void {
 
-        if (this.darpaAllocationPct !== 0){
+        if (this.isDarpaTime){
             setTimeout(() => {
                 this.value = 0.00;
             });
@@ -65,7 +67,7 @@ export class HourselectComponent implements OnInit, AfterViewInit{
                 let num = 8.00;
 
                 // 0 is passed for darpaAllocationPct for not Darpa projects. This only allows the darpa time to be the percent of darpa
-                if (this.darpaAllocationPct !== 0) {
+                if (this.isDarpaTime) {
 
                     num = (this.normalDayHours * this.darpaAllocationPct) / 100;
                     const numInt = Math.floor(num);
@@ -75,6 +77,22 @@ export class HourselectComponent implements OnInit, AfterViewInit{
                         num = numInt + 1;
                     }
                 }
+                // This was way easier then what I was trying. DON'T COMPLICATE THE PROBLEM!
+                else if (this.darpaAllocationPct !== 100) {
+
+                    num = (this.normalDayHours * (100 - this.darpaAllocationPct)) / 100;
+                    const numInt = Math.floor(num);
+                    if (num - numInt !== 0 && num - numInt < 0.5) {
+                        num = numInt;
+                    } else if (num - numInt !== 0 && num - numInt > 0.5) {
+                        num = numInt + 0.5;
+                    }
+                }
+                else {
+                    // if darpa is 100 percent and you click a non darpa project, will default to 0
+                    return;
+                }
+
                 const option = select.find('option:contains(' + num + ')');
                 const optionTop = option.offset().top;
                 const selectTop = select.offset().top;
