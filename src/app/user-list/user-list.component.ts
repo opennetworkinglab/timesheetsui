@@ -22,6 +22,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {AddUserComponent} from './add-user/add-user.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {APPROVER_NAME_ATTR, USERNAME_ATTR} from '../app.component';
 
 @Component({
     selector: 'app-user-list',
@@ -29,6 +30,9 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+
+    name;
+    approverName;
 
     email: string;
     listData: MatTableDataSource<User>;
@@ -47,6 +51,9 @@ export class UserListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        this.name = localStorage.getItem(USERNAME_ATTR);
+        this.approverName = localStorage.getItem(APPROVER_NAME_ATTR);
 
         this.userService.getUser().subscribe(user => {
            this.email = user.email;

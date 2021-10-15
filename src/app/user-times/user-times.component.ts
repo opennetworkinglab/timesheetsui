@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {TsDay, TsdaysService} from '../tsdays.service';
 import {TsWeekly, TsweeklyService} from '../tsweekly.service';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {generate, Subscription} from 'rxjs';
-import {EMAIL_ATTR} from '../app.component';
+import {APPROVER_NAME_ATTR, EMAIL_ATTR, USERNAME_ATTR} from '../app.component';
 import {DOCUMENT} from '@angular/common';
 import {UserService} from '../user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -36,12 +36,15 @@ const totalTolerancePct = 10; // percent
     templateUrl: './user-times.component.html',
     styleUrls: ['./user-times.component.css']
 })
-export class UserTimesComponent {
+export class UserTimesComponent implements OnInit {
     @Input() email: string;
     @Input() weekid: number;
     @Input() year: number;
     @Input() loggedIn: boolean;
     @ViewChild('topdiv') topDiv: ElementRef;
+
+    name;
+    approverName;
 
     nameBtnSign: string = 'Sign Timesheet';
     nameBtnUnsign: string = 'Unsign Timesheet';
@@ -104,6 +107,12 @@ export class UserTimesComponent {
 
             // this.activeSession = true;
         }
+    }
+
+    ngOnInit(): void {
+
+        this.name = localStorage.getItem(USERNAME_ATTR);
+        this.approverName = localStorage.getItem(APPROVER_NAME_ATTR);
     }
 
     // broken out to allow testing

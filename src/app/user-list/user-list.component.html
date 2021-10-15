@@ -14,7 +14,15 @@
 ~ limitations under the License.
 -->
 
-<div class="search-div" style="margin-left: 20px; padding-top: 50px;">
+<div class="box1" style="width: auto;">
+    <img src="assets/images/ONF-logo.png" class="icon" style="float: left; padding-right: 20px;">
+    <div style="display: inline-block">
+        <h3 class="mat-h2" style="padding-top: 13px; margin-bottom: 5px">{{name}}</h3>
+        <h3 class="mat-h2">Approver: {{approverName}}</h3>
+    </div>
+</div>
+
+<div class="search-div" style="margin-left: 20px;">
     <button mat-raised-button (click)="onCreate()">
         <mat-icon>add</mat-icon>
         Create
