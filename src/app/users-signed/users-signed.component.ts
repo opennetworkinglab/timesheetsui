@@ -15,14 +15,14 @@
  */
 
 import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {User, UserService} from '../user.service';
+import {UserService} from '../user.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, MatSortable, Sort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {TsWeek, TsweeksService} from '../tsweeks.service';
 import {msInDay} from '../user-times/user-times.component';
 import {TsweeklyService} from '../tsweekly.service';
-import {EMAIL_ATTR} from '../app.component';
+import {APPROVER_NAME_ATTR, EMAIL_ATTR, USERNAME_ATTR} from '../app.component';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupTextComponent} from './popup-text/popup-text.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -58,6 +58,9 @@ export class UsersSignedComponent implements OnInit {
     currentWeekId: number;
     loadingProgress = false;
 
+    name;
+    approverName;
+
     listData: MatTableDataSource<TempUser>;
     userArray = [];
     displayedColumns = ['name', 'alloc',
@@ -89,6 +92,9 @@ export class UsersSignedComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        this.name = localStorage.getItem(USERNAME_ATTR);
+        this.approverName = localStorage.getItem(APPROVER_NAME_ATTR);
 
         const dateTimeNow = Date.now();
 

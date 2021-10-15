@@ -19,3 +19,35 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container-wrap {
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.box1 {
+    margin-left: 0;
+    margin-right: auto;
+    width: 300px;
+}
+
+.box2 {
+    margin: auto;
+}
+
+.box3 {
+    margin-left: auto;
+    margin-right: auto;
+    visibility: hidden;
+}
+.icon {
+    max-width: 120px;
+    height: auto;
+    padding-left: 20px;
+    padding-top: 20px;
+    display:inline-block;
+    vertical-align:middle;
+}

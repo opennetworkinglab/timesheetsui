@@ -91,3 +91,17 @@ mat-footer-row mat-footer-cell {
 .highlight {
     background: #00bfed;
 }
+
+.img-container {
+    text-align: center;
+    display: block;
+}
+
+.icon {
+    max-width: 120px;
+    height: auto;
+    padding-left: 20px;
+    padding-top: 20px;
+    display:inline-block;
+    vertical-align:middle;
+}

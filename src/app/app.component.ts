@@ -22,6 +22,7 @@ import {UserService} from './user.service';
 
 export const USERNAME_ATTR = 'username';
 export const EMAIL_ATTR = 'email';
+export const APPROVER_NAME_ATTR = 'approvername';
 
 @Component({
     selector: 'app-root',
@@ -59,25 +60,26 @@ export class AppComponent implements OnInit {
                 localStorage.setItem(USERNAME_ATTR, this.oauthService.getIdentityClaims()[`name`]);
                 localStorage.setItem('accessToken', this.oauthService.getIdToken());
                 localStorage.setItem('idToken', this.oauthService.getAccessToken());
+
                 console.log('Logged in', this.oauthService.hasValidIdToken(),
                     'as', localStorage.getItem(USERNAME_ATTR),
                     '(' + localStorage.getItem(EMAIL_ATTR) + ')');
 
+
                 this.userService.getUser().subscribe(user => {
 
                     this.ready = true;
-                    this.name = user.firstName + ' ' + user.lastName;
 
                     this.userService.getSupervisor().subscribe(supervisor => {
                         this.supervisorName = supervisor.firstName + ' ' + supervisor.lastName;
+                        localStorage.setItem(APPROVER_NAME_ATTR, this.supervisorName);
+
+                        if (!validToken) {
+                            this.router.navigate(['']).then(() => {
+                                console.log('Redirected');
+                            });
+                        }
                     });
-
-                    if (!validToken) {
-                        this.router.navigate(['']).then(() => {
-                            console.log('Redirected');
-                        });
-                    }
-
                 },
                 error => {
                     console.log('You are not part of Timesheets. Contact your supervisor');
