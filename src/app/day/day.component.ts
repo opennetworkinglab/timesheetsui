@@ -54,6 +54,7 @@ export class DayComponent implements OnInit, OnChanges {
 
     @Input() dayId: number;
     @Input() darpaAllocationPct: number;
+    remainingPercent: number;
 
     totalHours: number = 0;
 
