@@ -76,3 +76,16 @@ mat-footer-row mat-footer-cell {
     overflow: hidden;
     vertical-align: middle;
 }
+
+.table-container {
+    height: auto;
+    max-height: 400px;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.mat-paginator-sticky {
+    bottom: 0px;
+    position: sticky;
+    z-index: 10;
+}
