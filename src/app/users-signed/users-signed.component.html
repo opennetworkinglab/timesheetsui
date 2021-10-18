@@ -54,97 +54,95 @@
 </div>
 
 <div style="margin-left: 20px; margin-right: 20px; margin-bottom: 40px">
-    <div class="mat-elevation-z8">
-        <div class="table-container">
-            <mat-table [dataSource]="listData" matSort>
-                <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="alloc">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Alloc</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.alloc}}%</mat-cell>
-                </ng-container>
+    <div class="table-container mat-elevation-z8">
+        <mat-table [dataSource]="listData" matSort>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="alloc">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Alloc</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.alloc}}%</mat-cell>
+            </ng-container>
 
-                <ng-container matColumnDef="darpa">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>DARPA</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.darpa}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="ird">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>IR&D</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.ird}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="ga">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>G&A</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.ga}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="pto">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>PTO</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.pto}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="sick">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sick</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.sick}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="holiday">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Holiday</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.holiday}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="total">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.total}}
-                        <ng-container *ngIf="element.userSigned">
-                            <button mat-icon-button color="primary" (click)="onViewTimesheet(element.tsPreview)">
-                                <mat-icon color="accent">launch</mat-icon>
-                            </button>
-                        </ng-container>
-                    </mat-cell>
-                </ng-container>
+            <ng-container matColumnDef="darpa">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>DARPA</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.darpa}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ird">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>IR&D</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.ird}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ga">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>G&A</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.ga}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="pto">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>PTO</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.pto}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="sick">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Sick</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.sick}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="holiday">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Holiday</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.holiday}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="total">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.total}}
+                    <ng-container *ngIf="element.userSigned">
+                        <button mat-icon-button color="primary" (click)="onViewTimesheet(element.tsPreview)">
+                            <mat-icon color="accent">launch</mat-icon>
+                        </button>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
 
-                <ng-container matColumnDef="userSigned">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>User Signed</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <ng-container *ngIf="!element.userSigned">
-                            <mat-icon color="accent">clear</mat-icon>
-                        </ng-container>
-                        <ng-container *ngIf="element.userSigned">{{ element.userSigned | date: 'LLL d, hh:mm a' }}</ng-container>
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="supervisorSigned">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Approver Signed</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <ng-container *ngIf="!element.supervisorSigned && !element.supervisorCheck">
-                            <mat-icon color="accent">clear</mat-icon>
-                        </ng-container>
+            <ng-container matColumnDef="userSigned">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>User Signed</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="!element.userSigned">
+                        <mat-icon color="accent">clear</mat-icon>
+                    </ng-container>
+                    <ng-container *ngIf="element.userSigned">{{ element.userSigned | date: 'LLL d, hh:mm a' }}</ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="supervisorSigned">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Approver Signed</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="!element.supervisorSigned && !element.supervisorCheck">
+                        <mat-icon color="accent">clear</mat-icon>
+                    </ng-container>
 
-                        <ng-container *ngIf="element.supervisorSigned">
-                            {{ element.supervisorSigned | date: 'LLL d, hh:mm a' }}
-                        </ng-container>
+                    <ng-container *ngIf="element.supervisorSigned">
+                        {{ element.supervisorSigned | date: 'LLL d, hh:mm a' }}
+                    </ng-container>
 
-                        <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
-                            <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
-                        </ng-container>
+                    <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
+                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
+                    </ng-container>
 
-                        <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && element.userSigned">
-                            <button mat-raised-button color="accent" style="margin-right: 5px" (click)="onReject(element.email)">Reject</button>
-                            <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
-                        </ng-container>
+                    <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && element.userSigned">
+                        <button mat-raised-button color="accent" style="margin-right: 5px" (click)="onReject(element.email)">Reject</button>
+                        <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
+                    </ng-container>
 
-                        <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
-                            <button mat-raised-button color="accent" (click)="onReminder(element.email)">Reminder</button>
-                        </ng-container>
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="noData">
-                    <mat-footer-cell *matFooterCellDef>
-                        No data
-                    </mat-footer-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight' : 1 == row.usercheck}" ></mat-row>
-                <mat-footer-row *matFooterRowDef="['noData']" [hidden]="hidden"></mat-footer-row>
-            </mat-table>
-        </div>
-        <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+                    <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
+                        <button mat-raised-button color="accent" (click)="onReminder(element.email)">Reminder</button>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef>
+                    No data
+                </mat-footer-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight' : 1 == row.usercheck}" ></mat-row>
+            <mat-footer-row *matFooterRowDef="['noData']" [hidden]="hidden"></mat-footer-row>
+        </mat-table>
     </div>
+    <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
 </div>

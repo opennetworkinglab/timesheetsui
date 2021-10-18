@@ -36,7 +36,7 @@
 </div>
 
 <div style="margin-left: 20px; margin-right: 20px;">
-    <div class="mat-elevation-z8 table-responsive">
+    <div class="mat-elevation-z8 table-container">
         <mat-table [dataSource]="listData" matSort>
             <ng-container matColumnDef="email">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
@@ -81,10 +81,10 @@
                     No data
                 </mat-footer-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             <mat-footer-row *matFooterRowDef="['noData']" [hidden]="hidden"></mat-footer-row>
         </mat-table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+        <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
     </div>
 </div>
