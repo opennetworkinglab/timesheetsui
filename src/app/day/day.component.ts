@@ -23,6 +23,7 @@ import {
     Output
 } from '@angular/core';
 import {TsdaysService} from '../tsdays.service';
+import {min} from 'rxjs/operators';
 
 export interface Time {
     name: string;
@@ -54,7 +55,7 @@ export class DayComponent implements OnInit, OnChanges {
 
     @Input() dayId: number;
     @Input() darpaAllocationPct: number;
-    remainingPercent: number;
+    remainingTime: number = -1;
 
     totalHours: number = 0;
 
@@ -131,6 +132,8 @@ export class DayComponent implements OnInit, OnChanges {
     ngOnChanges(val) {
         // console.log(val);
     }
+
+
 
     update(project, minutes) {
         const oldMinutes = this.getOldMinutes(project);
@@ -214,5 +217,12 @@ export class DayComponent implements OnInit, OnChanges {
         this.totalHours += (this.gAMins === undefined ? 0 : this.gAMins);
         this.totalHours += (this.iRDMins === undefined ? 0 : this.iRDMins);
         this.totalHours /= 60;
+    }
+
+    updateRemainingTime(minutes){
+        if (minutes < 0){
+            minutes = 0;
+        }
+        this.remainingTime = minutes;
     }
 }
