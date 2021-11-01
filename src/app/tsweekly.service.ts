@@ -22,6 +22,7 @@ import {filter, map, mergeMap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {TsWeek} from './tsweeks.service';
 
 export interface TsWeekly {
     weekId: number;
@@ -38,6 +39,11 @@ export interface TsWeeklyNew {
     userSigned: string;
     supervisorSigned: boolean;
     comment: any;
+}
+
+interface ApproverResult {
+    documentUrl: string;
+    signedDate: Date;
 }
 
 @Injectable({
@@ -130,7 +136,12 @@ export class TsweeklyService {
             Authorization: token
         });
 
-        return this.http.post(this.configUrl + '/approver/sign/' + userEmail + '/' + weekId, {}, { headers: httpHeaders });
+        return this.http.post(this.configUrl + '/approver/sign/' + userEmail + '/' + weekId, {}, { headers: httpHeaders }).pipe(
+            // tslint:disable-next-line:new-parens
+            map((item: ApproverResult) => new class implements ApproverResult {
+                documentUrl = item.documentUrl;
+                signedDate = new Date(item.signedDate);
+        }));
     }
 
     rejectTimeSheet(userEmail: string, weekId: number, comment: string) {
