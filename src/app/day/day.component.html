@@ -22,7 +22,8 @@
 <tbody [ngClass]="onfDay?'onfDay':'' || weekend?'weekend':''">
 <tr class="pad" style="height:20px; overflow:hidden">
     <app-hourselect [mins]="darpaMins" [tabIndex]="tabIndex < 6 ? tabIndex:undefined"
-                    (updatedEvent)="update('Darpa HR001120C0107', $event)" [userSigned]="userSigned" [id]="dayId+1" [darpaAllocationPct]="darpaAllocationPct" [remainingTime]="remainingTime" [isDarpaTime]="true"></app-hourselect>
+                    (updatedEvent)="update('Darpa HR001120C0107', $event)" [userSigned]="userSigned" [id]="dayId+1" [darpaAllocationPct]="darpaAllocationPct" [remainingTime]="remainingTime"
+                    [isDarpaTime]="true" (updateRemainingTime)="updateRemainingTime($event)"></app-hourselect>
 </tr>
 <tr class="pad">
     <app-hourselect [mins]="iRDMins"

@@ -55,7 +55,7 @@ export class DayComponent implements OnInit, OnChanges {
 
     @Input() dayId: number;
     @Input() darpaAllocationPct: number;
-    remainingTime: number = -1;
+    remainingTime: number = 8;
 
     totalHours: number = 0;
 
@@ -136,6 +136,7 @@ export class DayComponent implements OnInit, OnChanges {
 
 
     update(project, minutes) {
+
         const oldMinutes = this.getOldMinutes(project);
 
         if (minutes !== undefined) {

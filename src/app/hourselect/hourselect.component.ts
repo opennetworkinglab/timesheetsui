@@ -65,9 +65,10 @@ export class HourselectComponent implements OnInit, AfterViewInit{
         $(select).mousedown(() => {
 
             // Only jumps to 8 when there is no value selected
-            if (this.mins === 0) {
+            if (this.mins === 0 && this.remainingTime > 0) {
 
                 let num = 8.00;
+                let remainingTime = this.remainingTime;
 
                 // 0 is passed for darpaAllocationPct for not Darpa projects. This only allows the darpa time to be the percent of darpa
                 if (this.isDarpaTime) {
@@ -79,34 +80,20 @@ export class HourselectComponent implements OnInit, AfterViewInit{
                     } else if (num - numInt !== 0 && num - numInt > 0.5) {
                         num = numInt + 1;
                     }
+                    remainingTime = remainingTime - num;
+                    this.oldRemainingMins = num * 60
                 }
                 // This was way easier then what I was trying. DON'T COMPLICATE THE PROBLEM!
-                else if (this.darpaAllocationPct !== 100 && this.remainingTime !== 0) {
-                    if (this.remainingTime === -1){
-
-                        num = (this.normalDayHours * (100 - this.darpaAllocationPct)) / 100;
-                        const numInt = Math.floor(num);
-                        if (num - numInt !== 0 && num - numInt < 0.5) {
-                            num = numInt;
-                        } else if (num - numInt !== 0 && num - numInt > 0.5) {
-                            num = numInt + 0.5;
-                        }
-                        this.remainingTime = num;
-                        this.oldRemainingMins = this.remainingTime;
-                    }
-                    else {
-                        this.remainingTime = this.remainingTime / 60;
-                        num = this.remainingTime;
-                    }
-                }
                 else {
-                    // if darpa is 100 percent and you click a non darpa project, will default to 0
-                    return;
-                }
-
-                if (!this.isDarpaTime){
-                    console.log('No darpa: ' + num);
-                    this.updateRemainingTime.emit((this.remainingTime - num) * 60);
+                    num = this.remainingTime;
+                    const numInt = Math.floor(num);
+                    if (num - numInt !== 0 && num - numInt < 0.5) {
+                        num = numInt;
+                    } else if (num - numInt !== 0 && num - numInt > 0.5) {
+                        num = numInt + 0.5;
+                    }
+                    this.oldRemainingMins = num * 60;
+                    remainingTime = remainingTime - num;
                 }
 
                 const option = select.find('option:contains(' + num + ')');
@@ -115,32 +102,28 @@ export class HourselectComponent implements OnInit, AfterViewInit{
                 select.scrollTop(select.scrollTop() + (optionTop - selectTop));
                 option.prop('selected', true);
 
-                console.log('All update: ' + num);
+                this.updateRemainingTime.emit(remainingTime);
                 this.updatedEvent.emit(num * 60);
             }
         });
     }
 
     updateEvents(mins){
-        console.log('Mins in updateEvents: ' + mins);
 
         this.updatedEvent.emit(mins);
 
-        if (!this.isDarpaTime){
+        // if old remaining mins is higher will add the difference to the remaining mins
+        if (this.oldRemainingMins > mins) {
 
-            // if old remaining mins is higher will add the difference to the remaining mins
-            if (this.oldRemainingMins > mins) {
-
-                mins = this.oldRemainingMins - mins;
-                this.oldRemainingMins = mins;
-                mins = Number(this.remainingTime) + mins;
-                this.updateRemainingTime.emit(mins);
-            }
-            // this is just to deal with old remaining mins == remaining mins. if they are the same, no change
-            else if (mins > this.oldRemainingMins ){
-                this.oldRemainingMins = mins;
-                this.updateRemainingTime.emit(mins);
-            }
+            mins = this.oldRemainingMins - mins;
+            this.oldRemainingMins = mins;
+            mins = this.remainingTime + mins;
+            this.updateRemainingTime.emit(mins / 60);
+        }
+        else if (mins > this.oldRemainingMins ){
+            this.oldRemainingMins = mins;
+            mins = this.remainingTime - mins;
+            this.updateRemainingTime.emit(mins / 60);
         }
     }
 }
