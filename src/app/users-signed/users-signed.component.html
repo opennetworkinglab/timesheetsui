@@ -121,12 +121,12 @@
                     </ng-container>
 
                     <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
-                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
+                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element); approverUnsignButton.disabled = true" #approverUnsignButton>Unsign</button>
                     </ng-container>
 
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && element.userSigned">
                         <button mat-raised-button color="accent" style="margin-right: 5px" (click)="onReject(element.email)">Reject</button>
-                        <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
+                        <button mat-raised-button color="accent" (click)="approverSign(element, $event); approverSignButton.disabled = true" #approverSignButton>Sign</button>
                     </ng-container>
 
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
