@@ -73,17 +73,9 @@ mat-footer-row mat-footer-cell {
     overflow: hidden;
     vertical-align: middle;
 }
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 
 .table-container {
-    height: auto;
-    max-height: 400px;
-    max-width: 100%;
-    overflow: auto;
+    overflow-x: scroll;
 }
 
 .mat-paginator-sticky {
@@ -92,14 +84,13 @@ mat-footer-row mat-footer-cell {
     z-index: 10;
 }
 
-<<<<<<< Updated upstream
 .highlight {
     background: #00bfed;
-=======
+}
+
 .transparent {
     opacity: 0.5;
     /*background: rgba(105, 105, 105, 0.5);*/
->>>>>>> Stashed changes
 }
 
 .img-container {
@@ -115,7 +106,3 @@ mat-footer-row mat-footer-cell {
     display:inline-block;
     vertical-align:middle;
 }
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes

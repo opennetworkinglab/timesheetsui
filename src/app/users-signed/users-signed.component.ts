@@ -53,6 +53,7 @@ class TempUser{
 })
 export class UsersSignedComponent implements OnInit {
 
+    innerHeight;
     weeks: Map<number, TsWeek> = new Map();
     @Input() weekid: number;
     @Input() year: number;
@@ -94,6 +95,7 @@ export class UsersSignedComponent implements OnInit {
 
     ngOnInit(): void {
 
+        this.innerHeight = window.innerHeight;
         this.name = localStorage.getItem(USERNAME_ATTR);
         this.approverName = localStorage.getItem(APPROVER_NAME_ATTR);
 

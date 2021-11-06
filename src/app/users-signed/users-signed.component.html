@@ -53,8 +53,7 @@
     </mat-form-field>
 </div>
 
-<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 40px">
-    <div class="table-container mat-elevation-z8">
+    <div class="table-container mat-elevation-z8" [ngStyle]="{'height.px': innerHeight - 300, 'margin.px': 20 }" >
         <mat-table [dataSource]="listData" matSort>
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</mat-header-cell>
@@ -139,20 +138,11 @@
                     No data
                 </mat-footer-cell>
             </ng-container>
-<<<<<<< Updated upstream
+
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight' : 1 == row.usercheck}" ></mat-row>
-=======
-<<<<<<< Updated upstream
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-=======
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'transparent' : 1 == !row.usercheck}" ></mat-row>
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'transparent' : !row.usercheck}" ></mat-row>
+
             <mat-footer-row *matFooterRowDef="['noData']" [hidden]="hidden"></mat-footer-row>
         </mat-table>
     </div>
-    <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
-</div>
+<!--<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>-->
