@@ -57,6 +57,7 @@ mat-footer-row mat-footer-cell {
     display: table;
     border-collapse: collapse;
     margin: 0;
+    overflow-x: scroll;
 }
 
 .mat-row, .mat-header-row {
@@ -75,7 +76,17 @@ mat-footer-row mat-footer-cell {
 }
 
 .table-container {
-    overflow-x: scroll;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+
+}
+
+.flex_container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 80px);
+    margin: 0 20px;
 }
 
 .mat-paginator-sticky {
