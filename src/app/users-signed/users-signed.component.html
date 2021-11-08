@@ -13,47 +13,47 @@
 ~ See the License for the specific language governing permissions and
 ~ limitations under the License.
 -->
-<div class="cdk-overlay-pane" style="width: 100%; height: 50%" *ngIf="loadingProgress">
-    <div class="spinner">
-        <mat-spinner></mat-spinner>
-    </div>
-</div>
-<div class="container-wrap">
-    <div class="box1" style="width: auto;">
-        <img src="assets/images/ONF-logo.png" class="icon" style="float: left; padding-right: 20px;">
-        <div style="display: inline-block">
-            <h3 class="mat-h2" style="padding-top: 13px; margin-bottom: 5px">{{name}}</h3>
-            <h3 class="mat-h2">Approver: {{approverName}}</h3>
+<div class="flex_container">
+    <div class="cdk-overlay-pane" style="width: 100%; height: 50%" *ngIf="loadingProgress">
+        <div class="spinner">
+            <mat-spinner></mat-spinner>
         </div>
     </div>
-    <div class="box2 custom-theme font-size-weekchooser">
-        <button mat-mini-fab (click)="changeWeek(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
-        {{weeks.get(currentWeekId)?.begin | date: 'MMM d, y':'UTC'}}
-        - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
-        <button mat-mini-fab (click)="changeWeek(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
+    <div class="container-wrap">
+        <div class="box1" style="width: auto;">
+            <img src="assets/images/ONF-logo.png" class="icon" style="float: left; padding-right: 20px;">
+            <div style="display: inline-block">
+                <h3 class="mat-h2" style="padding-top: 13px; margin-bottom: 5px">{{name}}</h3>
+                <h3 class="mat-h2">Approver: {{approverName}}</h3>
+            </div>
+        </div>
+        <div class="box2 custom-theme font-size-weekchooser">
+            <button mat-mini-fab (click)="changeWeek(-1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_left</mat-icon></button>
+            {{weeks.get(currentWeekId)?.begin | date: 'MMM d, y':'UTC'}}
+            - {{weeks.get(currentWeekId)?.end | date: 'MMM d, y':'UTC'}}
+            <button mat-mini-fab (click)="changeWeek(1)" class="btn btn-outline-primary" color="accent"><mat-icon>chevron_right</mat-icon></button>
+        </div>
+        <div class="box3"></div>
     </div>
-    <div class="box3"></div>
-</div>
 
-<div class="search-div" style="margin-left: 20px; padding-top: 20px;">
+    <div class="search-div" style="margin-left: 20px; padding-top: 20px;">
 
-    <button color="accent" style="margin-right: 20px" mat-raised-button (click)="sortYourUsers()">
-        Your users <mat-icon>arrow_downward</mat-icon>
-    </button>
-
-    <button mat-raised-button [cdkCopyToClipboard]="data">
-        <mat-icon>content_copy</mat-icon>
-        Copy Unsigned Emails
-    </button>
-    <mat-form-field style="margin-left: 20px">
-        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
-        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
-            <mat-icon>close</mat-icon>
+        <button color="accent" style="margin-right: 20px" mat-raised-button (click)="sortYourUsers()">
+            Your users <mat-icon>arrow_downward</mat-icon>
         </button>
-    </mat-form-field>
-</div>
 
-<div style="margin-left: 20px; margin-right: 20px; margin-bottom: 40px">
+        <button mat-raised-button [cdkCopyToClipboard]="data">
+            <mat-icon>content_copy</mat-icon>
+            Copy Unsigned Emails
+        </button>
+        <mat-form-field style="margin-left: 20px">
+            <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+<!--<div class="example_container">-->
     <div class="table-container mat-elevation-z8">
         <mat-table [dataSource]="listData" matSort>
             <ng-container matColumnDef="name">
@@ -121,12 +121,12 @@
                     </ng-container>
 
                     <ng-container *ngIf="element.supervisorCheck && element.supervisorSigned">
-                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element.email)">Unsign</button>
+                        <button mat-raised-button color="accent" style="margin-left: 5px" (click)="approverUnsign(element); approverUnsignButton.disabled = true" #approverUnsignButton>Unsign</button>
                     </ng-container>
 
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && element.userSigned">
                         <button mat-raised-button color="accent" style="margin-right: 5px" (click)="onReject(element.email)">Reject</button>
-                        <button mat-raised-button color="accent" (click)="approverSign(element.email)">Sign</button>
+                        <button mat-raised-button color="accent" (click)="approverSign(element, $event); approverSignButton.disabled = true" #approverSignButton>Sign</button>
                     </ng-container>
 
                     <ng-container *ngIf="element.supervisorCheck && !element.supervisorSigned && !element.userSigned">
@@ -139,10 +139,12 @@
                     No data
                 </mat-footer-cell>
             </ng-container>
+
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight' : 1 == row.usercheck}" ></mat-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'transparent' : !row.usercheck}" ></mat-row>
+
             <mat-footer-row *matFooterRowDef="['noData']" [hidden]="hidden"></mat-footer-row>
         </mat-table>
     </div>
-    <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>
+<!--<mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="100" showFirstLastButtons></mat-paginator>-->
 </div>

@@ -57,6 +57,7 @@ mat-footer-row mat-footer-cell {
     display: table;
     border-collapse: collapse;
     margin: 0;
+    overflow-x: scroll;
 }
 
 .mat-row, .mat-header-row {
@@ -75,10 +76,17 @@ mat-footer-row mat-footer-cell {
 }
 
 .table-container {
-    height: auto;
-    max-height: 400px;
-    max-width: 100%;
+    flex: 1;
+    min-height: 0;
     overflow: auto;
+
+}
+
+.flex_container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 80px);
+    margin: 0 20px;
 }
 
 .mat-paginator-sticky {
@@ -89,6 +97,11 @@ mat-footer-row mat-footer-cell {
 
 .highlight {
     background: #00bfed;
+}
+
+.transparent {
+    opacity: 0.5;
+    /*background: rgba(105, 105, 105, 0.5);*/
 }
 
 .img-container {

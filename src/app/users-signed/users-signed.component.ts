@@ -26,6 +26,7 @@ import {APPROVER_NAME_ATTR, EMAIL_ATTR, USERNAME_ATTR} from '../app.component';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupTextComponent} from './popup-text/popup-text.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatButton} from '@angular/material/button';
 
 class TempUser{
     email: string;
@@ -52,6 +53,7 @@ class TempUser{
 })
 export class UsersSignedComponent implements OnInit {
 
+    innerHeight;
     weeks: Map<number, TsWeek> = new Map();
     @Input() weekid: number;
     @Input() year: number;
@@ -93,6 +95,7 @@ export class UsersSignedComponent implements OnInit {
 
     ngOnInit(): void {
 
+        this.innerHeight = window.innerHeight;
         this.name = localStorage.getItem(USERNAME_ATTR);
         this.approverName = localStorage.getItem(APPROVER_NAME_ATTR);
 
@@ -229,19 +232,25 @@ export class UsersSignedComponent implements OnInit {
         tempUser.total = 0;
     }
 
-    approverSign(userEmail){
-        this.loadingProgress = true;
-        this.tsweeklyService.signSheetApprover(userEmail, this.currentWeekId).subscribe(result => {
-            this.getUsersAndWeekly();
-            this.loadingProgress = false;
+    approverSign(user, event){
+
+        console.log(event.target);
+        this.tsweeklyService.signSheetApprover(user.email, this.currentWeekId).subscribe(result => {
+
+            user.supervisorSigned = new Date(result.signedDate);
+            user.tsPreview = result.documentUrl;
+
+            this.updateTableRow(user);
         });
     }
 
-    approverUnsign(userEmail){
-        this.loadingProgress = true;
-        this.tsweeklyService.unsignSheetApprover(userEmail, this.currentWeekId).subscribe( result => {
-            this.getUsersAndWeekly();
-            this.loadingProgress = false;
+    approverUnsign(user){
+
+        this.tsweeklyService.unsignSheetApprover(user.email, this.currentWeekId).subscribe( result => {
+
+            user.supervisorSigned = null;
+            user.tsPreview = null;
+            this.updateTableRow(user);
         });
     }
 
@@ -298,6 +307,7 @@ export class UsersSignedComponent implements OnInit {
 
     onReminder(userEmail: string) {
 
+
         const dialog = this.dialog.open(PopupTextComponent, {
             data: {
                 isReminder: true,
@@ -325,6 +335,14 @@ export class UsersSignedComponent implements OnInit {
 
             }, () => {
             });
+    }
+
+    updateTableRow(tempUser) {
+        this.listData.data.find((data, key) => {
+            if (data.email === tempUser.email){
+                data = tempUser;
+            }
+        });
     }
 
     onViewTimesheet(tsPreview: string) {
